@@ -7,9 +7,10 @@ Please read the readme first!
 
 This is an implementation of order-independent transparency in Unity. It uses Per-Pixel Linked Lists, implemented with RWStructuredBuffers.
 This is a feature **only available in DirectX 11**!
-For reference a presentation by Holger Gruen and Nicolas Thibieroz was used. The code is based on their suggestions. 
+For reference a presentation by Holger Gruen and Nicolas Thibieroz was used.[1] The code is based on their suggestions. 
 This is **not** a polished build. The implementation has bad performance, is not optimized and got some bugs. 
 Any discussion on this project is welcomed though.
+[1]: https://de.slideshare.net/hgruen/oit-and-indirect-illumination-using-dx11-linked-lists
 
 ## Usage
 
