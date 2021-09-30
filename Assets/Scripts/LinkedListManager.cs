@@ -10,9 +10,6 @@ public class LinkedListManager : MonoBehaviour
 
     private Camera m_camera;
 
-    private RenderTexture m_opaqueTex = null;
-    private RenderTexture m_depthTex = null;
-
     private struct FragmentAndLinkBuffer_STRUCT
     {
         public Vector4 pixelColor;
@@ -34,11 +31,6 @@ public class LinkedListManager : MonoBehaviour
     void Awake()
     {
         m_camera = GetComponent<Camera>();
-
-        if (m_rwStructuredBuffer != null)
-            m_rwStructuredBuffer.Dispose();
-        if (m_rwStartOffsetBuffer != null)
-            m_rwStartOffsetBuffer.Dispose();
 
         m_camera.depthTextureMode = DepthTextureMode.Depth;
 
@@ -64,11 +56,6 @@ public class LinkedListManager : MonoBehaviour
         //create buffer for addresses, this is the head of the linked list
         //the reset table is for clearing the address buffer
         m_rwStartOffsetBuffer = new ComputeBuffer(m_bufferSize, m_bufferStride, ComputeBufferType.Raw);
-        m_resetTable = new uint[m_bufferSize];
-        foreach (int i in m_resetTable)
-        {
-            m_resetTable[i] = 0xFFFFFFFF;
-        }
 
         //set randomwrite targets
         Graphics.SetRandomWriteTarget(1, m_rwStructuredBuffer, false);
@@ -77,36 +64,19 @@ public class LinkedListManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (m_rwStructuredBuffer != null)
-            m_rwStructuredBuffer.Dispose();
-        if (m_rwStartOffsetBuffer != null)
-            m_rwStartOffsetBuffer.Dispose();
-        Graphics.ClearRandomWriteTargets();
-    }
-
-    private void OnPreRender()
-    {
-        //deactivate automatic Rendering, everything is rendered manually
-        m_camera.cullingMask = 0;
+        m_rwStructuredBuffer.Dispose();
+        m_rwStartOffsetBuffer.Dispose();
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         //reset StartOffsetBuffer to zeros and reset counter of the StructuredBuffer
-        m_rwStartOffsetBuffer.SetData(m_resetTable);
         m_rwStructuredBuffer.SetCounterValue(0);
 
-        //Render Texture for all opaque objects
-        m_opaqueTex = RenderTexture.GetTemporary(Screen.width, Screen.height, 24, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
-
         //render all opaque objects
-        m_camera.SetTargetBuffers(m_opaqueTex.colorBuffer, m_opaqueTex.depthBuffer);
-        m_camera.backgroundColor = m_camera.backgroundColor;
-        m_camera.clearFlags = m_camera.clearFlags;
+        m_camera.targetTexture = source;
         m_camera.cullingMask = ~(1 << LayerMask.NameToLayer("Transparent"));
         m_camera.Render();
-        //set opaque texture for final blending
-        m_linkedListMaterial.SetTexture("_BackgroundTex", m_opaqueTex);
 
         //set buffer data in shaders
         m_rwStructuredBuffer.SetData(m_perPixelLinkedList);
@@ -115,21 +85,11 @@ public class LinkedListManager : MonoBehaviour
 
         //render into listCreationShader, only transparent objects
         //the rwStructuredBuffer is filled with pixel information
-        m_camera.backgroundColor = new Color(0.0f, 0.0f, 0.0f, 0.0f);
-        m_camera.SetTargetBuffers(m_opaqueTex.colorBuffer, m_opaqueTex.depthBuffer);
-        m_camera.clearFlags = CameraClearFlags.Nothing;
         m_camera.cullingMask = 1 << LayerMask.NameToLayer("Transparent");
         m_camera.RenderWithShader(listCreationShader, null);
-
-        //this was for debugging
-        //Graphics.Blit(m_accumulateTex, destination);
 
         //calculate the final pixelColors with the written StructuredBuffer
         //blend opaque and transparent objects together
         Graphics.Blit(source, destination, m_linkedListMaterial);
-
-        //release render textures
-        RenderTexture.ReleaseTemporary(m_opaqueTex);
-        RenderTexture.ReleaseTemporary(m_depthTex);
     }
 }
