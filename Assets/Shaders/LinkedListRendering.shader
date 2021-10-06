@@ -2,7 +2,7 @@
 {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
-		_BackgroundTex("BackgroundTex", 2D) = "white" {}
+		_MainTex("BackgroundTex", 2D) = "white" {}
 	}
 	SubShader
 	{
@@ -14,7 +14,7 @@
 
 			CGPROGRAM
 			#pragma target 5.0
-			// #pragma enable_d3d11_debug_symbols
+			#pragma enable_d3d11_debug_symbols
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -22,7 +22,8 @@
 			#include "UnityCG.cginc"
 
 			fixed4 _Color;
-			sampler2D _BackgroundTex;
+			sampler2D _MainTex;
+			float4 _MainTex_ST;
 
 			struct FragmentAndLinkBuffer_STRUCT
 			{
@@ -34,34 +35,35 @@
 			RWStructuredBuffer<FragmentAndLinkBuffer_STRUCT> FLBuffer : register(u1);
 			RWByteAddressBuffer StartOffsetBuffer : register(u2);
 
-			struct vs_input {
+			struct appdata {
 				float4 vertex : POSITION;
 				float2 texcoord : TEXCOORD0;
 			};
 
-			struct ps_input {
+			struct v2f {
 				float2 uv : TEXCOORD0;
+				float4 vertex : SV_POSITION;
 			};
 
-			ps_input vert(vs_input v, out float4 outpos : SV_POSITION)
+			v2f vert(appdata v)
 			{
-				ps_input o;
-				outpos = UnityObjectToClipPos(v.vertex);
-				o.uv = v.texcoord;
+				v2f o;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 				return o;
 			}
 
 			//Pixel function returns a solid color for each point.
-			fixed4 frag(ps_input i, UNITY_VPOS_TYPE screenPos : VPOS) : SV_Target
+			fixed4 frag(v2f i) : SV_Target
 			{			
 				float4 finalColor = float4(0, 0, 0, 0);
 				// Retrieve current color from background texture 
-				finalColor = tex2D(_BackgroundTex, i.uv);
+				finalColor = tex2D(_MainTex, i.uv);
 
-				//ScreenParams is the display size, a 480*320 sized display got
-				//_ScreenParams.x = 480 and _ScreenParams.y = 320
+				// //ScreenParams is the display size
 				//Fetch offset of first fragment for current pixel
-				uint uStartOffsetAddress = 4 * ((_ScreenParams.x * screenPos.y) + screenPos.x);
+				// uint uStartOffsetAddress = 4 * ((_ScreenParams.x * screenPos.y) + screenPos.x);
+				uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
 				uint uOffset = StartOffsetBuffer.Load(uStartOffsetAddress);
 
 				static FragmentAndLinkBuffer_STRUCT SortedPixels[8];

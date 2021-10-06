@@ -17,7 +17,7 @@
 
 			CGPROGRAM
 			#pragma target 5.0
-			// #pragma enable_d3d11_debug_symbols
+			#pragma enable_d3d11_debug_symbols
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -25,6 +25,7 @@
 			#include "Lighting.cginc"
 
 			sampler2D _MainTex;
+            float4 _MainTex_ST;
 			sampler2D _BumpMap;
 			sampler2D _CameraDepthTexture;
 			fixed4 _Color;
@@ -39,31 +40,26 @@
 			RWStructuredBuffer<FragmentAndLinkBuffer_STRUCT> FLBuffer : register(u1);
 			RWByteAddressBuffer StartOffsetBuffer : register(u2);
 
-			struct vs_input {
+			struct appdata {
 				float4 vertex : POSITION;
-				float2 texcoord : TEXCOORD0;
+				float2 uv : TEXCOORD0;
 				float3 normal : NORMAL;
 				float4 tangent : TANGENT;
 			};
 
 			struct v2f {
 				float2 uv : TEXCOORD0;
-				float z : TEXCOORD1;
-				float3 lightDir: TEXCOORD2;
-				float3 viewDir : TEXCOORD3;
-				float4 screenPos : TEXCOORD4;
+				float3 lightDir: TEXCOORD1;
+				float3 viewDir : TEXCOORD2;
+				float4 screenPos : TEXCOORD3;
+				float4 vertex : SV_POSITION;
 			};
 
-			v2f vert(vs_input v, out float4 outpos : SV_POSITION)
+			v2f vert(appdata v)
 			{
 				v2f o;
-				outpos = UnityObjectToClipPos(v.vertex);
-				//this is to flip the image horizontally
-				//not sure why this is necessary
-				if (_ProjectionParams.x < 0)
-					outpos.y = 1 - outpos.y;
-
-				o.uv = v.texcoord;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
 				TANGENT_SPACE_ROTATION;
 				// Transform the light direction from object space to tangent space
@@ -73,10 +69,6 @@
 
 				o.screenPos = ComputeScreenPos(v.vertex);
 
-
-				//Camera space-depth
-				o.z = abs(UnityObjectToViewPos(v.vertex).z);
-
 				return o;
 			}
 
@@ -85,10 +77,10 @@
 			{
 				//get depth of opaque objects and fragment depth
 				float depth = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos));
-				float z = Linear01Depth(i.z);
 
 				//only save fragment to buffer if nothing is in front
-				if (depth < z)
+				// if (Linear01Depth(depth) < Linear01Depth(i.vertex.z))
+				if (Linear01Depth(i.vertex.z) <= Linear01Depth(depth))
 				{
 					//lighting calculation
 					fixed3 tangentLightDir = normalize(i.lightDir);
@@ -102,24 +94,22 @@
 					fixed4 col = fixed4(ambient + diffuse, albedo.a);
 
 					//Retrieve current Pixel count and increase counter
-					uint uPixelCount = FLBuffer.IncrementCounter() + 1;
+					uint uPixelCount = FLBuffer.IncrementCounter();
 
-					//ScreenParams ist die Groesse des Displays, ein 480*320 grosser Display hat
-					//_ScreenParams.x = 480 und _ScreenParams.y
 					//calculate bufferAddress
-					uint uStartOffsetAddress = 4 * ((_ScreenParams.x * i.screenPos.y) + i.screenPos.x);
+					// uint uStartOffsetAddress = 4 * ((_ScreenParams.x * i.screenPos.y) + i.screenPos.x);
+					uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
 					uint uOldStartOffset;
 					StartOffsetBuffer.InterlockedExchange(uStartOffsetAddress, uPixelCount, uOldStartOffset);
 
 					//add new Fragment Entry in FragmentAndLinkBuffer
 					FragmentAndLinkBuffer_STRUCT Element;
 					Element.pixelColor = col;
-					Element.depth = Linear01Depth(i.z);
+					Element.depth = Linear01Depth(i.vertex.z);
 					Element.next = uOldStartOffset;
 					FLBuffer[uPixelCount] = Element;
 				}
 
-				//write color 0 to accumulate texture to clear it
 				return float4(0, 0, 0, 0);
 			}
 			ENDCG
