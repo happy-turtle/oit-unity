@@ -17,16 +17,12 @@ public class LinkedListManager : MonoBehaviour
     private int bufferSize;
     private int bufferStride;
     private Material linkedListMaterial;
-    private uint[] m_listHeadBufferResetTable;
+    private uint[] resetTable;
 
     private void OnEnable()
     {
         cam = GetComponent<Camera>();
-        transparencyCam.CopyFrom(cam);
         linkedListMaterial = new Material(listRenderingShader);
-
-        transparencyCam.depthTextureMode = DepthTextureMode.Depth;
-        transparencyCam.cullingMask = 1 << LayerMask.NameToLayer("Transparent");
 
         int bufferSize = Screen.width * Screen.height * listDepth;
         int bufferStride = sizeof(float) * 5 + sizeof(uint);
@@ -39,26 +35,14 @@ public class LinkedListManager : MonoBehaviour
         //create buffer for addresses, this is the head of the linked list
         startOffsetBuffer = new ComputeBuffer(bufferSizeHead, bufferStrideHead, ComputeBufferType.Raw);
 
-        m_listHeadBufferResetTable = new uint[bufferSizeHead];
-        foreach (int i in m_listHeadBufferResetTable)
-        {
-            m_listHeadBufferResetTable[i] = 0;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (fragmentLinkBuffer != null)
-            fragmentLinkBuffer.Dispose();
-        if (startOffsetBuffer != null)
-            startOffsetBuffer.Dispose();
+        resetTable = new uint[bufferSizeHead];
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         //reset StartOffsetBuffer to zeros and reset counter of the StructuredBuffer
-        startOffsetBuffer.SetData(m_listHeadBufferResetTable);
-        fragmentLinkBuffer.SetCounterValue(1);
+        startOffsetBuffer.SetData(resetTable);
+        fragmentLinkBuffer.SetCounterValue(0);
 
         // render per pixel linked list for transparent objects
         Graphics.SetRandomWriteTarget(1, fragmentLinkBuffer, true);
@@ -71,5 +55,13 @@ public class LinkedListManager : MonoBehaviour
         linkedListMaterial.SetBuffer("FLBuffer", fragmentLinkBuffer);
         linkedListMaterial.SetBuffer("StartOffsetBuffer", startOffsetBuffer);
         Graphics.Blit(source, destination, linkedListMaterial);
+    }
+
+    private void OnDisable()
+    {
+        if (fragmentLinkBuffer != null)
+            fragmentLinkBuffer.Dispose();
+        if (startOffsetBuffer != null)
+            startOffsetBuffer.Dispose();
     }
 }
