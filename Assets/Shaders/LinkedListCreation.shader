@@ -77,27 +77,25 @@
 			{
 				//get depth of opaque objects and fragment depth
 				float depth = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos));
+				
+				//lighting calculation
+				fixed3 tangentLightDir = normalize(i.lightDir);
+				fixed3 tangentViewDir = normalize(i.viewDir);
+				fixed3 tangentNormal = UnpackNormal(tex2D(_BumpMap, i.uv));
 
-				//only save fragment to buffer if nothing is in front
-				// if (Linear01Depth(depth) < Linear01Depth(i.vertex.z))
+				fixed4 albedo = tex2D(_MainTex, i.uv) * _Color;
+				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo.rgb;
+				fixed3 diffuse = _LightColor0.rgb * albedo.rgb * max(0, dot(tangentNormal, tangentLightDir));
+
+				fixed4 col = fixed4(ambient + diffuse, albedo.a);
+
+				//only save fragment to buffer if no opaque object is in front
 				if (Linear01Depth(i.vertex.z) <= Linear01Depth(depth))
 				{
-					//lighting calculation
-					fixed3 tangentLightDir = normalize(i.lightDir);
-					fixed3 tangentViewDir = normalize(i.viewDir);
-					fixed3 tangentNormal = UnpackNormal(tex2D(_BumpMap, i.uv));
-
-					fixed4 albedo = tex2D(_MainTex, i.uv) * _Color;
-					fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo.rgb;
-					fixed3 diffuse = _LightColor0.rgb * albedo.rgb * max(0, dot(tangentNormal, tangentLightDir));
-
-					fixed4 col = fixed4(ambient + diffuse, albedo.a);
-
 					//Retrieve current Pixel count and increase counter
 					uint uPixelCount = FLBuffer.IncrementCounter();
 
 					//calculate bufferAddress
-					// uint uStartOffsetAddress = 4 * ((_ScreenParams.x * i.screenPos.y) + i.screenPos.x);
 					uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
 					uint uOldStartOffset;
 					StartOffsetBuffer.InterlockedExchange(uStartOffsetAddress, uPixelCount, uOldStartOffset);
