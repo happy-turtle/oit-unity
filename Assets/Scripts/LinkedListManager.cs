@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[ExecuteInEditMode]
 [RequireComponent(typeof(Camera))]
 public class LinkedListManager : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class LinkedListManager : MonoBehaviour
     private Material linkedListMaterial;
     private uint[] resetTable;
 
-    private void OnEnable()
+    private void Start()
     {
         cam = GetComponent<Camera>();
         linkedListMaterial = new Material(listRenderingShader);
@@ -36,6 +35,8 @@ public class LinkedListManager : MonoBehaviour
         startOffsetBuffer = new ComputeBuffer(bufferSizeHead, bufferStrideHead, ComputeBufferType.Raw);
 
         resetTable = new uint[bufferSizeHead];
+
+        transparencyCam.depthTextureMode = DepthTextureMode.Depth;
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -57,7 +58,7 @@ public class LinkedListManager : MonoBehaviour
         Graphics.Blit(source, destination, linkedListMaterial);
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         if (fragmentLinkBuffer != null)
             fragmentLinkBuffer.Dispose();

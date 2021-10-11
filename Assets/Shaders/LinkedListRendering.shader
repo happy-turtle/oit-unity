@@ -1,29 +1,32 @@
 ﻿Shader "Hidden/LinkedListRendering"
 {
 	Properties{
-		_Color("Color", Color) = (1,1,1,1)
 		_MainTex("BackgroundTex", 2D) = "white" {}
 	}
 	SubShader
 	{
-		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "true" "RenderType" = "Rendering" }
-		Pass {
+		// Tags{ "Queue" = "Transparent" }
 
-			ZWrite Off
-			ZTest Always
+		Pass {
+			ZTest LEqual
+			// ZWrite Off
 
 			CGPROGRAM
-			#pragma target 5.0
-			#pragma enable_d3d11_debug_symbols
-
 			#pragma vertex vert
 			#pragma fragment frag
+			#pragma target 5.0
+			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"
 
-			fixed4 _Color;
-			sampler2D _MainTex;
-			float4 _MainTex_ST;
+			struct appdata {
+				float4 vertex : POSITION;
+				float2 texcoord : TEXCOORD0;
+			};
+			struct v2f {
+				float2 uv : TEXCOORD0;
+				float4 vertex : SV_POSITION;
+			};
 
 			struct FragmentAndLinkBuffer_STRUCT
 			{
@@ -32,18 +35,11 @@
 				uint next;
 			};
 
-			RWStructuredBuffer<FragmentAndLinkBuffer_STRUCT> FLBuffer : register(u1);
-			RWByteAddressBuffer StartOffsetBuffer : register(u2);
+			StructuredBuffer<FragmentAndLinkBuffer_STRUCT> FLBuffer;
+			ByteAddressBuffer StartOffsetBuffer;
 
-			struct appdata {
-				float4 vertex : POSITION;
-				float2 texcoord : TEXCOORD0;
-			};
-
-			struct v2f {
-				float2 uv : TEXCOORD0;
-				float4 vertex : SV_POSITION;
-			};
+			sampler2D _MainTex;
+			float4 _MainTex_ST;
 
 			v2f vert(appdata v)
 			{
@@ -62,8 +58,12 @@
 
 				// //ScreenParams is the display size
 				//Fetch offset of first fragment for current pixel
-				// uint uStartOffsetAddress = 4 * ((_ScreenParams.x * screenPos.y) + screenPos.x);
-				uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				uint uStartOffsetAddress;
+				#if UNITY_UV_STARTS_AT_TOP
+					uStartOffsetAddress = 4 * ((_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				#else
+					uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				#endif
 				uint uOffset = StartOffsetBuffer.Load(uStartOffsetAddress);
 
 				static FragmentAndLinkBuffer_STRUCT SortedPixels[8];
@@ -74,7 +74,8 @@
 				while (uOffset != 0)
 				{
 					//Retrieve pixel at current offset
-					SortedPixels[nNumPixels++] = FLBuffer[uOffset];
+					SortedPixels[nNumPixels] = FLBuffer[uOffset];
+					nNumPixels += 1;
 
 					uOffset = (nNumPixels >= 8) ? 0 : FLBuffer[uOffset].next;
 				}

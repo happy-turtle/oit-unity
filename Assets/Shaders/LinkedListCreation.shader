@@ -7,17 +7,17 @@
 	}
 	SubShader
 	{
-		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Creation" }
-		Pass {
+		// Tags{ "Queue" = "Transparent" }
 
-			ZWrite Off
-			ZTest Always
+		Pass {
+			ZTest LEqual
+			// ZWrite Off
 			ColorMask 0
 			Cull Off
 
 			CGPROGRAM
 			#pragma target 5.0
-			#pragma enable_d3d11_debug_symbols
+			// #pragma enable_d3d11_debug_symbols
 
 			#pragma vertex vert
 			#pragma fragment frag
@@ -27,7 +27,7 @@
 			sampler2D _MainTex;
             float4 _MainTex_ST;
 			sampler2D _BumpMap;
-			sampler2D _CameraDepthTexture;
+			// sampler2D _CameraDepthTexture;
 			fixed4 _Color;
 
 			struct FragmentAndLinkBuffer_STRUCT
@@ -76,7 +76,7 @@
 			float4 frag(v2f i) : SV_Target
 			{
 				//get depth of opaque objects and fragment depth
-				float depth = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos));
+				// float depth = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos));
 				
 				//lighting calculation
 				fixed3 tangentLightDir = normalize(i.lightDir);
@@ -90,8 +90,8 @@
 				fixed4 col = fixed4(ambient + diffuse, albedo.a);
 
 				//only save fragment to buffer if no opaque object is in front
-				if (Linear01Depth(i.vertex.z) <= Linear01Depth(depth))
-				{
+				// if (Linear01Depth(i.vertex.z) <= Linear01Depth(depth))
+				// {
 					//Retrieve current Pixel count and increase counter
 					uint uPixelCount = FLBuffer.IncrementCounter();
 
@@ -106,7 +106,7 @@
 					Element.depth = Linear01Depth(i.vertex.z);
 					Element.next = uOldStartOffset;
 					FLBuffer[uPixelCount] = Element;
-				}
+				// }
 
 				return float4(0, 0, 0, 0);
 			}
