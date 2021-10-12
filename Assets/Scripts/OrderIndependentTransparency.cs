@@ -1,15 +1,10 @@
 ﻿using UnityEngine;
 
+[ExecuteAlways]
 [RequireComponent(typeof(Camera))]
-public class LinkedListManager : MonoBehaviour
+public class OrderIndependentTransparency : MonoBehaviour
 {
-
-    public Shader listCreationShader = null;
     public Shader listRenderingShader = null;
-    public int listDepth = 3;
-
-    private Camera cam;
-    public Camera transparencyCam;
 
     private ComputeBuffer fragmentLinkBuffer;
     private ComputeBuffer startOffsetBuffer;
@@ -18,12 +13,13 @@ public class LinkedListManager : MonoBehaviour
     private Material linkedListMaterial;
     private uint[] resetTable;
 
-    private void Start()
+    private const int LIST_SIZE_MULTPLIER = 1;
+
+    private void OnEnable()
     {
-        cam = GetComponent<Camera>();
         linkedListMaterial = new Material(listRenderingShader);
 
-        int bufferSize = Screen.width * Screen.height * listDepth;
+        int bufferSize = Screen.width * Screen.height * LIST_SIZE_MULTPLIER;
         int bufferStride = sizeof(float) * 5 + sizeof(uint);
         //the structured buffer contains all information about the transparent fragments
         //this is the per pixel linked list on the gpu
@@ -35,30 +31,28 @@ public class LinkedListManager : MonoBehaviour
         startOffsetBuffer = new ComputeBuffer(bufferSizeHead, bufferStrideHead, ComputeBufferType.Raw);
 
         resetTable = new uint[bufferSizeHead];
+    }
 
-        transparencyCam.depthTextureMode = DepthTextureMode.Depth;
+    private void OnPreRender()
+    {
+        //reset StartOffsetBuffer to zeros
+        startOffsetBuffer.SetData(resetTable);
+
+        Graphics.SetRandomWriteTarget(1, fragmentLinkBuffer);
+        Graphics.SetRandomWriteTarget(2, startOffsetBuffer);
+
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        //reset StartOffsetBuffer to zeros and reset counter of the StructuredBuffer
-        startOffsetBuffer.SetData(resetTable);
-        fragmentLinkBuffer.SetCounterValue(0);
-
-        // render per pixel linked list for transparent objects
-        Graphics.SetRandomWriteTarget(1, fragmentLinkBuffer, true);
-        Graphics.SetRandomWriteTarget(2, startOffsetBuffer);
-        transparencyCam.targetTexture = source;
-        transparencyCam.RenderWithShader(listCreationShader, null);
         Graphics.ClearRandomWriteTargets();
-
         // blend linked list
         linkedListMaterial.SetBuffer("FLBuffer", fragmentLinkBuffer);
         linkedListMaterial.SetBuffer("StartOffsetBuffer", startOffsetBuffer);
         Graphics.Blit(source, destination, linkedListMaterial);
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         if (fragmentLinkBuffer != null)
             fragmentLinkBuffer.Dispose();

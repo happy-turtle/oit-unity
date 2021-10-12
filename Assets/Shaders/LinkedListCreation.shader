@@ -1,4 +1,4 @@
-﻿Shader "Hidden/LinkedListCreation"
+﻿Shader "OrderIndependentTransparency"
 {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
@@ -7,11 +7,11 @@
 	}
 	SubShader
 	{
-		// Tags{ "Queue" = "Transparent" }
+		Tags{ "Queue" = "Transparent" }
 
 		Pass {
 			ZTest LEqual
-			// ZWrite Off
+			ZWrite Off
 			ColorMask 0
 			Cull Off
 
@@ -27,7 +27,6 @@
 			sampler2D _MainTex;
             float4 _MainTex_ST;
 			sampler2D _BumpMap;
-			// sampler2D _CameraDepthTexture;
 			fixed4 _Color;
 
 			struct FragmentAndLinkBuffer_STRUCT
@@ -72,12 +71,9 @@
 				return o;
 			}
 
-			//Pixel function returns a solid color for each point.
+			[earlydepthstencil]
 			float4 frag(v2f i) : SV_Target
-			{
-				//get depth of opaque objects and fragment depth
-				// float depth = SAMPLE_DEPTH_TEXTURE_PROJ(_CameraDepthTexture, UNITY_PROJ_COORD(i.screenPos));
-				
+			{				
 				//lighting calculation
 				fixed3 tangentLightDir = normalize(i.lightDir);
 				fixed3 tangentViewDir = normalize(i.viewDir);
@@ -89,24 +85,20 @@
 
 				fixed4 col = fixed4(ambient + diffuse, albedo.a);
 
-				//only save fragment to buffer if no opaque object is in front
-				// if (Linear01Depth(i.vertex.z) <= Linear01Depth(depth))
-				// {
-					//Retrieve current Pixel count and increase counter
-					uint uPixelCount = FLBuffer.IncrementCounter();
+				//Retrieve current Pixel count and increase counter
+				uint uPixelCount = FLBuffer.IncrementCounter();
 
-					//calculate bufferAddress
-					uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
-					uint uOldStartOffset;
-					StartOffsetBuffer.InterlockedExchange(uStartOffsetAddress, uPixelCount, uOldStartOffset);
+				//calculate bufferAddress
+				uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				uint uOldStartOffset;
+				StartOffsetBuffer.InterlockedExchange(uStartOffsetAddress, uPixelCount, uOldStartOffset);
 
-					//add new Fragment Entry in FragmentAndLinkBuffer
-					FragmentAndLinkBuffer_STRUCT Element;
-					Element.pixelColor = col;
-					Element.depth = Linear01Depth(i.vertex.z);
-					Element.next = uOldStartOffset;
-					FLBuffer[uPixelCount] = Element;
-				// }
+				//add new Fragment Entry in FragmentAndLinkBuffer
+				FragmentAndLinkBuffer_STRUCT Element;
+				Element.pixelColor = col;
+				Element.depth = Linear01Depth(i.vertex.z);
+				Element.next = uOldStartOffset;
+				FLBuffer[uPixelCount] = Element;
 
 				return float4(0, 0, 0, 0);
 			}
