@@ -47,18 +47,11 @@
 			//Pixel function returns a solid color for each point.
 			fixed4 frag(v2f i) : SV_Target
 			{			
-				float4 finalColor = float4(0, 0, 0, 0);
 				// Retrieve current color from background texture 
-				finalColor = tex2D(_MainTex, i.uv);
+				float4 finalColor = tex2D(_MainTex, i.uv);
 
-				// //ScreenParams is the display size
-				//Fetch offset of first fragment for current pixel
-				uint uStartOffsetAddress;
-				#if UNITY_UV_STARTS_AT_TOP
-					uStartOffsetAddress = 4 * ((_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
-				#else
-					uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
-				#endif
+				// Fetch offset of first fragment for current pixel
+				uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
 				uint uOffset = StartOffsetBuffer.Load(uStartOffsetAddress);
 
 				static FragmentAndLinkBuffer_STRUCT SortedPixels[8];
