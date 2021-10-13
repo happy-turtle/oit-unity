@@ -43,15 +43,10 @@
 			struct appdata {
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
-				float3 normal : NORMAL;
-				float4 tangent : TANGENT;
 			};
 
 			struct v2f {
 				float2 uv : TEXCOORD0;
-				float3 lightDir: TEXCOORD1;
-				float3 viewDir : TEXCOORD2;
-				float4 screenPos : TEXCOORD3;
 				float4 vertex : SV_POSITION;
 			};
 
@@ -61,30 +56,16 @@
 				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
 
-				TANGENT_SPACE_ROTATION;
-				// Transform the light direction from object space to tangent space
-				o.lightDir = mul(rotation, ObjSpaceLightDir(v.vertex)).xyz;
-				// Transform the view direction from object space to tangent space
-				o.viewDir = mul(rotation, ObjSpaceViewDir(v.vertex)).xyz;
-
-				o.screenPos = ComputeScreenPos(v.vertex);
-
 				return o;
 			}
 
 			[earlydepthstencil]
 			float4 frag(v2f i, uint uCoverage : SV_COVERAGE) : SV_Target
 			{				
-				//lighting calculation
-				fixed3 tangentLightDir = normalize(i.lightDir);
-				fixed3 tangentViewDir = normalize(i.viewDir);
-				fixed3 tangentNormal = UnpackNormal(tex2D(_BumpMap, i.uv));
-
-				fixed4 albedo = tex2D(_MainTex, i.uv) * _Color;
-				fixed3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz * albedo.rgb;
-				fixed3 diffuse = _LightColor0.rgb * albedo.rgb * max(0, dot(tangentNormal, tangentLightDir));
-
-				fixed4 col = fixed4(ambient + diffuse, albedo.a);
+				// ambient lighting
+				float4 albedo = tex2D(_MainTex, i.uv) * _Color;
+				float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
+				float4 col = float4(ambient + albedo, albedo.a);
 
 				//Retrieve current Pixel count and increase counter
 				uint uPixelCount = FLBuffer.IncrementCounter();
@@ -102,7 +83,7 @@
 				Element.coverage = uCoverage;
 				FLBuffer[uPixelCount] = Element;
 
-				return float4(0, 0, 0, 0);
+				return col;
 			}
 			ENDCG
 		}

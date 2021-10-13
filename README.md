@@ -13,7 +13,3 @@ This is an implementation of order-independent transparency in Unity. It uses Pe
 This is a feature **requiring Shader Model 4.5 with ComputeBuffers**, see the [Unity Manual](https://docs.unity3d.com/Manual/SL-ShaderCompileTargets.html) for supported platforms.
 For reference a [presentation by Holger Gruen and Nicolas Thibieroz](https://de.slideshare.net/hgruen/oit-and-indirect-illumination-using-dx11-linked-lists)
 was used. The code is based on their suggestions.
-
-## Usage
-
-Transparent Objects have to be in the same layer that the transparency camera uses, for example 'TransparentFX'.

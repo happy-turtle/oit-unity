@@ -49,7 +49,7 @@
 			fixed4 frag(v2f i, uint uSampleIndex : SV_SampleIndex) : SV_Target
 			{			
 				// Retrieve current color from background texture 
-				float4 finalColor = tex2D(_MainTex, i.uv);
+				float4 col = tex2D(_MainTex, i.uv);
 
 				// Fetch offset of first fragment for current pixel
 				uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
@@ -95,10 +95,10 @@
 					float4 vPixColor = SortedPixels[k].pixelColor;
 
 					// Manual blending between current fragment and previous one
-					finalColor.rgb = lerp(finalColor.rgb, vPixColor.rgb, vPixColor.a);
+					col.rgb = lerp(col.rgb, vPixColor.rgb, vPixColor.a);
 				}
 
-				return finalColor;
+				return col;
 			}
 			ENDCG
 		}
