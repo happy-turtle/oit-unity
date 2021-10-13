@@ -28,6 +28,7 @@
 				float4 pixelColor;
 				float depth;
 				uint next;
+				uint uCoverage;
 			};
 
 			StructuredBuffer<FragmentAndLinkBuffer_STRUCT> FLBuffer : register(t0);
@@ -45,7 +46,7 @@
 			}
 
 			//Pixel function returns a solid color for each point.
-			fixed4 frag(v2f i) : SV_Target
+			fixed4 frag(v2f i, uint uSampleIndex : SV_SampleIndex) : SV_Target
 			{			
 				// Retrieve current color from background texture 
 				float4 finalColor = tex2D(_MainTex, i.uv);
@@ -62,8 +63,12 @@
 				while (uOffset != 0)
 				{
 					//Retrieve pixel at current offset
-					SortedPixels[nNumPixels] = FLBuffer[uOffset];
-					nNumPixels += 1;
+					FragmentAndLinkBuffer_STRUCT Element = FLBuffer[uOffset];
+					if (Element.uCoverage & (1 << uSampleIndex))
+					{
+						SortedPixels[nNumPixels] = Element;	
+						nNumPixels += 1;
+					}
 
 					uOffset = (nNumPixels >= 8) ? 0 : FLBuffer[uOffset].next;
 				}
@@ -74,7 +79,7 @@
 				{
 					for (int j = i + 1; j > 0; j--)
 					{
-						if (SortedPixels[j - 1].depth > SortedPixels[j].depth)
+						if (SortedPixels[j - 1].depth < SortedPixels[j].depth)
 						{
 							FragmentAndLinkBuffer_STRUCT temp = SortedPixels[j - 1];
 							SortedPixels[j - 1] = SortedPixels[j];

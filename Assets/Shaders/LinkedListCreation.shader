@@ -34,6 +34,7 @@
 				float4 pixelColor;
 				float depth;
 				uint next;
+				uint coverage;
 			};
 
 			RWStructuredBuffer<FragmentAndLinkBuffer_STRUCT> FLBuffer : register(u1);
@@ -72,7 +73,7 @@
 			}
 
 			[earlydepthstencil]
-			float4 frag(v2f i) : SV_Target
+			float4 frag(v2f i, uint uCoverage : SV_COVERAGE) : SV_Target
 			{				
 				//lighting calculation
 				fixed3 tangentLightDir = normalize(i.lightDir);
@@ -98,6 +99,7 @@
 				Element.pixelColor = col;
 				Element.depth = Linear01Depth(i.vertex.z);
 				Element.next = uOldStartOffset;
+				Element.coverage = uCoverage;
 				FLBuffer[uPixelCount] = Element;
 
 				return float4(0, 0, 0, 0);
