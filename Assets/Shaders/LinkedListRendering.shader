@@ -55,7 +55,7 @@
 				uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
 				uint uOffset = StartOffsetBuffer.Load(uStartOffsetAddress);
 
-				static FragmentAndLinkBuffer_STRUCT SortedPixels[8];
+				FragmentAndLinkBuffer_STRUCT SortedPixels[8];
 
 				// Parse linked list for all pixels at this position
 				// and store them into temp array for later sorting

@@ -16,13 +16,12 @@
 			Cull Off
 
 			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
 			#pragma target 5.0
 			// #pragma enable_d3d11_debug_symbols
 
-			#pragma vertex vert
-			#pragma fragment frag
-
-			#include "Lighting.cginc"
+			#include "UnityCG.cginc"
 
 			sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -62,10 +61,8 @@
 			[earlydepthstencil]
 			float4 frag(v2f i, uint uCoverage : SV_COVERAGE) : SV_Target
 			{				
-				// ambient lighting
-				float4 albedo = tex2D(_MainTex, i.uv) * _Color;
-				float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
-				float4 col = float4(ambient + albedo, albedo.a);
+				// no lighting
+				float4 col = tex2D(_MainTex, i.uv) * _Color;
 
 				//Retrieve current Pixel count and increase counter
 				uint uPixelCount = FLBuffer.IncrementCounter();
