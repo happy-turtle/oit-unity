@@ -1,3 +1,4 @@
+#if UNITY_POST_PROCESSING_STACK_V2
 using System;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
@@ -27,3 +28,4 @@ public sealed class OrderIndependentTransparencyPPRenderer : PostProcessEffectRe
         }
     }
 }
+#endif
