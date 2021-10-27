@@ -96,44 +96,6 @@ Shader "OrderIndependentTransparency/Standard"
             ENDCG
         }
         // ------------------------------------------------------------------
-        //  Additive forward pass (one light per pass)
-        Pass
-        {
-            Name "FORWARD_DELTA"
-            Tags { "LightMode" = "ForwardAdd" }
-            Blend [_SrcBlend] One
-            Fog { Color (0,0,0,0) } // in additive pass fog should be black
-            ZWrite Off
-            ZTest LEqual
-			ColorMask 0
-			Cull Off
-
-            CGPROGRAM
-            #pragma target 5.0
-
-            // -------------------------------------
-
-
-            #pragma shader_feature_local _NORMALMAP
-            #pragma shader_feature_local _ _ALPHATEST_ON _ALPHABLEND_ON _ALPHAPREMULTIPLY_ON
-            #pragma shader_feature_local _METALLICGLOSSMAP
-            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-            #pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
-            #pragma shader_feature_local_fragment _DETAIL_MULX2
-            #pragma shader_feature_local _PARALLAXMAP
-
-            #pragma multi_compile_fwdadd_fullshadows
-            #pragma multi_compile_fog
-            // Uncomment the following line to enable dithering LOD crossfade. Note: there are more in the file to uncomment for other passes.
-            //#pragma multi_compile _ LOD_FADE_CROSSFADE
-
-            #pragma vertex vertAdd
-            #pragma fragment fragAdd
-            #include "OitStandardCoreForward.cginc"
-
-            ENDCG
-        }
-        // ------------------------------------------------------------------
         //  Shadow rendering pass
         Pass {
             Name "ShadowCaster"
