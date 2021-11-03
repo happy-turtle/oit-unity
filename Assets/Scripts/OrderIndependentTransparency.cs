@@ -5,6 +5,8 @@
 public class OrderIndependentTransparency : MonoBehaviour
 {
     public Shader listRenderingShader = null;
+    [Tooltip("This can be increased if objects disappear or block artifacts appear. A lower value keeps the used video memory at a minimum.")]
+    public int listSizeMultiplier = 5;
 
     private static ComputeBuffer fragmentLinkBuffer;
     private static ComputeBuffer startOffsetBuffer;
@@ -13,7 +15,6 @@ public class OrderIndependentTransparency : MonoBehaviour
     private Material linkedListMaterial;
     private uint[] resetTable;
 
-    private const int LIST_SIZE_MULTPLIER = 1;
 
     private void OnEnable()
     {
@@ -21,7 +22,7 @@ public class OrderIndependentTransparency : MonoBehaviour
         int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
         int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
 
-        int bufferSize = bufferWidth * bufferHeight * LIST_SIZE_MULTPLIER;
+        int bufferSize = bufferWidth * bufferHeight * QualitySettings.antiAliasing * listSizeMultiplier;
         int bufferStride = sizeof(float) * 5 + sizeof(uint);
         //the structured buffer contains all information about the transparent fragments
         //this is the per pixel linked list on the gpu
