@@ -6,7 +6,8 @@ public class OrderIndependentTransparency : MonoBehaviour
 {
     public Shader listRenderingShader = null;
     [Tooltip("This can be increased if objects disappear or block artifacts appear. A lower value keeps the used video memory at a minimum.")]
-    public int listSizeMultiplier = 5;
+    [Range(1f, 5f)]
+    public int listSizeMultiplier = 1;
 
     private static ComputeBuffer fragmentLinkBuffer;
     private static ComputeBuffer startOffsetBuffer;
