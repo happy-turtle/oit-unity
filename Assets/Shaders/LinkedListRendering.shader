@@ -52,7 +52,9 @@
 				float4 col = tex2D(_MainTex, i.uv);
 
 				// Fetch offset of first fragment for current pixel
-				uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				// swap this line with the one above if you are using post-processing stack
+				// uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
 				uint uOffset = StartOffsetBuffer.Load(uStartOffsetAddress);
 
 				FragmentAndLinkBuffer_STRUCT SortedPixels[8];

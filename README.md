@@ -26,4 +26,11 @@ Note that this project currently does **not** include implementations for the Un
 
 ### Post-Processing Compatibility
 
-If you are using this with the package Post-Processing Stack v2 you have to add the post-processing override `Order Independent Transparency PP` to your post-processing volume.
+If you are using this with the package Post-Processing Stack v2 you have to do two additional steps:
+
+1.  Add the post-processing override `Order Independent Transparency PP` to a global post-processing volume in your scene.
+2.  Change line 55 in the shader `LinkedListRendering.shader` to
+
+        uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+
+    Otherwise transparent objects will be rendered upside down. Let me know, if you have a better workaround for this.
