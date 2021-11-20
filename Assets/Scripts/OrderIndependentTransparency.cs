@@ -4,7 +4,7 @@
 [RequireComponent(typeof(Camera))]
 public class OrderIndependentTransparency : MonoBehaviour
 {
-    public Shader listRenderingShader = null;
+    public Shader customRenderingShader = null;
     [Tooltip("This can be increased if objects disappear or block artifacts appear. A lower value keeps the used video memory at a minimum.")]
     [Range(1f, 5f)]
     public int listSizeMultiplier = 1;
@@ -19,11 +19,12 @@ public class OrderIndependentTransparency : MonoBehaviour
 
     private void OnEnable()
     {
-        linkedListMaterial = new Material(listRenderingShader);
+        linkedListMaterial = new Material(customRenderingShader != null ? customRenderingShader : Shader.Find("Hidden/LinkedListRendering"));
         int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
         int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
+        int msaaFactor = QualitySettings.antiAliasing > 0 ? QualitySettings.antiAliasing : 1;
 
-        int bufferSize = bufferWidth * bufferHeight * QualitySettings.antiAliasing * listSizeMultiplier;
+        int bufferSize = bufferWidth * bufferHeight * msaaFactor * listSizeMultiplier;
         int bufferStride = sizeof(float) * 5 + sizeof(uint);
         //the structured buffer contains all information about the transparent fragments
         //this is the per pixel linked list on the gpu
@@ -75,7 +76,6 @@ public class OrderIndependentTransparency : MonoBehaviour
         fragmentLinkBuffer?.Dispose();
         startOffsetBuffer?.Dispose();
     }
-
 
     public static ComputeBuffer GetPerPixelLinkedListBuffer()
     {

@@ -566,7 +566,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b1ae69e2c16cbb468e3aad95eaec8e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  listRenderingShader: {fileID: 4800000, guid: 9e3bd7ea710640b48ad51b2fd4da3d63, type: 3}
+  customRenderingShader: {fileID: 0}
+  listSizeMultiplier: 1
 --- !u!114 &534669908
 MonoBehaviour:
   m_ObjectHideFlags: 0
