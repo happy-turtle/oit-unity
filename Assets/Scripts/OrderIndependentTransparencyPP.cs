@@ -16,6 +16,7 @@ public sealed class OrderIndependentTransparencyPPRenderer : PostProcessEffectRe
     {
         base.Init();
         linkedListMaterial = new Material(Shader.Find("Hidden/LinkedListRendering"));
+        linkedListMaterial.EnableKeyword("POST_PROCESSING");
     }
 
     public override void Render(PostProcessRenderContext context)

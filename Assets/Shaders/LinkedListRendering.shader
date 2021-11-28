@@ -11,6 +11,7 @@
 			#pragma fragment frag
 			#pragma target 5.0
 			// #pragma enable_d3d11_debug_symbols
+			#pragma multi_compile_fragment BUILT_IN POST_PROCESSING
 
 			#include "UnityCG.cginc"
 
@@ -52,9 +53,12 @@
 				float4 col = tex2D(_MainTex, i.uv);
 
 				// Fetch offset of first fragment for current pixel
-				uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
-				// swap this line with the one above if you are using post-processing stack
-				// uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				uint uStartOffsetAddress;
+#if POST_PROCESSING
+				uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+#else
+				uStartOffsetAddress = 4 * ((_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+#endif
 				uint uOffset = StartOffsetBuffer.Load(uStartOffsetAddress);
 
 				FragmentAndLinkBuffer_STRUCT SortedPixels[8];

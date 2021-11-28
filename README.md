@@ -19,18 +19,13 @@ was used. The code is based on their suggestions.
 ## Usage
 
 1. Add the component `OrderIndependentTransparency` to the scene camera.
-2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a material using a custom shader. Two sample shaders that you can use are included in this project `OitUnlit` and `OitStandard`.
+2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a material using a custom shader. Two sample shaders that you can use are included in this project `OrderIndependentTransparency/Unlit` and `OrderIndependentTransparency/Standard`.
 3. Run your scene.
 
 Note that this project currently does **not** include implementations for the Universal Render-Pipeline and the High-Definition Render-Pipeline.
 
 ### Post-Processing Compatibility
 
-If you are using this with the package Post-Processing Stack v2 you have to do two additional steps:
+If you are using this with the package Post-Processing Stack v2 you have to do one additional step:
 
-1.  Add the post-processing override `Order Independent Transparency PP` to a global post-processing volume in your scene.
-2.  Change line 55 in the shader `LinkedListRendering.shader` to
-
-        uint uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
-
-    Otherwise transparent objects will be rendered upside down. Let me know, if you have a better workaround for this.
+- Add the post-processing override `Order Independent Transparency PP` to a global post-processing volume in your scene.
