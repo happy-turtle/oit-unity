@@ -7,10 +7,12 @@ using UnityEngine.Rendering.PostProcessing;
 [PostProcess(typeof(OrderIndependentTransparencyPPRenderer), PostProcessEvent.BeforeStack, "OrderIndependentTransparency")]
 public sealed class OrderIndependentTransparencyPP : PostProcessEffectSettings
 {
+    [Tooltip("This can be increased if objects disappear or block artifacts appear. A lower value keeps the used video memory at a minimum.")]
+    [Range(1f, 5f)]
+    public IntParameter listSizeMultiplier = new IntParameter { value = 1 };
 }
 public sealed class OrderIndependentTransparencyPPRenderer : PostProcessEffectRenderer<OrderIndependentTransparencyPP>
 {
-    private int listSizeMultiplier = 1;
     private static ComputeBuffer fragmentLinkBuffer;
     private static ComputeBuffer startOffsetBuffer;
     private int bufferSize;
@@ -27,7 +29,7 @@ public sealed class OrderIndependentTransparencyPPRenderer : PostProcessEffectRe
         int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
         int msaaFactor = QualitySettings.antiAliasing > 0 ? QualitySettings.antiAliasing : 1;
 
-        int bufferSize = bufferWidth * bufferHeight * msaaFactor * listSizeMultiplier;
+        int bufferSize = bufferWidth * bufferHeight * msaaFactor * settings.listSizeMultiplier;
         int bufferStride = sizeof(float) * 5 + sizeof(uint);
         //the structured buffer contains all information about the transparent fragments
         //this is the per pixel linked list on the gpu
