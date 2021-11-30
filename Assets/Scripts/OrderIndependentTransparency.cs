@@ -52,12 +52,6 @@ public class OrderIndependentTransparency : MonoBehaviour
 
     }
 
-#if UNITY_POST_PROCESSING_STACK_V2
-    private void OnPostRender()
-    {
-        Graphics.ClearRandomWriteTargets();
-    }
-#else
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         if (fragmentLinkBuffer == null || startOffsetBuffer == null || linkedListMaterial == null)
@@ -69,30 +63,10 @@ public class OrderIndependentTransparency : MonoBehaviour
         linkedListMaterial.SetBuffer("StartOffsetBuffer", startOffsetBuffer);
         Graphics.Blit(source, destination, linkedListMaterial);
     }
-#endif
 
     private void OnDisable()
     {
         fragmentLinkBuffer?.Dispose();
         startOffsetBuffer?.Dispose();
-    }
-
-    public static ComputeBuffer GetPerPixelLinkedListBuffer()
-    {
-        return fragmentLinkBuffer;
-    }
-
-    public static ComputeBuffer GetPerPixelLinkedListHeadBuffer()
-    {
-        return startOffsetBuffer;
-    }
-
-    public static bool buffersAreReady()
-    {
-        if (fragmentLinkBuffer != null && startOffsetBuffer != null)
-        {
-            return true;
-        }
-        return false;
     }
 }
