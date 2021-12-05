@@ -4,13 +4,14 @@
 [RequireComponent(typeof(Camera))]
 public class OrderIndependentTransparency : MonoBehaviour
 {
-    public Shader customRenderingShader = null;
     [Tooltip("This can be increased if objects disappear or block artifacts appear. A lower value keeps the used video memory at a minimum.")]
     [Range(1f, 5f)]
     public int listSizeMultiplier = 1;
 
-    private static ComputeBuffer fragmentLinkBuffer;
-    private static ComputeBuffer startOffsetBuffer;
+    private GraphicsBuffer fragmentLinkBuffer;
+    private int fragmentLinkBufferId;
+    private GraphicsBuffer startOffsetBuffer;
+    private int startOffsetBufferId;
     private int bufferSize;
     private int bufferStride;
     private Material linkedListMaterial;
@@ -19,7 +20,7 @@ public class OrderIndependentTransparency : MonoBehaviour
 
     private void OnEnable()
     {
-        linkedListMaterial = new Material(customRenderingShader != null ? customRenderingShader : Shader.Find("Hidden/LinkedListRendering"));
+        linkedListMaterial = new Material(Shader.Find("Hidden/LinkedListRendering"));
         int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
         int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
         int msaaFactor = QualitySettings.antiAliasing > 0 ? QualitySettings.antiAliasing : 1;
@@ -28,12 +29,14 @@ public class OrderIndependentTransparency : MonoBehaviour
         int bufferStride = sizeof(float) * 5 + sizeof(uint);
         //the structured buffer contains all information about the transparent fragments
         //this is the per pixel linked list on the gpu
-        fragmentLinkBuffer = new ComputeBuffer(bufferSize, bufferStride, ComputeBufferType.Counter);
+        fragmentLinkBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Counter, bufferSize, bufferStride);
+        fragmentLinkBufferId = Shader.PropertyToID("FLBuffer");
 
         int bufferSizeHead = bufferWidth * bufferHeight;
         int bufferStrideHead = sizeof(uint);
         //create buffer for addresses, this is the head of the linked list
-        startOffsetBuffer = new ComputeBuffer(bufferSizeHead, bufferStrideHead, ComputeBufferType.Raw);
+        startOffsetBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Raw, bufferSizeHead, bufferStrideHead);
+        startOffsetBufferId = Shader.PropertyToID("StartOffsetBuffer");
 
         resetTable = new uint[bufferSizeHead];
     }
@@ -49,7 +52,6 @@ public class OrderIndependentTransparency : MonoBehaviour
         // set buffers for rendering
         Graphics.SetRandomWriteTarget(1, fragmentLinkBuffer);
         Graphics.SetRandomWriteTarget(2, startOffsetBuffer);
-
     }
 
     private void OnRenderImage(RenderTexture source, RenderTexture destination)
@@ -59,8 +61,8 @@ public class OrderIndependentTransparency : MonoBehaviour
 
         Graphics.ClearRandomWriteTargets();
         // blend linked list
-        linkedListMaterial.SetBuffer("FLBuffer", fragmentLinkBuffer);
-        linkedListMaterial.SetBuffer("StartOffsetBuffer", startOffsetBuffer);
+        linkedListMaterial.SetBuffer(fragmentLinkBufferId, fragmentLinkBuffer);
+        linkedListMaterial.SetBuffer(startOffsetBufferId, startOffsetBuffer);
         Graphics.Blit(source, destination, linkedListMaterial);
     }
 

@@ -13,8 +13,10 @@ public sealed class OrderIndependentTransparencyPP : PostProcessEffectSettings
 }
 public sealed class OrderIndependentTransparencyPPRenderer : PostProcessEffectRenderer<OrderIndependentTransparencyPP>
 {
-    private static ComputeBuffer fragmentLinkBuffer;
-    private static ComputeBuffer startOffsetBuffer;
+    private GraphicsBuffer fragmentLinkBuffer;
+    private int fragmentLinkBufferId;
+    private GraphicsBuffer startOffsetBuffer;
+    private int startOffsetBufferId;
     private int bufferSize;
     private int bufferStride;
     private Material linkedListMaterial;
@@ -33,12 +35,14 @@ public sealed class OrderIndependentTransparencyPPRenderer : PostProcessEffectRe
         int bufferStride = sizeof(float) * 5 + sizeof(uint);
         //the structured buffer contains all information about the transparent fragments
         //this is the per pixel linked list on the gpu
-        fragmentLinkBuffer = new ComputeBuffer(bufferSize, bufferStride, ComputeBufferType.Counter);
+        fragmentLinkBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Counter, bufferSize, bufferStride);
+        fragmentLinkBufferId = Shader.PropertyToID("FLBuffer");
 
         int bufferSizeHead = bufferWidth * bufferHeight;
         int bufferStrideHead = sizeof(uint);
         //create buffer for addresses, this is the head of the linked list
-        startOffsetBuffer = new ComputeBuffer(bufferSizeHead, bufferStrideHead, ComputeBufferType.Raw);
+        startOffsetBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Raw, bufferSizeHead, bufferStrideHead);
+        startOffsetBufferId = Shader.PropertyToID("StartOffsetBuffer");
 
         resetTable = new uint[bufferSizeHead];
 
@@ -65,8 +69,8 @@ public sealed class OrderIndependentTransparencyPPRenderer : PostProcessEffectRe
 
         context.command.ClearRandomWriteTargets();
         // blend linked list
-        linkedListMaterial.SetBuffer("FLBuffer", fragmentLinkBuffer);
-        linkedListMaterial.SetBuffer("StartOffsetBuffer", startOffsetBuffer);
+        linkedListMaterial.SetBuffer(fragmentLinkBufferId, fragmentLinkBuffer);
+        linkedListMaterial.SetBuffer(startOffsetBufferId, startOffsetBuffer);
         context.command.Blit(context.source, context.destination, linkedListMaterial);
     }
 

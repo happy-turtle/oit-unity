@@ -12,6 +12,7 @@
 			#pragma target 5.0
 			// #pragma enable_d3d11_debug_symbols
 			#pragma multi_compile_fragment BUILT_IN POST_PROCESSING
+			#define MAX_SORTED_PIXELS 8
 
 			#include "UnityCG.cginc"
 
@@ -61,7 +62,7 @@
 #endif
 				uint uOffset = StartOffsetBuffer.Load(uStartOffsetAddress);
 
-				FragmentAndLinkBuffer_STRUCT SortedPixels[8];
+				FragmentAndLinkBuffer_STRUCT SortedPixels[MAX_SORTED_PIXELS];
 
 				// Parse linked list for all pixels at this position
 				// and store them into temp array for later sorting
@@ -76,7 +77,7 @@
 						nNumPixels += 1;
 					}
 
-					uOffset = (nNumPixels >= 8) ? 0 : FLBuffer[uOffset].next;
+					uOffset = (nNumPixels >= MAX_SORTED_PIXELS) ? 0 : FLBuffer[uOffset].next;
 				}
 
 				//Sort pixels in depth
