@@ -31,7 +31,7 @@ public sealed class OrderIndependentTransparencyPPRenderer : PostProcessEffectRe
         int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
 
         int bufferSize = bufferWidth * bufferHeight * settings.listSizeMultiplier;
-        int bufferStride = sizeof(float) * 5 + sizeof(uint);
+        int bufferStride = sizeof(float) * 5 + sizeof(uint) * 2;
         //the structured buffer contains all information about the transparent fragments
         //this is the per pixel linked list on the gpu
         fragmentLinkBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Counter, bufferSize, bufferStride);
