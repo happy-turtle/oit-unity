@@ -11,7 +11,7 @@
 
 #if UNITY_STANDARD_SIMPLE
     #include "UnityStandardCoreForwardSimple.cginc"
-    #include "OitUtils.cginc"
+    #include "OitCreate.cginc"
     VertexOutputBaseSimple vertBase (VertexInput v) { return vertForwardBaseSimple(v); }
     VertexOutputForwardAddSimple vertAdd (VertexInput v) { return vertForwardAddSimple(v); }
     [earlydepthstencil]
@@ -30,7 +30,7 @@
     }
 #else
     #include "UnityStandardCore.cginc"
-    #include "OitUtils.cginc"
+    #include "OitCreate.cginc"
     VertexOutputForwardBase vertBase (VertexInput v) { return vertForwardBase(v); }
     VertexOutputForwardAdd vertAdd (VertexInput v) { return vertForwardAdd(v); }
     [earlydepthstencil]

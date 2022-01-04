@@ -15,6 +15,7 @@
 			#define MAX_SORTED_PIXELS 8
 
 			#include "UnityCG.cginc"
+			#include "../OitUtils.cginc"
 
 			struct appdata {
 				float4 vertex : POSITION;
@@ -27,7 +28,7 @@
 
 			struct FragmentAndLinkBuffer_STRUCT
 			{
-				float4 pixelColor;
+				uint pixelColor;
 				float depth;
 				uint next;
 				uint uCoverage;
@@ -99,7 +100,7 @@
 				for (int k = 0; k < nNumPixels; k++)
 				{
 					// Retrieve next unblended furthermost pixel
-					float4 vPixColor = SortedPixels[k].pixelColor;
+					float4 vPixColor = UnpackRGBA(SortedPixels[k].pixelColor);
 
 					// Manual blending between current fragment and previous one
 					col.rgb = lerp(col.rgb, vPixColor.rgb, vPixColor.a);
