@@ -19,7 +19,7 @@ float4 UnpackRGBA(uint packedInput)
 uint PackRGBA(float4 unpackedInput)
 {
 	uint4 u = (uint4)(saturate(unpackedInput) * 255 + 0.5);
-	uint  packedOutput = (u.w << 24UL) | (u.z << 16UL) | (u.y << 8UL) | u.x;
+	uint packedOutput = (u.w << 24UL) | (u.z << 16UL) | (u.y << 8UL) | u.x;
 	return packedOutput;
 }
 
@@ -31,9 +31,9 @@ uint UnpackCoverage(uint uDepthCoverage) {
 	return uDepthCoverage & 0xFFUL;
 }
 
-uint PackDepthCoverage(float depth, uint coverage) {
+uint PackDepthCoverage(float depth, uint uCoverage) {
 	uint d = (uint)(saturate(depth) * (pow(2, 24) - 1));
-	return d << 8UL | coverage;
+	return d << 8UL | uCoverage;
 }
 
 #endif // OIT_UTILS_INCLUDED
