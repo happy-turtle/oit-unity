@@ -29,9 +29,8 @@
 			struct FragmentAndLinkBuffer_STRUCT
 			{
 				uint pixelColor;
-				float depth;
+				uint uDepthCoverage;
 				uint next;
-				uint uCoverage;
 			};
 
 			StructuredBuffer<FragmentAndLinkBuffer_STRUCT> FLBuffer : register(t0);
@@ -72,7 +71,8 @@
 				{
 					//Retrieve pixel at current offset
 					FragmentAndLinkBuffer_STRUCT Element = FLBuffer[uOffset];
-					if (Element.uCoverage & (1 << uSampleIndex))
+					uint uCoverage = UnpackCoverage(Element.uDepthCoverage);
+					if (uCoverage & (1 << uSampleIndex))
 					{
 						SortedPixels[nNumPixels] = Element;	
 						nNumPixels += 1;
@@ -87,7 +87,9 @@
 				{
 					for (int j = i + 1; j > 0; j--)
 					{
-						if (SortedPixels[j - 1].depth < SortedPixels[j].depth)
+						float depth = UnpackDepth(SortedPixels[j].uDepthCoverage);
+						float previousElementDepth = UnpackDepth(SortedPixels[j - 1].uDepthCoverage);
+						if (previousElementDepth < depth)
 						{
 							FragmentAndLinkBuffer_STRUCT temp = SortedPixels[j - 1];
 							SortedPixels[j - 1] = SortedPixels[j];

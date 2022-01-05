@@ -23,4 +23,17 @@ uint PackRGBA(float4 unpackedInput)
 	return packedOutput;
 }
 
+float UnpackDepth(uint uDepthCoverage) {
+	return (float)(uDepthCoverage >> 8UL) / (pow(2, 24) - 1);	
+}
+
+uint UnpackCoverage(uint uDepthCoverage) {
+	return uDepthCoverage & 0xFFUL;
+}
+
+uint PackDepthCoverage(float depth, uint coverage) {
+	uint d = (uint)(saturate(depth) * (pow(2, 24) - 1));
+	return d << 8UL | coverage;
+}
+
 #endif // OIT_UTILS_INCLUDED

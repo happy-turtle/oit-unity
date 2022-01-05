@@ -6,9 +6,8 @@
 struct FragmentAndLinkBuffer_STRUCT
 {
     uint pixelColor;
-    float depth;
+    uint uDepthCoverage;
     uint next;
-    uint coverage;
 };
 
 RWStructuredBuffer<FragmentAndLinkBuffer_STRUCT> FLBuffer : register(u1);
@@ -26,9 +25,8 @@ void createLinkedListEntry(float4 col, float3 pos, float2 screenParams, uint uCo
     //add new Fragment Entry in FragmentAndLinkBuffer
     FragmentAndLinkBuffer_STRUCT Element;
     Element.pixelColor = PackRGBA(col);
-    Element.depth = Linear01Depth(pos.z);
+    Element.uDepthCoverage = PackDepthCoverage(Linear01Depth(pos.z), uCoverage);
     Element.next = uOldStartOffset;
-    Element.coverage = uCoverage;
     FLBuffer[uPixelCount] = Element;
 }
 
