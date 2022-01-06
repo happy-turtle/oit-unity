@@ -91,6 +91,8 @@ Shader "OrderIndependentTransparency/Standard"
 
             #pragma vertex vertBase
             #pragma fragment fragBase
+			#pragma require randomwrite
+			// #pragma enable_d3d11_debug_symbols
             #include "OitStandardCoreForward.cginc"
 
             ENDCG
@@ -188,6 +190,6 @@ Shader "OrderIndependentTransparency/Standard"
         }
     }
 
-    FallBack "VertexLit"
+    FallBack "Standard"
     CustomEditor "StandardShaderGUI"
 }

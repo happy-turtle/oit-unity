@@ -18,6 +18,7 @@
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma target 5.0
+			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"	
@@ -59,4 +60,6 @@
 			ENDCG
 		}
 	}
+	
+    FallBack "Unlit/Transparent"
 }
