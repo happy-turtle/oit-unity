@@ -10,6 +10,7 @@
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma target 5.0
+			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
 			#pragma multi_compile_fragment BUILT_IN POST_PROCESSING
 			#define MAX_SORTED_PIXELS 8

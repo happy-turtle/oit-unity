@@ -26,8 +26,9 @@ I recommend using this with the package Post-Processing Stack v2, because then t
 
 ### Without Post-Processing Stack v2
 
-If you don't want to use the post-processing stack just skip the first step and instead add the component `OrderIndependentTransparency` to a camera. Using this component transparent objects won't render in the editor scene view though.
+If you don't want to use the post-processing stack just skip the first step and instead add the component `OrderIndependentTransparency` to a camera. Transparent objects won't render in the editor scene view using this component.
 
 ## Notes
 
-Note that this project currently does **not** include implementations for the Universal Render-Pipeline and the High-Definition Render-Pipeline.
+- Other platforms than Windows might not work as expected as this is using more unconventianol HLSL features. Let me know of your experience and if you got this running on different platforms.
+- Note that this project currently does **not** include implementations for the Universal Render-Pipeline and the High-Definition Render-Pipeline.
