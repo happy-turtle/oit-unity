@@ -1,5 +1,11 @@
 ﻿using UnityEngine;
 
+public enum OitMode
+{
+    MLAB,
+    LinkedList,
+}
+
 [ExecuteAlways]
 [RequireComponent(typeof(Camera))]
 public class OrderIndependentTransparency : MonoBehaviour
@@ -7,6 +13,10 @@ public class OrderIndependentTransparency : MonoBehaviour
     [Tooltip("This can be increased if objects disappear or block artifacts appear. A lower value keeps the used video memory at a minimum.")]
     [Range(1f, 24f)]
     public int listSizeMultiplier = 5;
+
+    [Tooltip("Use Multi-Layer Alpha Blending if your graphics target supports shader model 5.1 and the Rasterizer Order Views (ROV) feature." +
+                "For legacy shader model 5.0 support use the linked list mode.")]
+    public OitMode oitMode = OitMode.MLAB;
 
     private GraphicsBuffer fragmentLinkBuffer;
     private int fragmentLinkBufferId;
