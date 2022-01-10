@@ -1,4 +1,4 @@
-﻿Shader "OrderIndependentTransparency/Unlit"
+﻿Shader "OrderIndependentTransparency/MLAB/Unlit"
 {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
@@ -22,7 +22,7 @@
 			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"	
-    		#include "OitCreate.cginc"
+    		#include "MLABCreation.cginc"
 
 			sampler2D _MainTex;
             float4 _MainTex_ST;

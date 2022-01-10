@@ -1,5 +1,5 @@
-#ifndef OIT_ENTRY_INCLUDED
-#define OIT_ENTRY_INCLUDED
+#ifndef OIT_LINKED_LIST_INCLUDED
+#define OIT_LINKED_LIST_INCLUDED
 
 #include "OitUtils.cginc"
 
@@ -30,4 +30,4 @@ void createLinkedListEntry(float4 col, float3 pos, float2 screenParams, uint uCo
     FLBuffer[uPixelCount] = Element;
 }
 
-#endif // OIT_ENTRY_INCLUDED
+#endif // OIT_LINKED_LIST_INCLUDED

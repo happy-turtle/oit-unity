@@ -1,6 +1,6 @@
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "OrderIndependentTransparency/Standard"
+Shader "OrderIndependentTransparency/LinkedList/Standard"
 {
     Properties
     {
@@ -93,7 +93,7 @@ Shader "OrderIndependentTransparency/Standard"
             #pragma fragment fragBase
 			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
-            #include "OitStandardCoreForward.cginc"
+            #include "LinkedListStandardCore.cginc"
 
             ENDCG
         }
