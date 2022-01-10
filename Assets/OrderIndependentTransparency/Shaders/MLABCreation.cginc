@@ -23,21 +23,19 @@ void createLinkedListEntry(float4 col, float3 pos, float2 screenParams, uint uCo
     FragmentBuffer_STRUCT Element;
     Element.pixelColor = PackRGBA(col);
     Element.uDepthCoverage = PackDepthCoverage(Linear01Depth(pos.z), uCoverage);
-    FragmentBuffer[uStartOffsetAddress] = Element;
 
     //Sort pixels in depth
     //with insertion sort
     FragmentBuffer_STRUCT temp, merge;
-    float depth = UnpackDepth(Element.uDepthCoverage);
-    // for (int i = 0; i < MAX_SORTED_PIXELS; i++)
-    // {
-    //     if (depth <= UnpackDepth(FragmentBuffer[uStartOffsetAddress + i].uDepthCoverage))
-    //     {
-    //         FragmentBuffer_STRUCT temp = FragmentBuffer[uStartOffsetAddress + i];
-    //         FragmentBuffer[uStartOffsetAddress + i] = Element;
-    //         Element = temp;
-    //     }
-    // }
+    for (int i = 0; i < MAX_SORTED_PIXELS; i++)
+    {
+        if (Linear01Depth(pos.z) > UnpackDepth(FragmentBuffer[uStartOffsetAddress + i].uDepthCoverage))
+        {
+            FragmentBuffer_STRUCT temp = FragmentBuffer[uStartOffsetAddress + i];
+            FragmentBuffer[uStartOffsetAddress + i] = Element;
+            Element = temp;
+        }
+    }
 
     //TODO: merge
 }
