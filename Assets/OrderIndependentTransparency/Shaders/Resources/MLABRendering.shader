@@ -34,6 +34,7 @@
 			};
 
 			StructuredBuffer<FragmentBuffer_STRUCT> FragmentBuffer : register(t0);
+			RWByteAddressBuffer ClearBuffer : register(u2);
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
@@ -60,15 +61,20 @@
 				uStartOffsetAddress = 4 * ((_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
 #endif
 
-				// Rendering pixels
-				for (int k = 0; k < MAX_SORTED_PIXELS; k++)
-				{
-					// Retrieve next unblended furthermost pixel
-					float4 vPixColor = UnpackRGBA(FragmentBuffer[uStartOffsetAddress + k].pixelColor);
+				if (ClearBuffer.Load(uStartOffsetAddress) > 0) {
+					// Rendering pixels
+					for (int k = 0; k < MAX_SORTED_PIXELS; k++)
+					{
+						// Retrieve next unblended furthermost pixel
+						float4 vPixColor = UnpackRGBA(FragmentBuffer[uStartOffsetAddress + k].pixelColor);
 
-					// Manual blending between current fragment and previous one
-					col.rgb = lerp(col.rgb, vPixColor.rgb, vPixColor.a);
+						// Manual blending between current fragment and previous one
+						col.rgb = lerp(col.rgb, vPixColor.rgb, vPixColor.a);
+					}
 				}
+
+				// clear buffer mask
+				ClearBuffer.Store(uStartOffsetAddress, 0);
 
 				return col;
 			}

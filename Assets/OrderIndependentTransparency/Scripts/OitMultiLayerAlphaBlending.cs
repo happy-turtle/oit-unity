@@ -5,9 +5,10 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
 {
-    private GraphicsBuffer fragmentBuffer;
+    private ComputeBuffer fragmentBuffer;
+    private ComputeBuffer clearBuffer;
     private int fragmentBufferId;
-    private int startOffsetBufferId;
+    private int clearBufferId;
     private int bufferSize;
     private int bufferStride;
     private Material mlabMaterial;
@@ -26,8 +27,11 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
         int bufferStride = sizeof(uint) * 2;
         //the structured buffer contains all information about the transparent fragments
         //this is the per pixel linked list on the gpu
-        fragmentBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Counter, bufferSize, bufferStride);
+        fragmentBuffer = new ComputeBuffer(bufferSize, bufferStride);
         fragmentBufferId = Shader.PropertyToID("FragmentBuffer");
+
+        clearBuffer = new ComputeBuffer(bufferWidth * bufferHeight, sizeof(uint), ComputeBufferType.Raw);
+        clearBufferId = Shader.PropertyToID("ClearBuffer");
     }
 
     public void PreRender()
@@ -37,6 +41,7 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
 
         // set buffers for rendering
         Graphics.SetRandomWriteTarget(1, fragmentBuffer);
+        Graphics.SetRandomWriteTarget(2, clearBuffer);
     }
 
     public void Render(RenderTexture source, RenderTexture destination)
@@ -47,6 +52,7 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
         Graphics.ClearRandomWriteTargets();
         // blend linked list
         mlabMaterial.SetBuffer(fragmentBufferId, fragmentBuffer);
+        mlabMaterial.SetBuffer(clearBufferId, clearBuffer);
         Graphics.Blit(source, destination, mlabMaterial);
     }
 
@@ -59,12 +65,14 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
         context.command.ClearRandomWriteTargets();
         // blend linked list
         mlabMaterial.SetBuffer(fragmentBufferId, fragmentBuffer);
+        mlabMaterial.SetBuffer(clearBufferId, clearBuffer);
         context.command.Blit(context.source, context.destination, mlabMaterial);
     }
 #endif
 
     public void Release()
     {
-        fragmentBuffer?.Dispose();
+        fragmentBuffer?.Release();
+        clearBuffer?.Release();
     }
 }
