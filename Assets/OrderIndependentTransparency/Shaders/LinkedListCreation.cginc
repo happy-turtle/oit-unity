@@ -1,6 +1,7 @@
 #ifndef OIT_LINKED_LIST_INCLUDED
 #define OIT_LINKED_LIST_INCLUDED
 
+#include "UnityCG.cginc"
 #include "OitUtils.cginc"
 
 struct FragmentAndLinkBuffer_STRUCT
@@ -13,12 +14,12 @@ struct FragmentAndLinkBuffer_STRUCT
 RWStructuredBuffer<FragmentAndLinkBuffer_STRUCT> FLBuffer : register(u1);
 RWByteAddressBuffer StartOffsetBuffer : register(u2);
 
-void createLinkedListEntry(float4 col, float3 pos, float2 screenParams, uint uCoverage) {
+void createFragmentEntry(float4 col, float3 pos, uint uCoverage) {
     //Retrieve current Pixel count and increase counter
     uint uPixelCount = FLBuffer.IncrementCounter();
 
     //calculate bufferAddress
-    uint uStartOffsetAddress = 4 * ((screenParams.x * (pos.y - 0.5)) + (pos.x - 0.5));
+    uint uStartOffsetAddress = _ScreenParams.x * (pos.y - 0.5) + (pos.x - 0.5);
     uint uOldStartOffset;
     StartOffsetBuffer.InterlockedExchange(uStartOffsetAddress, uPixelCount, uOldStartOffset);
 

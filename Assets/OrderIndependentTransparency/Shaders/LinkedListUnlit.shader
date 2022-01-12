@@ -1,4 +1,4 @@
-﻿Shader "OrderIndependentTransparency/LinkedList/Unlit"
+﻿Shader "OrderIndependentTransparency/Legacy/LinkedListUnlit"
 {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
@@ -53,7 +53,7 @@
 				// no lighting
 				float4 col = tex2D(_MainTex, i.uv) * _Color;
 
-				createLinkedListEntry(col, i.vertex.xyz, _ScreenParams.xy, uCoverage);
+				createFragmentEntry(col, i.vertex.xyz, uCoverage);
 
 				return col;
 			}

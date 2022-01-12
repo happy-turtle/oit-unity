@@ -6,9 +6,9 @@ using UnityEngine.Rendering.PostProcessing;
 public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
 {
     private ComputeBuffer fragmentBuffer;
-    private ComputeBuffer clearBuffer;
+    private RenderTexture clearMask;
     private int fragmentBufferId;
-    private int clearBufferId;
+    private int clearMaskId;
     private int bufferSize;
     private int bufferStride;
     private Material mlabMaterial;
@@ -30,8 +30,9 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
         fragmentBuffer = new ComputeBuffer(bufferSize, bufferStride);
         fragmentBufferId = Shader.PropertyToID("FragmentBuffer");
 
-        clearBuffer = new ComputeBuffer(bufferWidth * bufferHeight, sizeof(uint), ComputeBufferType.Raw);
-        clearBufferId = Shader.PropertyToID("ClearBuffer");
+        clearMask = new RenderTexture(bufferWidth, bufferHeight, 0, UnityEngine.Experimental.Rendering.GraphicsFormat.R32_UInt, 0);
+        clearMask.enableRandomWrite = true;
+        clearMaskId = Shader.PropertyToID("ClearMask");
     }
 
     public void PreRender()
@@ -41,7 +42,7 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
 
         // set buffers for rendering
         Graphics.SetRandomWriteTarget(1, fragmentBuffer);
-        Graphics.SetRandomWriteTarget(2, clearBuffer);
+        Graphics.SetRandomWriteTarget(2, clearMask);
     }
 
     public void Render(RenderTexture source, RenderTexture destination)
@@ -52,8 +53,9 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
         Graphics.ClearRandomWriteTargets();
         // blend linked list
         mlabMaterial.SetBuffer(fragmentBufferId, fragmentBuffer);
-        mlabMaterial.SetBuffer(clearBufferId, clearBuffer);
+        Graphics.SetRandomWriteTarget(2, clearMask);
         Graphics.Blit(source, destination, mlabMaterial);
+        Graphics.ClearRandomWriteTargets();
     }
 
 #if UNITY_POST_PROCESSING_STACK_V2
@@ -65,14 +67,15 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
         context.command.ClearRandomWriteTargets();
         // blend linked list
         mlabMaterial.SetBuffer(fragmentBufferId, fragmentBuffer);
-        mlabMaterial.SetBuffer(clearBufferId, clearBuffer);
+        context.command.SetRandomWriteTarget(2, clearMask);
         context.command.Blit(context.source, context.destination, mlabMaterial);
+        context.command.ClearRandomWriteTargets();
     }
 #endif
 
     public void Release()
     {
         fragmentBuffer?.Release();
-        clearBuffer?.Release();
+        clearMask?.Release();
     }
 }

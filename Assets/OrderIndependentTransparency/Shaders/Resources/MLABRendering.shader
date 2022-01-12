@@ -1,4 +1,4 @@
-﻿Shader "Hidden/MLABRendering"
+Shader "Hidden/MLABRendering"
 {
 	Properties{
 		_MainTex("BackgroundTex", 2D) = "white" {}
@@ -34,7 +34,7 @@
 			};
 
 			StructuredBuffer<FragmentBuffer_STRUCT> FragmentBuffer : register(t0);
-			RWByteAddressBuffer ClearBuffer : register(u2);
+			RWTexture2D<uint> ClearMask : register(u2);
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
@@ -56,12 +56,12 @@
 				// Fetch offset of first fragment for current pixel
 				uint uStartOffsetAddress;
 #if POST_PROCESSING
-				uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				uStartOffsetAddress = _ScreenParams.x * (i.vertex.y - 0.5) + (i.vertex.x - 0.5);
 #else
-				uStartOffsetAddress = 4 * ((_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				uStartOffsetAddress = _ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5) + (i.vertex.x - 0.5);
 #endif
 
-				if (ClearBuffer.Load(uStartOffsetAddress) > 0) {
+				if (ClearMask[i.vertex.xy] > 0) {
 					// Rendering pixels
 					for (int k = 0; k < MAX_SORTED_PIXELS; k++)
 					{
@@ -74,7 +74,7 @@
 				}
 
 				// clear buffer mask
-				ClearBuffer.Store(uStartOffsetAddress, 0);
+				ClearMask[i.vertex.xy] = 0;
 
 				return col;
 			}
