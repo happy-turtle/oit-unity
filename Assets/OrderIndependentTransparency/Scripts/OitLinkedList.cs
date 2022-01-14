@@ -17,10 +17,8 @@ public class OitLinkedList : IOrderIndependentTransparency
     public OitLinkedList(int listSizeMultiplier, bool postProcess = false)
     {
         linkedListMaterial = new Material(Shader.Find("Hidden/LinkedListRendering"));
-        if (postProcess)
-        {
-            linkedListMaterial.EnableKeyword("POST_PROCESSING");
-        }
+        linkedListMaterial.EnableKeyword(postProcess ? "POST_PROCESSING" : "BUILT_IN");
+        linkedListMaterial.EnableKeyword("LINKED_LIST");
         int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
         int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
 

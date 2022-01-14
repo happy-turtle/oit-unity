@@ -1,6 +1,6 @@
 // Unity built-in shader source. Copyright (c) 2016 Unity Technologies. MIT license (see license.txt)
 
-Shader "OrderIndependentTransparency/MLAB/Standard"
+Shader "OrderIndependentTransparency/Standard"
 {
     Properties
     {
@@ -92,8 +92,10 @@ Shader "OrderIndependentTransparency/MLAB/Standard"
             #pragma vertex vertBase
             #pragma fragment fragBase
 			#pragma require randomwrite
-			// #pragma enable_d3d11_debug_symbols
-            #include "MLABStandardCore.cginc"
+			#pragma enable_d3d11_debug_symbols
+			#pragma multi_compile_fragment MLAB LINKED_LIST
+            
+            #include "OitStandardCoreForward.cginc"
 
             ENDCG
         }

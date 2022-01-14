@@ -11,7 +11,11 @@
 
 #if UNITY_STANDARD_SIMPLE
     #include "UnityStandardCoreForwardSimple.cginc"
+#if MLAB
     #include "MLABCreation.cginc"
+#else
+    #include "LinkedListCreation.cginc"
+#endif
     VertexOutputBaseSimple vertBase (VertexInput v) { return vertForwardBaseSimple(v); }
     VertexOutputForwardAddSimple vertAdd (VertexInput v) { return vertForwardAddSimple(v); }
     [earlydepthstencil]
@@ -30,7 +34,11 @@
     }
 #else
     #include "UnityStandardCore.cginc"
+#if MLAB
     #include "MLABCreation.cginc"
+#else
+    #include "LinkedListCreation.cginc"
+#endif
     VertexOutputForwardBase vertBase (VertexInput v) { return vertForwardBase(v); }
     VertexOutputForwardAdd vertAdd (VertexInput v) { return vertForwardAdd(v); }
     [earlydepthstencil]

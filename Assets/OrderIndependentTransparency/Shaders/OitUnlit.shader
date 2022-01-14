@@ -1,4 +1,4 @@
-﻿Shader "OrderIndependentTransparency/Legacy/LinkedListUnlit"
+﻿Shader "OrderIndependentTransparency/Unlit"
 {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
@@ -20,9 +20,14 @@
 			#pragma target 5.0
 			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
+			#pragma multi_compile_fragment MLAB LINKED_LIST
 
 			#include "UnityCG.cginc"	
+#if MLAB
+    		#include "MLABCreation.cginc"
+#else
     		#include "LinkedListCreation.cginc"
+#endif
 
 			sampler2D _MainTex;
             float4 _MainTex_ST;
