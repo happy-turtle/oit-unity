@@ -26,24 +26,21 @@ void createFragmentEntry(float4 col, float3 pos, uint uCoverage) {
     Element.pixelColor = PackRGBA(col);
     Element.uDepthCoverage = PackDepthCoverage(Linear01Depth(pos.z), uCoverage);
 
-    // if (ClearMask[pos.xy] == 0) {
+    if (ClearMask[pos.xy] == 0) {
         FragmentBuffer[uStartOffsetAddress] = Element;
         ClearMask[pos.xy] = 1;
-    // } else {
-    //     //Sort pixels in depth
-    //     //with insertion sort
-    //     FragmentBuffer_STRUCT temp, merge;
-    //     for (int i = 0; i < MAX_SORTED_PIXELS; i++)
-    //     {
-    //         if (Linear01Depth(pos.z) > UnpackDepth(FragmentBuffer[uStartOffsetAddress + i].uDepthCoverage))
-    //         {
-    //             FragmentBuffer_STRUCT temp = FragmentBuffer[uStartOffsetAddress + i];
-    //             FragmentBuffer[uStartOffsetAddress + i] = Element;
-    //             Element = temp;
-    //         }
-    //     }
-    // //TODO: merge
-    // }
+    } else {
+        //Sort pixels in depth
+        //with insertion sort
+        for (int i = 0; i < MAX_SORTED_PIXELS; i++)
+        {
+            if (Linear01Depth(pos.z) < UnpackDepth(FragmentBuffer[uStartOffsetAddress + i].uDepthCoverage))
+            {
+                FragmentBuffer[uStartOffsetAddress + i] = Element;
+            }
+        }
+        //TODO: merge
+    }
 
 }
 
