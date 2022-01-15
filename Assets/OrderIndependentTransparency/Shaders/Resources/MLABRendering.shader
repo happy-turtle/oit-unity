@@ -56,9 +56,9 @@ Shader "Hidden/MLABRendering"
 				// Fetch offset of first fragment for current pixel
 				uint uStartOffsetAddress;
 #if POST_PROCESSING
-				uStartOffsetAddress = _ScreenParams.x * (i.vertex.y - 0.5) + (i.vertex.x - 0.5);
+				uStartOffsetAddress = 4 * (_ScreenParams.x * (i.vertex.y - 0.5) + (i.vertex.x - 0.5));
 #else
-				uStartOffsetAddress = _ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5) + (i.vertex.x - 0.5);
+				uStartOffsetAddress = 4 * (_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5) + (i.vertex.x - 0.5));
 #endif
 
 				if (ClearMask[i.vertex.xy] > 0) {

@@ -19,7 +19,7 @@ void createFragmentEntry(float4 col, float3 pos, uint uCoverage) {
     uint uPixelCount = FLBuffer.IncrementCounter();
 
     //calculate bufferAddress
-    uint uStartOffsetAddress = _ScreenParams.x * (pos.y - 0.5) + (pos.x - 0.5);
+    uint uStartOffsetAddress = 4 * (_ScreenParams.x * (pos.y - 0.5) + (pos.x - 0.5));
     uint uOldStartOffset;
     StartOffsetBuffer.InterlockedExchange(uStartOffsetAddress, uPixelCount, uOldStartOffset);
 

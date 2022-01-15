@@ -1,4 +1,4 @@
-﻿Shader "Hidden/LinkedListRendering"
+Shader "Hidden/LinkedListRendering"
 {
 	Properties{
 		_MainTex("BackgroundTex", 2D) = "white" {}
@@ -57,9 +57,9 @@
 				// Fetch offset of first fragment for current pixel
 				uint uStartOffsetAddress;
 #if POST_PROCESSING
-				uStartOffsetAddress = _ScreenParams.x * (i.vertex.y - 0.5) + (i.vertex.x - 0.5);
+				uStartOffsetAddress = 4 * (_ScreenParams.x * (i.vertex.y - 0.5) + (i.vertex.x - 0.5));
 #else
-				uStartOffsetAddress = _ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5) + (i.vertex.x - 0.5);
+				uStartOffsetAddress = 4 * (_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5) + (i.vertex.x - 0.5));
 #endif
 				uint uOffset = StartOffsetBuffer.Load(uStartOffsetAddress);
 
