@@ -28,7 +28,7 @@ public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostPr
     public override void Init()
     {
         base.Init();
-        if (settings.oitMode == OitMode.MLAB)
+        if (settings.oitMode.value == OitMode.MLAB)
         {
             orderIndependentTransparency = new OitMultiLayerAlphaBlending(settings.listSizeMultiplier, true);
         }

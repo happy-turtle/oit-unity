@@ -17,7 +17,8 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
     {
         mlabMaterial = new Material(Shader.Find("Hidden/MLABRendering"));
         mlabMaterial.EnableKeyword(postProcess ? "POST_PROCESSING" : "BUILT_IN");
-        mlabMaterial.EnableKeyword("MLAB");
+        Shader.DisableKeyword("LINKED_LIST");
+        Shader.EnableKeyword("MLAB");
         int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
         int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
 
