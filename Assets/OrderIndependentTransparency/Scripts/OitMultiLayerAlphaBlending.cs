@@ -30,7 +30,7 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
         fragmentBuffer = new ComputeBuffer(bufferSize, bufferStride);
         fragmentBufferId = Shader.PropertyToID("FragmentBuffer");
 
-        clearMask = new RenderTexture(bufferWidth, bufferHeight, 0, UnityEngine.Experimental.Rendering.GraphicsFormat.R32_UInt, 0);
+        clearMask = new RenderTexture(bufferWidth, bufferHeight, 0, UnityEngine.Experimental.Rendering.GraphicsFormat.R8_UInt, 0);
         clearMask.enableRandomWrite = true;
         clearMaskId = Shader.PropertyToID("ClearMask");
     }
