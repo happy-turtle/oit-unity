@@ -12,8 +12,9 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
     private int bufferSize;
     private int bufferStride;
     private Material mlabMaterial;
+    private const int MAX_SORTED_PIXELS = 8;
 
-    public OitMultiLayerAlphaBlending(int listSizeMultiplier, bool postProcess = false)
+    public OitMultiLayerAlphaBlending(bool postProcess = false)
     {
         mlabMaterial = new Material(Shader.Find("Hidden/MLABRendering"));
         mlabMaterial.EnableKeyword(postProcess ? "POST_PROCESSING" : "BUILT_IN");
@@ -22,7 +23,7 @@ public class OitMultiLayerAlphaBlending : IOrderIndependentTransparency
         int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
         int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
 
-        int bufferSize = bufferWidth * bufferHeight * listSizeMultiplier;
+        int bufferSize = bufferWidth * bufferHeight * MAX_SORTED_PIXELS;
         int bufferStride = sizeof(uint) * 2;
         //the structured buffer contains all information about the transparent fragments
         //this is the per pixel linked list on the gpu

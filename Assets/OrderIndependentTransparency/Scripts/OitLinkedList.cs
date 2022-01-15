@@ -13,8 +13,9 @@ public class OitLinkedList : IOrderIndependentTransparency
     private int bufferStride;
     private Material linkedListMaterial;
     private uint[] resetTable;
+    private const int MAX_SORTED_PIXELS = 8;
 
-    public OitLinkedList(int listSizeMultiplier, bool postProcess = false)
+    public OitLinkedList(bool postProcess = false)
     {
         linkedListMaterial = new Material(Shader.Find("Hidden/LinkedListRendering"));
         linkedListMaterial.EnableKeyword(postProcess ? "POST_PROCESSING" : "BUILT_IN");
@@ -23,7 +24,7 @@ public class OitLinkedList : IOrderIndependentTransparency
         int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
         int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
 
-        int bufferSize = bufferWidth * bufferHeight * listSizeMultiplier;
+        int bufferSize = bufferWidth * bufferHeight * MAX_SORTED_PIXELS;
         int bufferStride = sizeof(uint) * 3;
         //the structured buffer contains all information about the transparent fragments
         //this is the per pixel linked list on the gpu

@@ -18,11 +18,11 @@ public class OitCameraComponent : MonoBehaviour
     {
         if (oitMode == OitMode.MLAB)
         {
-            orderIndependentTransparency = new OitMultiLayerAlphaBlending(listSizeMultiplier);
+            orderIndependentTransparency = new OitMultiLayerAlphaBlending();
         }
         else
         {
-            orderIndependentTransparency = new OitLinkedList(listSizeMultiplier);
+            orderIndependentTransparency = new OitLinkedList();
         }
     }
 

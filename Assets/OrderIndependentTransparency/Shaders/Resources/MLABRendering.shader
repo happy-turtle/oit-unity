@@ -13,7 +13,6 @@ Shader "Hidden/MLABRendering"
 			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
 			#pragma multi_compile_fragment BUILT_IN POST_PROCESSING
-			#define MAX_SORTED_PIXELS 8
 
 			#include "UnityCG.cginc"
 			#include "../OitUtils.cginc"

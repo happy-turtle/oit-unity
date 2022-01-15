@@ -3,7 +3,6 @@
 
 #include "UnityCG.cginc"
 #include "OitUtils.cginc"
-#define MAX_SORTED_PIXELS 8
 
 struct FragmentBuffer_STRUCT
 {

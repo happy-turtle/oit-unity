@@ -12,10 +12,6 @@ public sealed class OitModeParameter : ParameterOverride<OitMode>
 [PostProcess(typeof(OitPostProcessRenderer), PostProcessEvent.BeforeStack, "OrderIndependentTransparency")]
 public sealed class OitPostProcess : PostProcessEffectSettings
 {
-    [Tooltip("This can be increased if objects disappear or block artifacts appear. A lower value keeps the used video memory at a minimum.")]
-    [Range(1f, 24f)]
-    public IntParameter listSizeMultiplier = new IntParameter { value = 1 };
-
     [Tooltip("Use Multi-Layer Alpha Blending if your graphics target supports shader model 5.1 and the Rasterizer Order Views (ROV) feature." +
                 "For legacy shader model 5.0 support use the linked list mode.")]
     public OitModeParameter oitMode = new OitModeParameter { value = OitMode.MLAB };
@@ -30,11 +26,11 @@ public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostPr
         base.Init();
         if (settings.oitMode.value == OitMode.MLAB)
         {
-            orderIndependentTransparency = new OitMultiLayerAlphaBlending(settings.listSizeMultiplier, true);
+            orderIndependentTransparency = new OitMultiLayerAlphaBlending(true);
         }
         else
         {
-            orderIndependentTransparency = new OitLinkedList(settings.listSizeMultiplier, true);
+            orderIndependentTransparency = new OitLinkedList(true);
         }
 
         Camera.onPreRender += PreRender;
