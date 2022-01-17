@@ -26,7 +26,7 @@ I recommend using this with the package Post-Processing Stack v2, because then t
 
 ### Without Post-Processing Stack v2
 
-If you don't want to use the post-processing stack just skip the first step and instead add the component `OrderIndependentTransparency` to a camera. Transparent objects won't render in the editor scene view using this component.
+If you don't want to use the post-processing stack just skip the first step and instead add the component `OitCameraComponent` to a camera. Transparent objects won't render in the editor scene view using this component.
 
 ## Notes
 
