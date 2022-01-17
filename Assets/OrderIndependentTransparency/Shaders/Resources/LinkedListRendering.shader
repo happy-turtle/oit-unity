@@ -1,4 +1,4 @@
-﻿Shader "Hidden/LinkedListRendering"
+Shader "Hidden/LinkedListRendering"
 {
 	Properties{
 		_MainTex("BackgroundTex", 2D) = "white" {}
@@ -13,7 +13,6 @@
 			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
 			#pragma multi_compile_fragment BUILT_IN POST_PROCESSING
-			#define MAX_SORTED_PIXELS 8
 
 			#include "UnityCG.cginc"
 			#include "../OitUtils.cginc"
@@ -57,9 +56,9 @@
 				// Fetch offset of first fragment for current pixel
 				uint uStartOffsetAddress;
 #if POST_PROCESSING
-				uStartOffsetAddress = 4 * ((_ScreenParams.x * (i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				uStartOffsetAddress = 4 * (_ScreenParams.x * (i.vertex.y - 0.5) + (i.vertex.x - 0.5));
 #else
-				uStartOffsetAddress = 4 * ((_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5)) + (i.vertex.x - 0.5));
+				uStartOffsetAddress = 4 * (_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5) + (i.vertex.x - 0.5));
 #endif
 				uint uOffset = StartOffsetBuffer.Load(uStartOffsetAddress);
 

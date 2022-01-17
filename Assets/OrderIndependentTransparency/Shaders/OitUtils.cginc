@@ -1,6 +1,9 @@
 #ifndef OIT_UTILS_INCLUDED
 #define OIT_UTILS_INCLUDED
 
+// Unity's HLSL seems not to support dynamic array size, so we can only set this before compilation
+#define MAX_SORTED_PIXELS 8
+
 //https://github.com/GameTechDev/AOIT-Update/blob/master/OIT_DX11/AOIT%20Technique/AOIT.hlsl
 // UnpackRGBA takes a uint value and converts it to a float4
 float4 UnpackRGBA(uint packedInput)

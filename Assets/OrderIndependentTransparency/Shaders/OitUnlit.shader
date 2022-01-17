@@ -1,4 +1,4 @@
-﻿Shader "OrderIndependentTransparency/Unlit"
+Shader "OrderIndependentTransparency/Unlit"
 {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
@@ -22,7 +22,7 @@
 			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"	
-    		#include "OitCreate.cginc"
+    		#include "LinkedListCreation.cginc"
 
 			sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -53,7 +53,7 @@
 				// no lighting
 				float4 col = tex2D(_MainTex, i.uv) * _Color;
 
-				createLinkedListEntry(col, i.vertex.xyz, _ScreenParams.xy, uCoverage);
+				createFragmentEntry(col, i.vertex.xyz, uCoverage);
 
 				return col;
 			}

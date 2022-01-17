@@ -11,40 +11,40 @@
 
 #if UNITY_STANDARD_SIMPLE
     #include "UnityStandardCoreForwardSimple.cginc"
-    #include "OitCreate.cginc"
+    #include "LinkedListCreation.cginc"
     VertexOutputBaseSimple vertBase (VertexInput v) { return vertForwardBaseSimple(v); }
     VertexOutputForwardAddSimple vertAdd (VertexInput v) { return vertForwardAddSimple(v); }
     [earlydepthstencil]
     half4 fragBase (VertexOutputBaseSimple i, uint uCoverage : SV_COVERAGE) : SV_Target 
     { 
         float4 col = fragForwardBaseSimpleInternal(i); 
-        createLinkedListEntry(col, i.pos.xyz, _ScreenParams.xy, uCoverage);
+        createFragmentEntry(col, i.pos.xyz, uCoverage);
         return col;
     }
     [earlydepthstencil]
     half4 fragAdd (VertexOutputForwardAddSimple i, uint uCoverage : SV_COVERAGE) : SV_Target 
     {
         col = fragForwardAddSimpleInternal(i); 
-        createLinkedListEntry(col, i.pos.xyz, _ScreenParams.xy, uCoverage);
+        createFragmentEntry(col, i.pos.xyz, uCoverage);
         return col;
     }
 #else
     #include "UnityStandardCore.cginc"
-    #include "OitCreate.cginc"
+    #include "LinkedListCreation.cginc"
     VertexOutputForwardBase vertBase (VertexInput v) { return vertForwardBase(v); }
     VertexOutputForwardAdd vertAdd (VertexInput v) { return vertForwardAdd(v); }
     [earlydepthstencil]
     half4 fragBase (VertexOutputForwardBase i, uint uCoverage : SV_COVERAGE) : SV_Target 
     { 
         float4 col = fragForwardBaseInternal(i); 
-        createLinkedListEntry(col, i.pos.xyz, _ScreenParams.xy, uCoverage);
+        createFragmentEntry(col, i.pos.xyz, uCoverage);
         return col;
     }
     [earlydepthstencil]
     half4 fragAdd (VertexOutputForwardAdd i, uint uCoverage : SV_COVERAGE) : SV_Target 
     { 
         float4 col = fragForwardAddInternal(i); 
-        createLinkedListEntry(col, i.pos.xyz, _ScreenParams.xy, uCoverage);
+        createFragmentEntry(col, i.pos.xyz, uCoverage);
         return col;
     }
 #endif
