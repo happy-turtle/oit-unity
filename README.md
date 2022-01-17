@@ -4,10 +4,10 @@
 
 ---
 
-![Animation](https://user-images.githubusercontent.com/18415215/139123916-2dce99a6-aefe-437a-9caf-cb105015e654.gif)
-![Animation2](https://user-images.githubusercontent.com/18415215/139123918-600efbe8-96ab-475e-be68-51e2e026d434.gif)
+![OIT](Screenshots/oit.png)
+![Standard](Screenshots/Standard.png)
 
-Both animations show three stacked transparent cubes. The first one with this implementation of order-independent transparency and correct color blending. The second one is rendered with the standard shader.
+Both images show three stacked transparent cubes. The first one with this implementation of order-independent transparency and correct color blending. The second one is rendered with the standard shader.
 
 ## Description
 
