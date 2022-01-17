@@ -5,7 +5,7 @@
 ---
 
 ![OIT](Screenshots/oit.png)
-![Standard](Screenshots/Standard.png)
+![Standard](Screenshots/standard.png)
 
 Both images show three stacked transparent cubes. The first one with this implementation of order-independent transparency and correct color blending. The second one is rendered with the standard shader.
 
