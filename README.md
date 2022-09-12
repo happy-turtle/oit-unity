@@ -30,7 +30,8 @@ If you don't want to use the post-processing stack just skip the first step and 
 
 ## Notes
 
-- Other platforms than Windows might not work as expected as this is using more unconventianol HLSL features. Let me know of your experience and if you got this running on different platforms.
+- Feel free to open a [discussion](https://github.com/happy-turtle/oit-unity/discussions) or an issue if you have ideas and improvements in mind
+- Other platforms than Windows might not work as expected as this is using more unconventianol HLSL features. [Let me know of your experience](https://github.com/happy-turtle/oit-unity/discussions) and if you got this running on different platforms.
 - Note that this project currently does **not** include implementations for the Universal Render-Pipeline and the High-Definition Render-Pipeline.
 
 ## References
