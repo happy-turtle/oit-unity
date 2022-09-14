@@ -36,8 +36,6 @@ If you don't want to use the post-processing stack just skip the first step and 
 
 ## Platform support :construction:
 
-This is about if a certain platform does support this package. Additional graphics backends can *not* somehow be supported by this package in the future, it's just technically impossible.
-
 | Platform | Graphics Backend | Supported |
 | :------- | :--------------: | :-------: |
 | |
@@ -62,7 +60,7 @@ This is about if a certain platform does support this package. Additional graphi
 
 ## Notes
 
-- Other platforms than Windows might not work as expected as this is using more unconventional HLSL features. [Let me know of your experience](https://github.com/happy-turtle/oit-unity/discussions) and if you got this running on different platforms.
+- Other platforms than Windows might not work as expected as this is using more unconventianol HLSL features. [Let me know of your experience](https://github.com/happy-turtle/oit-unity/discussions) and if you got this running on different platforms.
 - Note that this project currently does **not** include implementations for the Universal Render-Pipeline and the High-Definition Render-Pipeline.
 
 ## References

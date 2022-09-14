@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.happy-turtle.oit-unity": {
+      "version": "file:com.happy-turtle.oit-unity",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.cinemachine": {
       "version": "2.9.1",
       "depth": 0,
