@@ -28,9 +28,38 @@ I recommend using this with the package Post-Processing Stack v2, because then t
 
 If you don't want to use the post-processing stack just skip the first step and instead add the component `OitCameraComponent` to a camera. Transparent objects won't render in the editor scene view using this component.
 
+## Contributions
+
+- I consider this an open project. If you are interested in this topic or want to improve something please discuss, contribute and feel at home! :house:
+- Feel free to open a [discussion](https://github.com/happy-turtle/oit-unity/discussions) or an issue if you have ideas and improvements in mind.
+- Pull requests are very welcome, see the [issues section](https://github.com/happy-turtle/oit-unity/issues) for open tasks that would improve this project.
+
+## Platform support :construction:
+
+| Platform | Graphics Backend | Supported |
+| :------- | :--------------: | :-------: |
+| |
+| Windows | DirectX 12 | :white_check_mark: |
+|         | DirectX 11 | :white_check_mark: |
+|         | ...        | ...                |
+| |
+| Linux | Vulkan      | :question: |
+|       | OpenGL >4.3 | :question: |
+|       | OpenGL <4.3 | :x: |
+|       | ...         | ... |
+| |
+| Mac | Metal | :question: |
+|     | ... | ... |
+| |
+| Android | Vulkan | :question: |
+|   | OpenGL >4.3 | :question: |
+|   | OpenGL <4.3 | :x: |
+| |
+| WebGPU | - | :question: |
+| WebGL | - | :x: |
+
 ## Notes
 
-- Feel free to open a [discussion](https://github.com/happy-turtle/oit-unity/discussions) or an issue if you have ideas and improvements in mind
 - Other platforms than Windows might not work as expected as this is using more unconventianol HLSL features. [Let me know of your experience](https://github.com/happy-turtle/oit-unity/discussions) and if you got this running on different platforms.
 - Note that this project currently does **not** include implementations for the Universal Render-Pipeline and the High-Definition Render-Pipeline.
 
