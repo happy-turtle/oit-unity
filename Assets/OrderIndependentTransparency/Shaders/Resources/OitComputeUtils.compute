@@ -1,0 +1,10 @@
+#pragma kernel ClearStartOffsetBuffer
+
+RWStructuredBuffer<uint> StartOffsetBuffer;
+uint IndexOffset = 0;
+
+[numthreads(64,1,1)]
+void ClearStartOffsetBuffer (uint3 id : SV_DispatchThreadID)
+{
+    StartOffsetBuffer[id.x+IndexOffset] = 0;
+}

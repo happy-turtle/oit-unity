@@ -12,8 +12,11 @@ public class OitLinkedList : IOrderIndependentTransparency
     private int bufferSize;
     private int bufferStride;
     private Material linkedListMaterial;
-    private uint[] resetTable;
     private const int MAX_SORTED_PIXELS = 8;
+
+    private ComputeShader OitComputeUtils;
+    private int clearStartOffsetBufferKernel;
+    private int dispatchHeadSize = 0;
 
     public OitLinkedList(bool postProcess = false)
     {
@@ -35,16 +38,25 @@ public class OitLinkedList : IOrderIndependentTransparency
         startOffsetBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Raw, bufferSizeHead, bufferStrideHead);
         startOffsetBufferId = Shader.PropertyToID("StartOffsetBuffer");
 
-        resetTable = new uint[bufferSizeHead];
+        OitComputeUtils = Resources.Load<ComputeShader>("OitComputeUtils");
+        clearStartOffsetBufferKernel = OitComputeUtils.FindKernel("ClearStartOffsetBuffer");
+        OitComputeUtils.SetBuffer(clearStartOffsetBufferKernel, startOffsetBufferId, startOffsetBuffer);
+        dispatchHeadSize = Mathf.CeilToInt(bufferSizeHead / 64);
+        if (dispatchHeadSize > ushort.MaxValue)
+        {
+            dispatchHeadSize = ushort.MaxValue;
+            Debug.LogError("Too Large Screen Size");
+        }
+
     }
 
     public void PreRender()
     {
-        if (fragmentLinkBuffer == null || startOffsetBuffer == null || startOffsetBuffer.count != resetTable.Length)
+        if (fragmentLinkBuffer == null || startOffsetBuffer == null || dispatchHeadSize == 0)
             return;
 
         //reset StartOffsetBuffer to zeros
-        startOffsetBuffer.SetData(resetTable);
+        OitComputeUtils.Dispatch(clearStartOffsetBufferKernel, dispatchHeadSize, 1, 1);
 
         // set buffers for rendering
         Graphics.SetRandomWriteTarget(1, fragmentLinkBuffer);
