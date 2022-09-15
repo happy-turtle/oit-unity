@@ -1,10 +1,12 @@
 #pragma kernel ClearStartOffsetBuffer
 
 RWStructuredBuffer<uint> StartOffsetBuffer;
-uint IndexOffset = 0;
+uint bufferSizeHead ;
 
 [numthreads(64,1,1)]
 void ClearStartOffsetBuffer (uint3 id : SV_DispatchThreadID)
 {
-    StartOffsetBuffer[id.x+IndexOffset] = 0;
+    for(uint i=0;i<bufferSizeHead;i+=4194240){
+        StartOffsetBuffer[id.x + i] = 0;
+    }
 }

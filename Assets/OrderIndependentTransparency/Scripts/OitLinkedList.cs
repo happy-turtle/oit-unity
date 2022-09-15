@@ -38,16 +38,12 @@ public class OitLinkedList : IOrderIndependentTransparency
         startOffsetBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Raw, bufferSizeHead, bufferStrideHead);
         startOffsetBufferId = Shader.PropertyToID("StartOffsetBuffer");
 
+
         OitComputeUtils = Resources.Load<ComputeShader>("OitComputeUtils");
         clearStartOffsetBufferKernel = OitComputeUtils.FindKernel("ClearStartOffsetBuffer");
         OitComputeUtils.SetBuffer(clearStartOffsetBufferKernel, startOffsetBufferId, startOffsetBuffer);
-        dispatchHeadSize = Mathf.CeilToInt(bufferSizeHead / 64);
-        if (dispatchHeadSize > ushort.MaxValue)
-        {
-            dispatchHeadSize = ushort.MaxValue;
-            Debug.LogError("Too Large Screen Size");
-        }
-
+        OitComputeUtils.SetInt("bufferSizeHead", bufferSizeHead);
+        dispatchHeadSize = Mathf.Min(Mathf.CeilToInt(bufferSizeHead / 64.0f),65535);
     }
 
     public void PreRender()

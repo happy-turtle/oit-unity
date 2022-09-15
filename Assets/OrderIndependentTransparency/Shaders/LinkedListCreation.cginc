@@ -16,7 +16,7 @@ RWByteAddressBuffer StartOffsetBuffer : register(u2);
 
 void createFragmentEntry(float4 col, float3 pos, uint uCoverage) {
     //Retrieve current Pixel count and increase counter
-    uint uPixelCount = FLBuffer.IncrementCounter();
+    uint uPixelCount = FLBuffer.IncrementCounter()+1;
 
     //calculate bufferAddress
     uint uStartOffsetAddress = 4 * (_ScreenParams.x * (pos.y - 0.5) + (pos.x - 0.5));
