@@ -16,6 +16,10 @@ This is a feature requiring Shader Model 5.0 with ComputeBuffers, see the [Unity
 For reference a [presentation by Holger Gruen and Nicolas Thibieroz](https://de.slideshare.net/hgruen/oit-and-indirect-illumination-using-dx11-linked-lists)
 was used. The code is based on their suggestions.
 
+## Installation
+
+You can easily install this package with the Unity Package Manager using the project's git url. You can look at [Unity's guide](https://docs.unity3d.com/Manual/upm-ui-giturl.html) for detailed instructions.
+
 ## Usage
 
 I recommend using this with the package Post-Processing Stack v2, because then transparent objects will be rendered in Scene View as well. Follow these steps:

@@ -1,0 +1,24 @@
+{
+  "name": "com.happy-turtle.oit-unity",
+  "version": "2.0.0",
+  "displayName": "Order-independent Transparency",
+  "description": "This is an implementation of order-independent transparency in Unity's Built-In Pipeline. It uses Per-Pixel Linked Lists, implemented with RWStructuredBuffers. This is a feature requiring Shader Model 5.0 with ComputeBuffers, see the Unity Manual for supported platforms.",
+  "unity": "2020.3",
+  "author": {
+    "name": "Till Davin",
+    "email": "code@tilldavin.de"
+  },
+  "dependencies": {},
+  "samples": [
+    {
+      "displayName": "Camera Component Demo",
+      "description": "Order-independent transparency using a camera component",
+      "path": "Samples~/CameraComponentDemo"
+    },
+    {
+      "displayName": "Post Process Demo",
+      "description": "Order-independent transparency using a post processing effect",
+      "path": "Samples~/PostProcessDemo"
+    }
+  ]
+}
