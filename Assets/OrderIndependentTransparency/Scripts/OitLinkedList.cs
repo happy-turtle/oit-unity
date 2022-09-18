@@ -12,8 +12,11 @@ public class OitLinkedList : IOrderIndependentTransparency
     private int bufferSize;
     private int bufferStride;
     private Material linkedListMaterial;
-    private uint[] resetTable;
     private const int MAX_SORTED_PIXELS = 8;
+
+    private ComputeShader oitComputeUtils;
+    private int clearStartOffsetBufferKernel;
+    private int dispatchGroupSizeX, dispatchGroupSizeY;
 
     public OitLinkedList(bool postProcess = false)
     {
@@ -35,16 +38,21 @@ public class OitLinkedList : IOrderIndependentTransparency
         startOffsetBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Raw, bufferSizeHead, bufferStrideHead);
         startOffsetBufferId = Shader.PropertyToID("StartOffsetBuffer");
 
-        resetTable = new uint[bufferSizeHead];
+        oitComputeUtils = Resources.Load<ComputeShader>("OitComputeUtils");
+        clearStartOffsetBufferKernel = oitComputeUtils.FindKernel("ClearStartOffsetBuffer");
+        oitComputeUtils.SetBuffer(clearStartOffsetBufferKernel, startOffsetBufferId, startOffsetBuffer);
+        oitComputeUtils.SetInt("bufferWidth", bufferWidth);
+        dispatchGroupSizeX = Mathf.CeilToInt(bufferWidth / 32.0f);
+        dispatchGroupSizeY = Mathf.CeilToInt(bufferHeight / 32.0f);
     }
 
     public void PreRender()
     {
-        if (fragmentLinkBuffer == null || startOffsetBuffer == null || startOffsetBuffer.count != resetTable.Length)
+        if (fragmentLinkBuffer == null || startOffsetBuffer == null)
             return;
 
         //reset StartOffsetBuffer to zeros
-        startOffsetBuffer.SetData(resetTable);
+        oitComputeUtils.Dispatch(clearStartOffsetBufferKernel, dispatchGroupSizeX, dispatchGroupSizeY, 1);
 
         // set buffers for rendering
         Graphics.SetRandomWriteTarget(1, fragmentLinkBuffer);
