@@ -1,12 +1,10 @@
 #pragma kernel ClearStartOffsetBuffer
 
-RWStructuredBuffer<uint> StartOffsetBuffer;
-uint bufferSizeHead ;
+RWByteAddressBuffer StartOffsetBuffer;
+int bufferWidth;
 
-[numthreads(64,1,1)]
-void ClearStartOffsetBuffer (uint3 id : SV_DispatchThreadID)
+[numthreads(32, 32, 1)]
+void ClearStartOffsetBuffer (uint3 id: SV_DispatchThreadID)
 {
-    for(uint i=0;i<bufferSizeHead;i+=4194240){
-        StartOffsetBuffer[id.x + i] = 0;
-    }
+    StartOffsetBuffer.Store(4 * (bufferWidth * id.y + id.x), 0);
 }

@@ -14,9 +14,9 @@ public class OitLinkedList : IOrderIndependentTransparency
     private Material linkedListMaterial;
     private const int MAX_SORTED_PIXELS = 8;
 
-    private ComputeShader OitComputeUtils;
+    private ComputeShader oitComputeUtils;
     private int clearStartOffsetBufferKernel;
-    private int dispatchHeadSize = 0;
+    private int dispatchGroupSizeX, dispatchGroupSizeY;
 
     public OitLinkedList(bool postProcess = false)
     {
@@ -38,21 +38,21 @@ public class OitLinkedList : IOrderIndependentTransparency
         startOffsetBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Raw, bufferSizeHead, bufferStrideHead);
         startOffsetBufferId = Shader.PropertyToID("StartOffsetBuffer");
 
-
-        OitComputeUtils = Resources.Load<ComputeShader>("OitComputeUtils");
-        clearStartOffsetBufferKernel = OitComputeUtils.FindKernel("ClearStartOffsetBuffer");
-        OitComputeUtils.SetBuffer(clearStartOffsetBufferKernel, startOffsetBufferId, startOffsetBuffer);
-        OitComputeUtils.SetInt("bufferSizeHead", bufferSizeHead);
-        dispatchHeadSize = Mathf.Min(Mathf.CeilToInt(bufferSizeHead / 64.0f),65535);
+        oitComputeUtils = Resources.Load<ComputeShader>("OitComputeUtils");
+        clearStartOffsetBufferKernel = oitComputeUtils.FindKernel("ClearStartOffsetBuffer");
+        oitComputeUtils.SetBuffer(clearStartOffsetBufferKernel, startOffsetBufferId, startOffsetBuffer);
+        oitComputeUtils.SetInt("bufferWidth", bufferWidth);
+        dispatchGroupSizeX = Mathf.CeilToInt(bufferWidth / 32.0f);
+        dispatchGroupSizeY = Mathf.CeilToInt(bufferHeight / 32.0f);
     }
 
     public void PreRender()
     {
-        if (fragmentLinkBuffer == null || startOffsetBuffer == null || dispatchHeadSize == 0)
+        if (fragmentLinkBuffer == null || startOffsetBuffer == null)
             return;
 
         //reset StartOffsetBuffer to zeros
-        OitComputeUtils.Dispatch(clearStartOffsetBufferKernel, dispatchHeadSize, 1, 1);
+        oitComputeUtils.Dispatch(clearStartOffsetBufferKernel, dispatchGroupSizeX, dispatchGroupSizeY, 1);
 
         // set buffers for rendering
         Graphics.SetRandomWriteTarget(1, fragmentLinkBuffer);
