@@ -1,13 +1,6 @@
 # Order-independent Transparency in Unity
 
-![Animation2](https://user-images.githubusercontent.com/18415215/139141230-207014ab-57eb-4591-9c90-d8c17db93a30.gif)
-
----
-
-![OIT](Screenshots/oit.png)
-![Standard](Screenshots/standard.png)
-
-Both images show three stacked transparent cubes. The first one with this implementation of order-independent transparency and correct color blending. The second one is rendered with the standard shader.
+![Comparison](Screenshots/Comparison.gif) ![Animation2](https://user-images.githubusercontent.com/18415215/139141230-207014ab-57eb-4591-9c90-d8c17db93a30.gif)
 
 ## Description
 
@@ -38,14 +31,15 @@ If you don't want to use the post-processing stack just skip the first step and 
 - Feel free to open a [discussion](https://github.com/happy-turtle/oit-unity/discussions) or an issue if you have ideas and improvements in mind.
 - Pull requests are very welcome, see the [issues section](https://github.com/happy-turtle/oit-unity/issues) for open tasks that would improve this project.
 
-## Platform support :construction:
+## Platform support (Unity 2021.3.9f1)
 
 | Platform | Graphics Backend | Supported |
 | :------- | :--------------: | :-------: |
 | |
 | Windows | DirectX 12 | :white_check_mark: |
 |         | DirectX 11 | :white_check_mark: |
-|         | ...        | ...                |
+|         | Vulkan        | :x: (no render output)               |
+|         | OpenGLES3      | :x: (GLSL compilation failed) |
 | |
 | Linux | Vulkan      | :question: |
 |       | OpenGL >4.3 | :question: |
@@ -53,13 +47,13 @@ If you don't want to use the post-processing stack just skip the first step and 
 |       | ...         | ... |
 | |
 | Mac | Metal | :question: |
-|     | ... | ... |
+|  | ... | :question: |
+| iOS    | ... | :question: |
 | |
-| Android | Vulkan | :question: |
-|   | OpenGL >4.3 | :question: |
-|   | OpenGL <4.3 | :x: |
+| Android | Vulkan | :x: (no render output) |
+|   | OpenGLES3 | :x: (uses fallback shader) |
 | |
-| WebGPU | - | :question: |
+| WebGPU | - | :crystal_ball: |
 | WebGL | - | :x: |
 
 ## Notes
