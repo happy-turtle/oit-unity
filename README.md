@@ -31,26 +31,25 @@ If you don't want to use the post-processing stack just skip the first step and 
 - Feel free to open a [discussion](https://github.com/happy-turtle/oit-unity/discussions) or an issue if you have ideas and improvements in mind.
 - Pull requests are very welcome, see the [issues section](https://github.com/happy-turtle/oit-unity/issues) for open tasks that would improve this project.
 
-## Platform support (Unity 2021.3.9f1)
+## Platforms tested (Unity 2021.3.9f1)
 
-| Platform | Graphics Backend | Supported |
+| Platform | Graphics Backend | Render output |
 | :------- | :--------------: | :-------: |
 | |
 | Windows | DirectX 12 | :white_check_mark: |
 |         | DirectX 11 | :white_check_mark: |
-|         | Vulkan        | :x: (no render output)               |
+|         | Vulkan        | :x:               |
+|         | OpenGLCore      | :x: |
 |         | OpenGLES3      | :x: (GLSL compilation failed) |
 | |
-| Linux | Vulkan      | :question: |
-|       | OpenGL >4.3 | :question: |
-|       | OpenGL <4.3 | :x: |
-|       | ...         | ... |
+| Linux | Vulkan      | :x: |
+|       | OpenGLCore | :x: |
 | |
 | Mac | Metal | :question: |
-|  | ... | :question: |
-| iOS    | ... | :question: |
+|  | OpenGLCore | :question: |
+| iOS    | Metal | :question: |
 | |
-| Android | Vulkan | :x: (no render output) |
+| Android | Vulkan | :x: |
 |   | OpenGLES3 | :x: (uses fallback shader) |
 | |
 | WebGPU | - | :crystal_ball: |
