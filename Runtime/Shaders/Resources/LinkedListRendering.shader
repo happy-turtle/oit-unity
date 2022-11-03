@@ -29,7 +29,7 @@ Shader "Hidden/LinkedListRendering"
 			struct FragmentAndLinkBuffer_STRUCT
 			{
 				uint pixelColor;
-				uint uDepthCoverage;
+				uint uDepthSampleIdx;
 				uint next;
 			};
 
@@ -71,8 +71,8 @@ Shader "Hidden/LinkedListRendering"
 				{
 					//Retrieve pixel at current offset
 					FragmentAndLinkBuffer_STRUCT Element = FLBuffer[uOffset];
-					uint uCoverage = UnpackCoverage(Element.uDepthCoverage);
-					if (uCoverage & (1 << uSampleIndex))
+					uint uSampleIdx = UnpackSampleIdx(Element.uDepthSampleIdx);
+					if (uSampleIdx == uSampleIndex)
 					{
 						SortedPixels[nNumPixels] = Element;	
 						nNumPixels += 1;
@@ -87,8 +87,8 @@ Shader "Hidden/LinkedListRendering"
 				{
 					for (int j = i + 1; j > 0; j--)
 					{
-						float depth = UnpackDepth(SortedPixels[j].uDepthCoverage);
-						float previousElementDepth = UnpackDepth(SortedPixels[j - 1].uDepthCoverage);
+						float depth = UnpackDepth(SortedPixels[j].uDepthSampleIdx);
+						float previousElementDepth = UnpackDepth(SortedPixels[j - 1].uDepthSampleIdx);
 						if (previousElementDepth < depth)
 						{
 							FragmentAndLinkBuffer_STRUCT temp = SortedPixels[j - 1];
