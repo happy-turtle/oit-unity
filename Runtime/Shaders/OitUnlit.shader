@@ -11,7 +11,7 @@ Shader "OrderIndependentTransparency/Unlit"
 		Pass {
 			ZTest LEqual
 			ZWrite Off
-			// ColorMask 0
+			ColorMask 0
 			Cull Off
 
 			CGPROGRAM
@@ -21,7 +21,7 @@ Shader "OrderIndependentTransparency/Unlit"
 			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
 
-			#include "UnityCG.cginc"	
+			#include "UnityCG.cginc"
     		#include "LinkedListCreation.cginc"
 
 			sampler2D _MainTex;
@@ -49,7 +49,7 @@ Shader "OrderIndependentTransparency/Unlit"
 
 			[earlydepthstencil]
 			float4 frag(v2f i, uint uSampleIdx : SV_SampleIndex) : SV_Target
-			{				
+			{
 				// no lighting
 				float4 col = tex2D(_MainTex, i.uv) * _Color;
 
@@ -60,6 +60,6 @@ Shader "OrderIndependentTransparency/Unlit"
 			ENDCG
 		}
 	}
-	
+
     FallBack "Unlit/Transparent"
 }

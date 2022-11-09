@@ -49,8 +49,8 @@ Shader "Hidden/LinkedListRendering"
 
 			//Pixel function returns a solid color for each point.
 			fixed4 frag(v2f i, uint uSampleIndex : SV_SampleIndex) : SV_Target
-			{			
-				// Retrieve current color from background texture 
+			{
+				// Retrieve current color from background texture
 				float4 col = tex2D(_MainTex, i.uv);
 
 				// Fetch offset of first fragment for current pixel
@@ -69,20 +69,19 @@ Shader "Hidden/LinkedListRendering"
 				int nNumPixels = 0;
 				while (uOffset != 0)
 				{
-					//Retrieve pixel at current offset
+					// Retrieve pixel at current offset
 					FragmentAndLinkBuffer_STRUCT Element = FLBuffer[uOffset];
 					uint uSampleIdx = UnpackSampleIdx(Element.uDepthSampleIdx);
 					if (uSampleIdx == uSampleIndex)
 					{
-						SortedPixels[nNumPixels] = Element;	
+						SortedPixels[nNumPixels] = Element;
 						nNumPixels += 1;
 					}
 
 					uOffset = (nNumPixels >= MAX_SORTED_PIXELS) ? 0 : FLBuffer[uOffset].next;
 				}
 
-				//Sort pixels in depth
-				//with insertion sort
+				// Sort pixels in depth
 				for (int i = 0; i < nNumPixels - 1; i++)
 				{
 					for (int j = i + 1; j > 0; j--)

@@ -27,7 +27,7 @@ uint PackRGBA(float4 unpackedInput)
 }
 
 float UnpackDepth(uint uDepthSampleIdx) {
-	return (float)(uDepthSampleIdx >> 8UL) / (pow(2, 24) - 1);	
+	return (float)(uDepthSampleIdx >> 8UL) / (pow(2, 24) - 1);
 }
 
 uint UnpackSampleIdx(uint uDepthSampleIdx) {
