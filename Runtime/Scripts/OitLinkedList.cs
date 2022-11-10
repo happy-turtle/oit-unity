@@ -45,9 +45,6 @@ public class OitLinkedList : IOrderIndependentTransparency
 
     public void PreRender()
     {
-        if (fragmentLinkBuffer == null || startOffsetBuffer == null)
-            return;
-
         //reset StartOffsetBuffer to zeros
         oitComputeUtils.Dispatch(clearStartOffsetBufferKernel, dispatchGroupSizeX, dispatchGroupSizeY, 1);
 
@@ -58,9 +55,6 @@ public class OitLinkedList : IOrderIndependentTransparency
 
     public void Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest)
     {
-        if (fragmentLinkBuffer == null || startOffsetBuffer == null || linkedListMaterial == null)
-            return;
-
         command.ClearRandomWriteTargets();
         // blend linked list
         linkedListMaterial.SetBuffer(fragmentLinkBufferId, fragmentLinkBuffer);
