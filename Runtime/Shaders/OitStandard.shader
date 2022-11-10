@@ -191,5 +191,4 @@ Shader "OrderIndependentTransparency/Standard"
     }
 
     FallBack "Standard"
-    CustomEditor "StandardShaderGUI"
 }

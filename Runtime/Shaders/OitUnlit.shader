@@ -6,7 +6,7 @@ Shader "OrderIndependentTransparency/Unlit"
 	}
 	SubShader
 	{
-		Tags{ "Queue" = "Transparent" }
+		Tags{ "Queue" = "Geometry" }
 
 		Pass {
 			ZTest LEqual

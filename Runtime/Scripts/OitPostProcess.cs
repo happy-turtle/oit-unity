@@ -9,7 +9,7 @@ public sealed class OitModeParameter : ParameterOverride<OitMode>
 }
 
 [Serializable]
-[PostProcess(typeof(OitPostProcessRenderer), PostProcessEvent.BeforeStack, "OrderIndependentTransparency")]
+[PostProcess(typeof(OitPostProcessRenderer), PostProcessEvent.BeforeTransparent, "OrderIndependentTransparency")]
 public sealed class OitPostProcess : PostProcessEffectSettings
 {
 }
