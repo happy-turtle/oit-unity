@@ -27,42 +27,42 @@ If you don't want to use the post-processing stack just skip the first step and 
 
 ## Contributions
 
-- I consider this an open project. If you are interested in this topic or want to improve something please discuss, contribute and feel at home! :house:
-- Feel free to open a [discussion](https://github.com/happy-turtle/oit-unity/discussions) or an issue if you have ideas and improvements in mind.
-- Pull requests are very welcome, see the [issues section](https://github.com/happy-turtle/oit-unity/issues) for open tasks that would improve this project.
+-   I consider this an open project. If you are interested in this topic or want to improve something please discuss, contribute and feel at home! :house:
+-   Feel free to open a [discussion](https://github.com/happy-turtle/oit-unity/discussions) or an issue if you have ideas and improvements in mind.
+-   Pull requests are very welcome, see the [issues section](https://github.com/happy-turtle/oit-unity/issues) for open tasks that would improve this project.
 
 ## Platforms tested (Unity 2021.3.9f1)
 
-| Platform | Graphics Backend | Render output |
-| :------- | :--------------: | :-------: |
-| |
-| Windows | DirectX 12 | :white_check_mark: |
-|         | DirectX 11 | :white_check_mark: |
-|         | Vulkan        | :x:               |
-|         | OpenGLCore      | :x: |
-|         | OpenGLES3      | :x: (GLSL compilation failed) |
-| |
-| Linux | Vulkan      | :x: |
-|       | OpenGLCore | :x: |
-| |
-| Mac | Metal | :question: |
-|  | OpenGLCore | :question: |
-| iOS    | Metal | :question: |
-| |
-| Android | Vulkan | :x: |
-|   | OpenGLES3 | :x: (uses fallback shader) |
-| |
-| WebGPU | - | :crystal_ball: |
-| WebGL | - | :x: |
+| Platform | Graphics Backend |       Render output       |
+| :------- | :--------------: | :-----------------------: |
+|          |
+| Windows  |    DirectX 12    |    :white_check_mark:     |
+|          |    DirectX 11    |    :white_check_mark:     |
+|          |      Vulkan      |  :ok: (render artifacts)  |
+|          |    OpenGLCore    | :ok: (performance issues) |
+|          |    OpenGLES3     |   :x: (editor crashes)    |
+|          |
+| Linux    |      Vulkan      |        :question:         |
+|          |    OpenGLCore    |        :question:         |
+|          |
+| Mac      |      Metal       |        :question:         |
+|          |    OpenGLCore    |        :question:         |
+| iOS      |      Metal       |        :question:         |
+|          |
+| Android  |      Vulkan      |    :white_check_mark:     |
+|          |    OpenGLES3     |  :ok: (render artifacts)  |
+|          |
+| WebGPU   |        -         |      :crystal_ball:       |
+| WebGL    |        -         |            :x:            |
 
 ## Notes
 
-- Other platforms than Windows might not work as expected as this is using more unconventianol HLSL features. [Let me know of your experience](https://github.com/happy-turtle/oit-unity/discussions) and if you got this running on different platforms.
-- Note that this project currently does **not** include implementations for the Universal Render-Pipeline and the High-Definition Render-Pipeline.
+-   Other platforms than Windows might not work as expected as this is using more unconventional HLSL features. [Let me know of your experience](https://github.com/happy-turtle/oit-unity/discussions) and if you got this running on different platforms.
+-   Note that this project currently does **not** include implementations for the Universal Render-Pipeline and the High-Definition Render-Pipeline.
 
 ## References
 
-- https://github.com/GameTechDev/AOIT-Update
-- https://de.slideshare.net/hgruen/oit-and-indirect-illumination-using-dx11-linked-lists
-- Salvi, Marco, and Karthik Vaidyanathan, "Multi-layer Alpha Blending", in Proceedings of the 18th ACM SIGGRAPH Symposium on Interactive 3D Graphics and Games, ACM, pp. 151-158, 2014. https://www.intel.com/content/www/us/en/developer/articles/technical/multi-layer-alpha-blending.html
-- Real-Time Rendering, Fourth Edition, by Tomas Akenine-Möller, Eric Haines, Naty Hoffman, Angelo Pesce, Michał Iwanicki, and Sébastien Hillaire, 1198 pages, from A K Peters/CRC Press, ISBN-13: 978-1138627000, ISBN-10: 1138627003 http://www.realtimerendering.com/
+-   https://github.com/GameTechDev/AOIT-Update
+-   https://de.slideshare.net/hgruen/oit-and-indirect-illumination-using-dx11-linked-lists
+-   Salvi, Marco, and Karthik Vaidyanathan, "Multi-layer Alpha Blending", in Proceedings of the 18th ACM SIGGRAPH Symposium on Interactive 3D Graphics and Games, ACM, pp. 151-158, 2014. https://www.intel.com/content/www/us/en/developer/articles/technical/multi-layer-alpha-blending.html
+-   Real-Time Rendering, Fourth Edition, by Tomas Akenine-Möller, Eric Haines, Naty Hoffman, Angelo Pesce, Michał Iwanicki, and Sébastien Hillaire, 1198 pages, from A K Peters/CRC Press, ISBN-13: 978-1138627000, ISBN-10: 1138627003 http://www.realtimerendering.com/

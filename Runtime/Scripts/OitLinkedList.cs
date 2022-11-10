@@ -1,7 +1,5 @@
 using UnityEngine;
-#if UNITY_POST_PROCESSING_STACK_V2
-using UnityEngine.Rendering.PostProcessing;
-#endif
+using UnityEngine.Rendering;
 
 public class OitLinkedList : IOrderIndependentTransparency
 {
@@ -21,7 +19,6 @@ public class OitLinkedList : IOrderIndependentTransparency
     public OitLinkedList(bool postProcess = false)
     {
         linkedListMaterial = new Material(Shader.Find("Hidden/LinkedListRendering"));
-        linkedListMaterial.EnableKeyword(postProcess ? "POST_PROCESSING" : "BUILT_IN");
         int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
         int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
 
@@ -59,31 +56,17 @@ public class OitLinkedList : IOrderIndependentTransparency
         Graphics.SetRandomWriteTarget(2, startOffsetBuffer);
     }
 
-    public void Render(RenderTexture source, RenderTexture destination)
+    public void Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest)
     {
         if (fragmentLinkBuffer == null || startOffsetBuffer == null || linkedListMaterial == null)
             return;
 
-        Graphics.ClearRandomWriteTargets();
+        command.ClearRandomWriteTargets();
         // blend linked list
         linkedListMaterial.SetBuffer(fragmentLinkBufferId, fragmentLinkBuffer);
         linkedListMaterial.SetBuffer(startOffsetBufferId, startOffsetBuffer);
-        Graphics.Blit(source, destination, linkedListMaterial);
+        command.Blit(src, dest, linkedListMaterial);
     }
-
-#if UNITY_POST_PROCESSING_STACK_V2
-    public void Render(PostProcessRenderContext context)
-    {
-        if (fragmentLinkBuffer == null || startOffsetBuffer == null || linkedListMaterial == null)
-            return;
-
-        context.command.ClearRandomWriteTargets();
-        // blend linked list
-        linkedListMaterial.SetBuffer(fragmentLinkBufferId, fragmentLinkBuffer);
-        linkedListMaterial.SetBuffer(startOffsetBufferId, startOffsetBuffer);
-        context.command.Blit(context.source, context.destination, linkedListMaterial);
-    }
-#endif
 
     public void Release()
     {

@@ -12,7 +12,6 @@ Shader "Hidden/LinkedListRendering"
 			#pragma target 5.0
 			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
-			#pragma multi_compile_fragment BUILT_IN POST_PROCESSING
 
 			#include "UnityCG.cginc"
 			#include "../OitUtils.cginc"
@@ -54,12 +53,7 @@ Shader "Hidden/LinkedListRendering"
 				float4 col = tex2D(_MainTex, i.uv);
 
 				// Fetch offset of first fragment for current pixel
-				uint uStartOffsetAddress;
-#if POST_PROCESSING
-				uStartOffsetAddress = 4 * (_ScreenParams.x * (i.vertex.y - 0.5) + (i.vertex.x - 0.5));
-#else
-				uStartOffsetAddress = 4 * (_ScreenParams.x * (_ScreenParams.y - i.vertex.y - 0.5) + (i.vertex.x - 0.5));
-#endif
+    			uint uStartOffsetAddress = 4 * (_ScreenParams.x * (i.vertex.y - 0.5) + (i.vertex.x - 0.5));
 				uint uOffset = StartOffsetBuffer.Load(uStartOffsetAddress);
 
 				FragmentAndLinkBuffer_STRUCT SortedPixels[MAX_SORTED_PIXELS];

@@ -1,7 +1,4 @@
-using UnityEngine;
-#if UNITY_POST_PROCESSING_STACK_V2
-using UnityEngine.Rendering.PostProcessing;
-#endif
+using UnityEngine.Rendering;
 
 public enum OitMode
 {
@@ -11,9 +8,6 @@ public enum OitMode
 public interface IOrderIndependentTransparency
 {
     void PreRender();
-    void Render(RenderTexture source, RenderTexture destination);
-#if UNITY_POST_PROCESSING_STACK_V2
-    void Render(PostProcessRenderContext context);
-#endif
+    void Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest);
     void Release();
 }

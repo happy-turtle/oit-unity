@@ -9,7 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
--   Update shader code to work on Vulkan and OpenGL
+-   Use SV_SampleIndex for MSAA support to run on Vulkan and OpenGL
+
+### Changed
+
+-   [Breaking] Use CommandBuffer in CameraComponent and OitInterface
+-   Remove conditional compilations for PostProcessing package
 
 ## [2.0.0]
 

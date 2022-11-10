@@ -33,7 +33,7 @@ public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostPr
 
     public override void Render(PostProcessRenderContext context)
     {
-        orderIndependentTransparency.Render(context);
+        orderIndependentTransparency.Render(context.command, context.source, context.destination);
     }
 
     public override void Release()
