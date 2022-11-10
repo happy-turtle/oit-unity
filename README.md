@@ -18,7 +18,7 @@ You can easily install this package with the Unity Package Manager using the pro
 I recommend using this with the package Post-Processing Stack v2, because then transparent objects will be rendered in Scene View as well. Follow these steps:
 
 1. Add the post-processing override `Order Independent Transparency` to a post-processing volume in your scene.
-2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a material using a custom shader. Two sample shaders that you can use are included in this project `OrderIndependentTransparency/Unlit` and `OrderIndependentTransparency/Standard` (standard shader has to be set to Rendering Mode Transparent).
+2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a material using a custom shader. Two sample shaders that you can use are included in this project `OrderIndependentTransparency/Unlit` and `OrderIndependentTransparency/Standard`.
 3. Run your scene.
 
 ### Without Post-Processing Stack v2
@@ -33,27 +33,27 @@ If you don't want to use the post-processing stack just skip the first step and 
 
 ## Platforms tested (Unity 2021.3.9f1)
 
-| Platform | Graphics Backend |       Render output       |
-| :------- | :--------------: | :-----------------------: |
+| Platform | Graphics Backend |                  Render output                   |
+| :------- | :--------------: | :----------------------------------------------: |
 |          |
-| Windows  |    DirectX 12    |    :white_check_mark:     |
-|          |    DirectX 11    |    :white_check_mark:     |
-|          |      Vulkan      |  :ok: (render artifacts)  |
-|          |    OpenGLCore    | :ok: (performance issues) |
-|          |    OpenGLES3     |   :x: (editor crashes)    |
+| Windows  |    DirectX 12    |                :white_check_mark:                |
+|          |    DirectX 11    |                :white_check_mark:                |
+|          |      Vulkan      |             :ok: (render artifacts)              |
+|          |    OpenGLCore    |            :ok: (performance issues)             |
+|          |    OpenGLES3     |               :x: (editor crashes)               |
 |          |
-| Linux    |      Vulkan      |        :question:         |
-|          |    OpenGLCore    |        :question:         |
+| Linux    |      Vulkan      | :white_check_mark: (CameraComponent with issues) |
+|          |    OpenGLCore    |                :white_check_mark:                |
 |          |
-| Mac      |      Metal       |        :question:         |
-|          |    OpenGLCore    |        :question:         |
-| iOS      |      Metal       |        :question:         |
+| Mac      |      Metal       |                    :question:                    |
+|          |    OpenGLCore    |                    :question:                    |
+| iOS      |      Metal       |                    :question:                    |
 |          |
-| Android  |      Vulkan      |    :white_check_mark:     |
-|          |    OpenGLES3     |  :ok: (render artifacts)  |
+| Android  |      Vulkan      |                :white_check_mark:                |
+|          |    OpenGLES3     |             :ok: (render artifacts)              |
 |          |
-| WebGPU   |        -         |      :crystal_ball:       |
-| WebGL    |        -         |            :x:            |
+| WebGPU   |        -         |                  :crystal_ball:                  |
+| WebGL    |        -         |                       :x:                        |
 
 ## Notes
 
