@@ -16,7 +16,7 @@ public class OitLinkedList : IOrderIndependentTransparency
     private int clearStartOffsetBufferKernel;
     private int dispatchGroupSizeX, dispatchGroupSizeY;
 
-    public OitLinkedList(bool postProcess = false)
+    public OitLinkedList()
     {
         linkedListMaterial = new Material(Shader.Find("Hidden/LinkedListRendering"));
         int bufferWidth = Screen.width > 0 ? Screen.width : 1024;

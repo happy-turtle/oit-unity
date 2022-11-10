@@ -21,7 +21,7 @@ public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostPr
     public override void Init()
     {
         base.Init();
-        orderIndependentTransparency = new OitLinkedList(true);
+        orderIndependentTransparency = new OitLinkedList();
 
         Camera.onPreRender += PreRender;
     }
