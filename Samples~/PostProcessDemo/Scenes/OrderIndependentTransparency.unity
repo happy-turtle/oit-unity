@@ -602,10 +602,10 @@ MonoBehaviour:
   m_ShowToolkit: 0
   m_ShowCustomSorter: 0
   breakBeforeColorGrading: 0
-  m_BeforeTransparentBundles: []
-  m_BeforeStackBundles:
+  m_BeforeTransparentBundles:
   - assemblyQualifiedName: OitPostProcess, com.happy-turtle.oit-unity, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  m_BeforeStackBundles: []
   m_AfterStackBundles: []
 --- !u!1 &783424987
 GameObject:
