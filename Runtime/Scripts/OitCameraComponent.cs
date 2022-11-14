@@ -16,7 +16,7 @@ public class OitCameraComponent : MonoBehaviour
         command = new CommandBuffer();
         command.name = "Order-Independent Transparency";
         orderIndependentTransparency.Render(command, BuiltinRenderTextureType.CameraTarget, BuiltinRenderTextureType.CurrentActive);
-        cam.AddCommandBuffer(CameraEvent.BeforeImageEffects, command);
+        cam.AddCommandBuffer(CameraEvent.BeforeImageEffectsOpaque, command);
     }
 
     private void OnPreRender()
@@ -27,7 +27,7 @@ public class OitCameraComponent : MonoBehaviour
     private void OnDisable()
     {
         orderIndependentTransparency.Release();
-        cam.RemoveCommandBuffer(CameraEvent.BeforeImageEffects, command);
+        cam.RemoveCommandBuffer(CameraEvent.BeforeImageEffectsOpaque, command);
         command.Dispose();
     }
 }
