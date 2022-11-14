@@ -6,6 +6,10 @@ Shader "Hidden/LinkedListRendering"
 	SubShader
 	{
 		Pass {
+			ZTest Always
+			ZWrite Off
+			Cull Off
+			
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
