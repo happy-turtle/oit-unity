@@ -1,5 +1,5 @@
 {
-    "name": "com.happy-turtle.oit-unity",
+    "name": "org.happy-turtle.order-independent-transparency",
     "rootNamespace": "",
     "references": [
         "GUID:d60799ab2a985554ea1a39cd38695018"
