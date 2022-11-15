@@ -11,11 +11,6 @@
   "dependencies": {},
   "samples": [
     {
-      "displayName": "Camera Component Demo",
-      "description": "Order-independent transparency using a camera component",
-      "path": "Samples~/CameraComponentDemo"
-    },
-    {
       "displayName": "Post Process Demo",
       "description": "Order-independent transparency using a post processing effect",
       "path": "Samples~/PostProcessDemo"

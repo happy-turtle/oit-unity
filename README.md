@@ -15,15 +15,9 @@ You can easily install this package with the Unity Package Manager using the pro
 
 ## Usage
 
-I recommend using this with the package Post-Processing Stack v2, because then transparent objects will be rendered in Scene View as well. Follow these steps:
-
 1. Add the post-processing override `Order Independent Transparency` to a post-processing volume in your scene.
 2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a material using a custom shader. Two sample shaders that you can use are included in this project `OrderIndependentTransparency/Unlit` and `OrderIndependentTransparency/Standard`.
 3. Run your scene.
-
-### Without Post-Processing Stack v2
-
-If you don't want to use the post-processing stack just skip the first step and instead add the component `OitCameraComponent` to a camera. Transparent objects won't render in the editor scene view using this component.
 
 ## Contributions
 

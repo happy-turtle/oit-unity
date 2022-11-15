@@ -2,7 +2,7 @@
     "name": "org.happy-turtle.order-independent-transparency",
     "rootNamespace": "",
     "references": [
-        "GUID:d60799ab2a985554ea1a39cd38695018"
+        "Unity.Postprocessing.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -10,13 +10,9 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [
-        {
-            "name": "com.unity.postprocessing",
-            "expression": "3",
-            "define": "UNITY_POST_PROCESSING_STACK_V2"
-        }
+    "defineConstraints": [
+        "UNITY_POST_PROCESSING_STACK_V2"
     ],
+    "versionDefines": [],
     "noEngineReferences": false
 }
