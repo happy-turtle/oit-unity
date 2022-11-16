@@ -1,13 +1,15 @@
 # Order-independent Transparency in Unity
 
-![Comparison](Screenshots/Comparison.gif) ![Animation2](https://user-images.githubusercontent.com/18415215/139141230-207014ab-57eb-4591-9c90-d8c17db93a30.gif)
+![Comparison](Screenshots/Comparison.gif) ![Animation2](Screenshots/transparent-statues.gif)
 
 ## Description
 
-This is an implementation of order-independent transparency in Unity's **Built-In Pipeline**. It uses Per-Pixel Linked Lists, implemented with RWStructuredBuffers.
-This is a feature requiring Shader Model 5.0 with ComputeBuffers, see the [Unity Manual](https://docs.unity3d.com/Manual/SL-ShaderCompileTargets.html) for supported platforms.
-For reference a [presentation by Holger Gruen and Nicolas Thibieroz](https://de.slideshare.net/hgruen/oit-and-indirect-illumination-using-dx11-linked-lists)
-was used. The code is based on their suggestions.
+This is an implementation of order-independent transparency in Unity's **Built-In Pipeline**. 
+Order-independent transparency allows blending transparent objects correctly according to their actual depth in the scene.
+This is a huge improvement compared to traditional blending of transparent objects in the realtime graphics pipeline. 
+The implementation uses Per-Pixel Linked Lists, implemented with RWStructuredBuffers.
+These are features requiring Shader Model 5.0 with ComputeBuffers, see the [Unity Manual](https://docs.unity3d.com/Manual/SL-ShaderCompileTargets.html) for supported platforms.
+Further information and useful resources are listed in the [references](#References) section.
 
 ## Installation
 
@@ -27,36 +29,35 @@ You can easily install this package with the Unity Package Manager using the pro
 
 ## Platforms tested (Unity 2021.3.9f1)
 
-| Platform | Graphics Backend |                  Render output                   |
-| :------- | :--------------: | :----------------------------------------------: |
+| Platform | Graphics Backend |      Render output      |
+| :------- | :--------------: |:-----------------------:|
 |          |
-| Windows  |    DirectX 12    |                :white_check_mark:                |
-|          |    DirectX 11    |                :white_check_mark:                |
-|          |      Vulkan      |             :ok: (render artifacts)              |
-|          |    OpenGLCore    |            :ok: (performance issues)             |
-|          |    OpenGLES3     |               :x: (editor crashes)               |
+| Windows  |    DirectX 12    |   :white_check_mark:    |
+|          |    DirectX 11    |   :white_check_mark:    |
+|          |      Vulkan      |   :white_check_mark:    |
+|          |    OpenGLCore    | :ok: (poor performance) |
+|          |    OpenGLES3     |  :x: (editor crashes)   |
 |          |
-| Linux    |      Vulkan      | :white_check_mark: (CameraComponent with issues) |
-|          |    OpenGLCore    |                :white_check_mark:                |
+| Linux    |      Vulkan      |   :white_check_mark:    |
+|          |    OpenGLCore    | :ok: (poor performance) |
 |          |
-| Mac      |      Metal       |                    :question:                    |
-|          |    OpenGLCore    |                    :question:                    |
-| iOS      |      Metal       |                    :question:                    |
+| Mac      |      Metal       |       :question:        |
+|          |    OpenGLCore    |       :question:        |
+| iOS      |      Metal       |       :question:        |
 |          |
-| Android  |      Vulkan      |                :white_check_mark:                |
-|          |    OpenGLES3     |             :ok: (render artifacts)              |
+| Android  |      Vulkan      |   :white_check_mark:    |
+|          |    OpenGLES3     | :ok: (render artifacts) |
 |          |
-| WebGPU   |        -         |                  :crystal_ball:                  |
-| WebGL    |        -         |                       :x:                        |
+| WebGPU   |        -         |     :crystal_ball:      |
+| WebGL    |        -         |           :x:           |
 
 ## Notes
 
--   Other platforms than Windows might not work as expected as this is using more unconventional HLSL features. [Let me know of your experience](https://github.com/happy-turtle/oit-unity/discussions) and if you got this running on different platforms.
 -   Note that this project currently does **not** include implementations for the Universal Render-Pipeline and the High-Definition Render-Pipeline.
 
 ## References
 
 -   https://github.com/GameTechDev/AOIT-Update
--   https://de.slideshare.net/hgruen/oit-and-indirect-illumination-using-dx11-linked-lists
+-   Holger Gruen and Nicolas Thibieroz, "OIT and Indirect Illumination using DX11 Linked Lists" https://de.slideshare.net/hgruen/oit-and-indirect-illumination-using-dx11-linked-lists
 -   Salvi, Marco, and Karthik Vaidyanathan, "Multi-layer Alpha Blending", in Proceedings of the 18th ACM SIGGRAPH Symposium on Interactive 3D Graphics and Games, ACM, pp. 151-158, 2014. https://www.intel.com/content/www/us/en/developer/articles/technical/multi-layer-alpha-blending.html
 -   Real-Time Rendering, Fourth Edition, by Tomas Akenine-Möller, Eric Haines, Naty Hoffman, Angelo Pesce, Michał Iwanicki, and Sébastien Hillaire, 1198 pages, from A K Peters/CRC Press, ISBN-13: 978-1138627000, ISBN-10: 1138627003 http://www.realtimerendering.com/

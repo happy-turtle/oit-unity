@@ -13,7 +13,7 @@
     {
       "displayName": "Post Process Demo",
       "description": "Order-independent transparency using a post processing effect",
-      "path": "Samples~/PostProcessDemo"
+      "path": "Samples~/Post Process Demo"
     }
   ]
 }
