@@ -1,0 +1,25 @@
+{
+  "name": "OrderIndependentTransparency.URP",
+  "rootNamespace": "",
+  "references": [
+    "Unity.RenderPipelines.Universal.Runtime",
+    "OrderIndependentTransparency"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [
+    "UNITY_URP"
+  ],
+  "versionDefines": [
+    {
+      "name": "com.unity.render-pipelines.universal",
+      "expression": "12.0.0",
+      "define": "UNITY_URP"
+    }
+  ],
+  "noEngineReferences": false
+}

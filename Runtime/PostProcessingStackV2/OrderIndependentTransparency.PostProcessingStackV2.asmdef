@@ -1,0 +1,19 @@
+{
+    "name": "OrderIndependentTransparency.PostProcessingStackV2",
+    "rootNamespace": "",
+    "references": [
+        "Unity.Postprocessing.Runtime",
+        "OrderIndependentTransparency"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_POST_PROCESSING_STACK_V2"
+    ],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
