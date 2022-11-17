@@ -7,7 +7,7 @@ public enum OitMode
 
 public interface IOrderIndependentTransparency
 {
-    void PreRender();
+    void PreRender(CommandBuffer command);
     void Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest);
     void Release();
 }

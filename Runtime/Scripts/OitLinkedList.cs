@@ -43,14 +43,14 @@ public class OitLinkedList : IOrderIndependentTransparency
         dispatchGroupSizeY = Mathf.CeilToInt(bufferHeight / 32.0f);
     }
 
-    public void PreRender()
+    public void PreRender(CommandBuffer command)
     {
         //reset StartOffsetBuffer to zeros
         oitComputeUtils.Dispatch(clearStartOffsetBufferKernel, dispatchGroupSizeX, dispatchGroupSizeY, 1);
 
         // set buffers for rendering
-        Graphics.SetRandomWriteTarget(1, fragmentLinkBuffer);
-        Graphics.SetRandomWriteTarget(2, startOffsetBuffer);
+        command.SetRandomWriteTarget(1, fragmentLinkBuffer);
+        command.SetRandomWriteTarget(2, startOffsetBuffer);
     }
 
     public void Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest)

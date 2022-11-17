@@ -2,6 +2,7 @@
   "name": "OrderIndependentTransparency.HDRP",
   "rootNamespace": "",
   "references": [
+    "Unity.RenderPipelines.Core.Runtime",
     "Unity.RenderPipelines.HighDefinition.Runtime",
     "OrderIndependentTransparency"
   ],

@@ -10,14 +10,18 @@ public class OitPassURP : ScriptableRenderPass
         orderIndependentTransparency = new OitLinkedList();
     }
 
-    public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
+    public override void Frame(CommandBuffer cmd, ref RenderingData renderingData)
     {
-        orderIndependentTransparency.PreRender();
+        orderIndependentTransparency.PreRender(cmd);
     }
 
     public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
     {
-        // orderIndependentTransparency.Render(context, context.source, context.destination);
+        CommandBuffer cmd = CommandBufferPool.Get("Order Independent Transparency");
+        cmd.Clear();
+        orderIndependentTransparency.Render(cmd, renderingData.cameraData.renderer.cameraColorTarget, renderingData.cameraData.renderer.cameraColorTarget);
+        context.ExecuteCommandBuffer(cmd);
+        CommandBufferPool.Release(cmd);
     }
 
     public override void OnFinishCameraStackRendering(CommandBuffer cmd)

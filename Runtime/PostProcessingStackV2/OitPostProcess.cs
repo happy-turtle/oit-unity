@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
 
 [Serializable]
@@ -16,18 +17,22 @@ public sealed class OitPostProcess : PostProcessEffectSettings
 public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostProcess>
 {
     private IOrderIndependentTransparency orderIndependentTransparency;
+    private CommandBuffer cmdPreRender;
 
     public override void Init()
     {
         base.Init();
         orderIndependentTransparency = new OitLinkedList();
 
+        cmdPreRender = new CommandBuffer();
         Camera.onPreRender += PreRender;
     }
 
     private void PreRender(Camera cam)
     {
-        orderIndependentTransparency.PreRender();
+        cmdPreRender.Clear();
+        orderIndependentTransparency.PreRender(cmdPreRender);
+        Graphics.ExecuteCommandBuffer(cmdPreRender);
     }
 
     public override void Render(PostProcessRenderContext context)
