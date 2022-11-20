@@ -9,7 +9,7 @@ public class OitRendererURP : ScriptableRendererFeature
 
     public override void Create()
     {
-        Debug.Log("construcor");
+        oitPass?.Cleanup();
         oitPass = new OitPassURP();
     }
 
@@ -20,7 +20,6 @@ public class OitRendererURP : ScriptableRendererFeature
 
     protected override void Dispose(bool disposing)
     {
-        Debug.Log("Dispose");
         oitPass.Cleanup();
     }
 }

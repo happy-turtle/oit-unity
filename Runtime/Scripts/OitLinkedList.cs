@@ -7,8 +7,6 @@ public class OitLinkedList : IOrderIndependentTransparency
     private int fragmentLinkBufferId;
     private GraphicsBuffer startOffsetBuffer;
     private int startOffsetBufferId;
-    private int bufferSize;
-    private int bufferStride;
     private Material linkedListMaterial;
     private const int MAX_SORTED_PIXELS = 8;
 
