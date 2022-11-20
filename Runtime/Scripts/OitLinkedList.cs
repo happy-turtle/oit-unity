@@ -3,16 +3,16 @@ using UnityEngine.Rendering;
 
 public class OitLinkedList : IOrderIndependentTransparency
 {
-    private GraphicsBuffer fragmentLinkBuffer;
-    private int fragmentLinkBufferId;
-    private GraphicsBuffer startOffsetBuffer;
-    private int startOffsetBufferId;
-    private Material linkedListMaterial;
+    private readonly GraphicsBuffer fragmentLinkBuffer;
+    private readonly int fragmentLinkBufferId;
+    private readonly GraphicsBuffer startOffsetBuffer;
+    private readonly int startOffsetBufferId;
+    private readonly Material linkedListMaterial;
     private const int MAX_SORTED_PIXELS = 8;
 
-    private ComputeShader oitComputeUtils;
-    private int clearStartOffsetBufferKernel;
-    private int dispatchGroupSizeX, dispatchGroupSizeY;
+    private readonly ComputeShader oitComputeUtils;
+    private readonly int clearStartOffsetBufferKernel;
+    private readonly int dispatchGroupSizeX, dispatchGroupSizeY;
 
     public OitLinkedList()
     {

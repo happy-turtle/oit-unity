@@ -33,7 +33,6 @@ public class OitPassURP : ScriptableRenderPass
         CommandBufferPool.Release(cmd);
     }
 
-
     public void Cleanup()
     {
         orderIndependentTransparency.Release();
