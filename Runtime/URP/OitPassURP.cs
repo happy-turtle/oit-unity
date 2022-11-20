@@ -1,4 +1,6 @@
-﻿using UnityEngine.Rendering;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
 public class OitPassURP : ScriptableRenderPass
@@ -7,25 +9,34 @@ public class OitPassURP : ScriptableRenderPass
 
     public OitPassURP()
     {
+        renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
         orderIndependentTransparency = new OitLinkedList();
+        RenderPipelineManager.beginContextRendering += PreRender;
     }
 
-    public override void Frame(CommandBuffer cmd, ref RenderingData renderingData)
+    private void PreRender(ScriptableRenderContext context, List<Camera> cameras)
     {
+        CommandBuffer cmd = CommandBufferPool.Get("Order Independent Transparency Pre Render");
+        cmd.Clear();
         orderIndependentTransparency.PreRender(cmd);
+        context.ExecuteCommandBuffer(cmd);
+        CommandBufferPool.Release(cmd);
     }
 
     public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
     {
         CommandBuffer cmd = CommandBufferPool.Get("Order Independent Transparency");
         cmd.Clear();
-        orderIndependentTransparency.Render(cmd, renderingData.cameraData.renderer.cameraColorTarget, renderingData.cameraData.renderer.cameraColorTarget);
+        orderIndependentTransparency.Render(cmd, renderingData.cameraData.renderer.cameraColorTarget,
+            renderingData.cameraData.renderer.cameraColorTarget);
         context.ExecuteCommandBuffer(cmd);
         CommandBufferPool.Release(cmd);
     }
 
-    public override void OnFinishCameraStackRendering(CommandBuffer cmd)
+
+    public void Cleanup()
     {
         orderIndependentTransparency.Release();
+        RenderPipelineManager.beginContextRendering -= PreRender;
     }
 }
