@@ -3,47 +3,50 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.PostProcessing;
 
-[Serializable]
-public sealed class OitModeParameter : ParameterOverride<OitMode>
+namespace OrderIndependentTransparency.PostProcessingStackV2
 {
-}
-
-[Serializable]
-[PostProcess(typeof(OitPostProcessRenderer), PostProcessEvent.BeforeTransparent, "OrderIndependentTransparency")]
-public sealed class OitPostProcess : PostProcessEffectSettings
-{
-}
-
-public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostProcess>
-{
-    private IOrderIndependentTransparency orderIndependentTransparency;
-    private CommandBuffer cmdPreRender;
-
-    public override void Init()
+    [Serializable]
+    public sealed class OitModeParameter : ParameterOverride<OitMode>
     {
-        base.Init();
-        orderIndependentTransparency = new OitLinkedList();
-
-        cmdPreRender = new CommandBuffer();
-        Camera.onPreRender += PreRender;
     }
 
-    private void PreRender(Camera cam)
+    [Serializable]
+    [PostProcess(typeof(OitPostProcessRenderer), PostProcessEvent.BeforeTransparent, "OrderIndependentTransparency")]
+    public sealed class OitPostProcess : PostProcessEffectSettings
     {
-        cmdPreRender.Clear();
-        orderIndependentTransparency.PreRender(cmdPreRender);
-        Graphics.ExecuteCommandBuffer(cmdPreRender);
     }
 
-    public override void Render(PostProcessRenderContext context)
+    public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostProcess>
     {
-        orderIndependentTransparency.Render(context.command, context.source, context.destination);
-    }
+        private IOrderIndependentTransparency orderIndependentTransparency;
+        private CommandBuffer cmdPreRender;
 
-    public override void Release()
-    {
-        base.Release();
-        orderIndependentTransparency.Release();
-        Camera.onPreRender -= PreRender;
+        public override void Init()
+        {
+            base.Init();
+            orderIndependentTransparency = new OitLinkedList();
+
+            cmdPreRender = new CommandBuffer();
+            Camera.onPreRender += PreRender;
+        }
+
+        private void PreRender(Camera cam)
+        {
+            cmdPreRender.Clear();
+            orderIndependentTransparency.PreRender(cmdPreRender);
+            Graphics.ExecuteCommandBuffer(cmdPreRender);
+        }
+
+        public override void Render(PostProcessRenderContext context)
+        {
+            orderIndependentTransparency.Render(context.command, context.source, context.destination);
+        }
+
+        public override void Release()
+        {
+            base.Release();
+            orderIndependentTransparency.Release();
+            Camera.onPreRender -= PreRender;
+        }
     }
 }
