@@ -9,6 +9,7 @@ Shader "Hidden/LinkedListRendering"
 			ZTest Always
 			ZWrite Off
 			Cull Off
+			Blend Off
 			
 			CGPROGRAM
 			#pragma vertex vert
