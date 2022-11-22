@@ -13,7 +13,7 @@ namespace OrderIndependentTransparency.HDRP
 
         // Do not forget to add this post process in the Custom Post Process Orders list (Project Settings > Graphics > HDRP Settings).
         public override CustomPostProcessInjectionPoint injectionPoint =>
-            CustomPostProcessInjectionPoint.AfterPostProcess;
+            CustomPostProcessInjectionPoint.AfterOpaqueAndSky;
 
         private OitLinkedList orderIndependentTransparency;
 
@@ -22,7 +22,7 @@ namespace OrderIndependentTransparency.HDRP
             orderIndependentTransparency = new OitLinkedList();
             RenderPipelineManager.beginContextRendering += PreRender;
         }
-        
+
         private void PreRender(ScriptableRenderContext context, List<Camera> cameras)
         {
             CommandBuffer cmd = CommandBufferPool.Get("Order Independent Transparency Pre Render");

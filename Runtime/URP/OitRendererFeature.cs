@@ -3,6 +3,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace OrderIndependentTransparency.URP
 {
+    // Do not forget to add this Renderer Feature in the Universal Render Pipeline Settings.
     [Serializable]
     public class OitRendererFeature : ScriptableRendererFeature
     {

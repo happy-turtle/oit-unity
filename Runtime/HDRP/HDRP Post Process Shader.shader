@@ -50,12 +50,7 @@ Shader "Hidden/Shader/HDRPPostProcessShader"
 
         // Note that if HDUtils.DrawFullScreen is used to render the post process, use ClampAndScaleUVForBilinearPostProcessTexture(input.texcoord.xy) to get the correct UVs
 
-        float3 sourceColor = SAMPLE_TEXTURE2D_X(_MainTex, s_linear_clamp_sampler, input.texcoord).xyz;
-
-        // Apply greyscale effect
-        float3 color = lerp(sourceColor, Luminance(sourceColor), _Intensity);
-
-        return float4(color, 1);
+        return SAMPLE_TEXTURE2D_X(_MainTex, s_linear_clamp_sampler, input.texcoord);
     }
 
     ENDHLSL
