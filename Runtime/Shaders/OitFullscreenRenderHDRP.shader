@@ -1,4 +1,4 @@
-Shader "Hidden/Shader/HDRPPostProcessShader"
+Shader "Hidden/OitFullscreenRenderHDRP"
 {
     Properties
     {
