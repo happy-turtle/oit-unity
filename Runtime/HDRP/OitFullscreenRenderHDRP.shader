@@ -11,11 +11,9 @@ Shader "Hidden/Shader/HDRPPostProcessShader"
     #pragma target 4.5
     #pragma only_renderers d3d11 playstation xboxone xboxseries vulkan metal switch
 
+    #include "../Shaders/LinkedListRendering.cginc"
     #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-    #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
     #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-    #include "Packages/com.unity.render-pipelines.high-definition/Runtime/PostProcessing/Shaders/FXAA.hlsl"
-    #include "Packages/com.unity.render-pipelines.high-definition/Runtime/PostProcessing/Shaders/RTUpscale.hlsl"
 
     struct Attributes
     {
@@ -44,13 +42,14 @@ Shader "Hidden/Shader/HDRPPostProcessShader"
     float _Intensity;
     TEXTURE2D_X(_MainTex);
 
-    float4 CustomPostProcess(Varyings input) : SV_Target
+    float4 CustomPostProcess(Varyings input, uint uSampleIndex : SV_SampleIndex) : SV_Target
     {
         UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
         // Note that if HDUtils.DrawFullScreen is used to render the post process, use ClampAndScaleUVForBilinearPostProcessTexture(input.texcoord.xy) to get the correct UVs
-
-        return SAMPLE_TEXTURE2D_X(_MainTex, s_linear_clamp_sampler, input.texcoord);
+        float4 col = SAMPLE_TEXTURE2D_X(_MainTex, s_linear_clamp_sampler, input.texcoord);
+        
+        return renderLinkedList(col, input.positionCS.xy, uSampleIndex);
     }
 
     ENDHLSL

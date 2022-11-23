@@ -12,7 +12,7 @@ namespace OrderIndependentTransparency.URP
         public OitPass()
         {
             renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
-            orderIndependentTransparency = new OitLinkedList();
+            orderIndependentTransparency = new OitLinkedList("Hidden/OitFullscreenRender");
             RenderPipelineManager.beginContextRendering += PreRender;
         }
 

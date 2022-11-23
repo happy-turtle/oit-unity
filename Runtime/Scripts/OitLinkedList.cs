@@ -16,9 +16,9 @@ namespace OrderIndependentTransparency
         private readonly int clearStartOffsetBufferKernel;
         private readonly int dispatchGroupSizeX, dispatchGroupSizeY;
 
-        public OitLinkedList()
+        public OitLinkedList(string shader)
         {
-            linkedListMaterial = new Material(Shader.Find("Hidden/LinkedListRendering"));
+            linkedListMaterial = new Material(Shader.Find(shader));
             int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
             int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
 

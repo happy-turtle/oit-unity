@@ -19,7 +19,7 @@ namespace OrderIndependentTransparency.HDRP
 
         public override void Setup()
         {
-            orderIndependentTransparency = new OitLinkedList();
+            orderIndependentTransparency = new OitLinkedList("Hidden/OitFullscreenRenderHDRP");
             RenderPipelineManager.beginContextRendering += PreRender;
         }
 

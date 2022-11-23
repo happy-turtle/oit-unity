@@ -2,11 +2,6 @@ using UnityEngine.Rendering;
 
 namespace OrderIndependentTransparency
 {
-    public enum OitMode
-    {
-        LinkedList,
-    }
-
     public interface IOrderIndependentTransparency
     {
         void PreRender(CommandBuffer command);
