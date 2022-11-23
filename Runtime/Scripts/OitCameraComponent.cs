@@ -20,14 +20,13 @@ namespace OrderIndependentTransparency
             cmdPreRender = new CommandBuffer();
             cmdRender.name = "Order-Independent Transparency";
             cmdPreRender.name = "PreRender Order-Independent Transparency";
+            orderIndependentTransparency.PreRender(cmdPreRender);
             orderIndependentTransparency.Render(cmdRender, BuiltinRenderTextureType.CameraTarget, BuiltinRenderTextureType.CameraTarget);
             cam.AddCommandBuffer(CameraEvent.BeforeImageEffectsOpaque, cmdRender);
         }
 
         private void OnPreRender()
         {
-            cmdPreRender.Clear();
-            orderIndependentTransparency.PreRender(cmdPreRender);
             Graphics.ExecuteCommandBuffer(cmdPreRender);
         }
 
