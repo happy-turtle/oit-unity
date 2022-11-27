@@ -16,9 +16,9 @@ namespace OrderIndependentTransparency
         private readonly int clearStartOffsetBufferKernel;
         private readonly int dispatchGroupSizeX, dispatchGroupSizeY;
 
-        public OitLinkedList(string shader)
+        public OitLinkedList(Shader renderShader, ComputeShader clearComputeShader)
         {
-            linkedListMaterial = new Material(Shader.Find(shader));
+            linkedListMaterial = new Material(renderShader);
             int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
             int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
 
@@ -35,7 +35,7 @@ namespace OrderIndependentTransparency
             startOffsetBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Raw, bufferSizeHead, bufferStrideHead);
             startOffsetBufferId = Shader.PropertyToID("StartOffsetBuffer");
 
-            oitComputeUtils = Resources.Load<ComputeShader>("OitComputeUtils");
+            oitComputeUtils = clearComputeShader;
             clearStartOffsetBufferKernel = oitComputeUtils.FindKernel("ClearStartOffsetBuffer");
             oitComputeUtils.SetBuffer(clearStartOffsetBufferKernel, startOffsetBufferId, startOffsetBuffer);
             oitComputeUtils.SetInt("bufferWidth", bufferWidth);

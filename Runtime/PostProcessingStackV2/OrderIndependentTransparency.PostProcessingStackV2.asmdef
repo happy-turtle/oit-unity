@@ -1,6 +1,6 @@
 {
     "name": "OrderIndependentTransparency.PostProcessingStackV2",
-    "rootNamespace": "",
+    "rootNamespace": "OrderIndependentTransparency",
     "references": [
         "Unity.Postprocessing.Runtime",
         "OrderIndependentTransparency"

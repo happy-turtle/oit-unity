@@ -6,9 +6,15 @@ using UnityEngine.Rendering.PostProcessing;
 namespace OrderIndependentTransparency.PostProcessingStackV2
 {
     [Serializable]
+    public sealed class OitResourcesParameter : ParameterOverride<OitResources>
+    {
+    }
+
+    [Serializable]
     [PostProcess(typeof(OitPostProcessRenderer), PostProcessEvent.BeforeTransparent, "OrderIndependentTransparency")]
     public sealed class OitPostProcess : PostProcessEffectSettings
     {
+        public OitResourcesParameter shaderResources;
     }
 
     public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostProcess>
@@ -19,7 +25,8 @@ namespace OrderIndependentTransparency.PostProcessingStackV2
         public override void Init()
         {
             base.Init();
-            orderIndependentTransparency = new OitLinkedList("Hidden/OitFullscreenRender");
+            orderIndependentTransparency = new OitLinkedList(settings.shaderResources.value.oitFullscreenRender,
+                settings.shaderResources.value.oitComputeUtils);
 
             cmdPreRender = new CommandBuffer();
             Camera.onPreRender += PreRender;

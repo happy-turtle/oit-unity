@@ -1,26 +1,26 @@
 {
-  "name": "OrderIndependentTransparency.HDRP",
-  "rootNamespace": "",
-  "references": [
-    "Unity.RenderPipelines.Core.Runtime",
-    "Unity.RenderPipelines.HighDefinition.Runtime",
-    "OrderIndependentTransparency"
-  ],
-  "includePlatforms": [],
-  "excludePlatforms": [],
-  "allowUnsafeCode": false,
-  "overrideReferences": false,
-  "precompiledReferences": [],
-  "autoReferenced": true,
-  "defineConstraints": [
-    "UNITY_HDRP"
-  ],
-  "versionDefines": [
-    {
-      "name": "com.unity.render-pipelines.high-definition",
-      "expression": "12.0.0",
-      "define": "UNITY_HDRP"
-    }
-  ],
-  "noEngineReferences": false
+    "name": "OrderIndependentTransparency.HDRP",
+    "rootNamespace": "OrderIndependentTransparency",
+    "references": [
+        "Unity.RenderPipelines.Core.Runtime",
+        "Unity.RenderPipelines.HighDefinition.Runtime",
+        "OrderIndependentTransparency"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "UNITY_HDRP"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.render-pipelines.high-definition",
+            "expression": "12.0.0",
+            "define": "UNITY_HDRP"
+        }
+    ],
+    "noEngineReferences": false
 }
