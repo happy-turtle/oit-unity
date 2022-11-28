@@ -7,10 +7,17 @@ using UnityEngine.Rendering.HighDefinition;
 namespace OrderIndependentTransparency.HDRP
 {
     [Serializable]
+    public sealed class OitResourcesParameter : VolumeParameter<OitResources>
+    {
+    }
+
+
+    [Serializable]
     [VolumeComponentMenu("Order-Independent Transparency/OIT Post Process Volume")]
     public sealed class OitPostProcessVolume : CustomPostProcessVolumeComponent, IPostProcessComponent
     {
-        public OitResources shaderResources;
+
+        public OitResourcesParameter shaderResources = new();
 
         private OitLinkedList orderIndependentTransparency;
 
@@ -26,7 +33,7 @@ namespace OrderIndependentTransparency.HDRP
         public override void Setup()
         {
             orderIndependentTransparency =
-                new OitLinkedList(shaderResources.oitFullscreenRender, shaderResources.oitComputeUtils);
+                new OitLinkedList(shaderResources.value.oitFullscreenRender, shaderResources.value.oitComputeUtils);
             RenderPipelineManager.beginContextRendering += PreRender;
         }
 
