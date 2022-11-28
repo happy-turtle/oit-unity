@@ -7,7 +7,6 @@ Shader "Hidden/OitFullscreenRenderHDRP"
     }
 
     HLSLINCLUDE
-
     #pragma target 4.5
     #pragma only_renderers d3d11 playstation xboxone xboxseries vulkan metal switch
 
@@ -48,7 +47,7 @@ Shader "Hidden/OitFullscreenRenderHDRP"
 
         // Note that if HDUtils.DrawFullScreen is used to render the post process, use ClampAndScaleUVForBilinearPostProcessTexture(input.texcoord.xy) to get the correct UVs
         float4 col = SAMPLE_TEXTURE2D_X(_MainTex, s_linear_clamp_sampler, input.texcoord);
-        
+
         return renderLinkedList(col, input.positionCS.xy, uSampleIndex);
     }
 
@@ -67,8 +66,10 @@ Shader "Hidden/OitFullscreenRenderHDRP"
             Cull Off
 
             HLSLPROGRAM
+            #ifdef UNITY_HDRP
                 #pragma fragment CustomPostProcess
                 #pragma vertex Vert
+            #endif
             ENDHLSL
         }
     }
