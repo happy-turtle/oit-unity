@@ -14,7 +14,8 @@ namespace OrderIndependentTransparency.PostProcessingStackV2
     [PostProcess(typeof(OitPostProcessRenderer), PostProcessEvent.BeforeTransparent, "OrderIndependentTransparency")]
     public sealed class OitPostProcess : PostProcessEffectSettings
     {
-        public OitResourcesParameter shaderResources;
+        // can we provide a default value here?
+        public OitResourcesParameter shaderResources = new();
     }
 
     public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostProcess>

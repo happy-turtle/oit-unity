@@ -1,31 +1,38 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
-using System;
-using System.Collections.Generic;
 
 namespace OrderIndependentTransparency.HDRP
 {
-    [Serializable, VolumeComponentMenu("Order-Independent Transparency/OIT Post Process Volume")]
+    [Serializable]
+    [VolumeComponentMenu("Order-Independent Transparency/OIT Post Process Volume")]
     public sealed class OitPostProcessVolume : CustomPostProcessVolumeComponent, IPostProcessComponent
     {
-        public bool IsActive() => orderIndependentTransparency != null;
+        public OitResources shaderResources;
+
+        private OitLinkedList orderIndependentTransparency;
 
         // Do not forget to add this post process in the Custom Post Process Orders list (Project Settings > Graphics > HDRP Settings).
         public override CustomPostProcessInjectionPoint injectionPoint =>
             CustomPostProcessInjectionPoint.AfterOpaqueAndSky;
 
-        private OitLinkedList orderIndependentTransparency;
+        public bool IsActive()
+        {
+            return orderIndependentTransparency != null;
+        }
 
         public override void Setup()
         {
-            orderIndependentTransparency = new OitLinkedList("Hidden/OitFullscreenRenderHDRP");
+            orderIndependentTransparency =
+                new OitLinkedList(shaderResources.oitFullscreenRender, shaderResources.oitComputeUtils);
             RenderPipelineManager.beginContextRendering += PreRender;
         }
 
         private void PreRender(ScriptableRenderContext context, List<Camera> cameras)
         {
-            CommandBuffer cmd = CommandBufferPool.Get("Order Independent Transparency Pre Render");
+            var cmd = CommandBufferPool.Get("Order Independent Transparency Pre Render");
             cmd.Clear();
             orderIndependentTransparency.PreRender(cmd);
             context.ExecuteCommandBuffer(cmd);

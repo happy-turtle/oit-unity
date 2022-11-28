@@ -14,6 +14,11 @@
       "displayName": "Post Process Demo",
       "description": "Order-independent transparency using a post processing effect",
       "path": "Samples~/Post Process Demo"
+    },
+    {
+      "displayName": "ImageEffect Component Demo",
+      "description": "Order-independent transparency using a legacy ImageEffect component",
+      "path": "Samples~/Post Process Demo"
     }
   ]
 }
