@@ -32,7 +32,7 @@ at [Unity's guide](https://docs.unity3d.com/Manual/upm-ui-giturl.html) for detai
    project `OrderIndependentTransparency/Unlit` and `OrderIndependentTransparency/Standard`.
 3. Run your scene.
 
-### ImageEffect Component
+### (Legacy) ImageEffect Component
 
 Note that the ImageEffect component does not support rendering transparent objects in scene view.
 You can add this by yourself, but it's not recommended as graphics resources might not get cleaned up and lead to editor
