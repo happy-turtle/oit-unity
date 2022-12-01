@@ -5,46 +5,37 @@ namespace OrderIndependentTransparency
 {
     public class OitLinkedList : IOrderIndependentTransparency
     {
-        private readonly GraphicsBuffer fragmentLinkBuffer;
+        private int screenWidth, screenHeight;
+        private GraphicsBuffer fragmentLinkBuffer;
         private readonly int fragmentLinkBufferId;
-        private readonly GraphicsBuffer startOffsetBuffer;
+        private GraphicsBuffer startOffsetBuffer;
         private readonly int startOffsetBufferId;
         private readonly Material linkedListMaterial;
         private const int MAX_SORTED_PIXELS = 8;
 
         private readonly ComputeShader oitComputeUtils;
         private readonly int clearStartOffsetBufferKernel;
-        private readonly int dispatchGroupSizeX, dispatchGroupSizeY;
+        private int dispatchGroupSizeX, dispatchGroupSizeY;
 
         public OitLinkedList(Shader renderShader, ComputeShader clearComputeShader)
         {
             linkedListMaterial = new Material(renderShader);
-            int bufferWidth = Screen.width > 0 ? Screen.width : 1024;
-            int bufferHeight = Screen.height > 0 ? Screen.height : 1024;
-
-            int bufferSize = bufferWidth * bufferHeight * MAX_SORTED_PIXELS;
-            int bufferStride = sizeof(uint) * 3;
-            //the structured buffer contains all information about the transparent fragments
-            //this is the per pixel linked list on the gpu
-            fragmentLinkBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Counter, bufferSize, bufferStride);
             fragmentLinkBufferId = Shader.PropertyToID("FLBuffer");
-
-            int bufferSizeHead = bufferWidth * bufferHeight;
-            int bufferStrideHead = sizeof(uint);
-            //create buffer for addresses, this is the head of the linked list
-            startOffsetBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Raw, bufferSizeHead, bufferStrideHead);
             startOffsetBufferId = Shader.PropertyToID("StartOffsetBuffer");
 
             oitComputeUtils = clearComputeShader;
             clearStartOffsetBufferKernel = oitComputeUtils.FindKernel("ClearStartOffsetBuffer");
-            oitComputeUtils.SetBuffer(clearStartOffsetBufferKernel, startOffsetBufferId, startOffsetBuffer);
-            oitComputeUtils.SetInt("bufferWidth", bufferWidth);
-            dispatchGroupSizeX = Mathf.CeilToInt(bufferWidth / 32.0f);
-            dispatchGroupSizeY = Mathf.CeilToInt(bufferHeight / 32.0f);
+            SetupGraphicsBuffers();
         }
 
         public void PreRender(CommandBuffer command)
         {
+            // validate the effect itself
+            if (Screen.width != screenWidth || Screen.height != screenHeight)
+            {
+                SetupGraphicsBuffers();
+            }
+
             //reset StartOffsetBuffer to zeros
             oitComputeUtils.Dispatch(clearStartOffsetBufferKernel, dispatchGroupSizeX, dispatchGroupSizeY, 1);
 
@@ -66,6 +57,29 @@ namespace OrderIndependentTransparency
         {
             fragmentLinkBuffer?.Dispose();
             startOffsetBuffer?.Dispose();
+        }
+
+        private void SetupGraphicsBuffers()
+        {
+            Release();
+            screenWidth = Screen.width;
+            screenHeight = Screen.height;
+
+            int bufferSize = screenWidth * screenHeight * MAX_SORTED_PIXELS;
+            int bufferStride = sizeof(uint) * 3;
+            //the structured buffer contains all information about the transparent fragments
+            //this is the per pixel linked list on the gpu
+            fragmentLinkBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Counter, bufferSize, bufferStride);
+
+            int bufferSizeHead = screenWidth * screenHeight;
+            int bufferStrideHead = sizeof(uint);
+            //create buffer for addresses, this is the head of the linked list
+            startOffsetBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Raw, bufferSizeHead, bufferStrideHead);
+
+            oitComputeUtils.SetBuffer(clearStartOffsetBufferKernel, startOffsetBufferId, startOffsetBuffer);
+            oitComputeUtils.SetInt("screenWidth", screenWidth);
+            dispatchGroupSizeX = Mathf.CeilToInt(screenWidth / 32.0f);
+            dispatchGroupSizeY = Mathf.CeilToInt(screenHeight / 32.0f);
         }
     }
 }

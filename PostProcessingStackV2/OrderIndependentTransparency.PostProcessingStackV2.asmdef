@@ -3,6 +3,7 @@
     "rootNamespace": "OrderIndependentTransparency",
     "references": [
         "Unity.Postprocessing.Runtime",
+        "Unity.Postprocessing.Editor",
         "OrderIndependentTransparency"
     ],
     "includePlatforms": [],
