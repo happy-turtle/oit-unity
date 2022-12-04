@@ -9,10 +9,10 @@ namespace OrderIndependentTransparency.URP
     {
         private readonly IOrderIndependentTransparency orderIndependentTransparency;
 
-        public OitPass(Shader fullscreenShader, ComputeShader resetShader)
+        public OitPass()
         {
             renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
-            orderIndependentTransparency = new OitLinkedList(fullscreenShader, resetShader);
+            orderIndependentTransparency = new OitLinkedList("OitFullscreenRender");
             RenderPipelineManager.beginContextRendering += PreRender;
         }
 

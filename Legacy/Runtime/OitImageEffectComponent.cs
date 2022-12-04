@@ -7,8 +7,6 @@ namespace OrderIndependentTransparency
     [ExecuteAlways]
     public class OitImageEffectComponent : MonoBehaviour
     {
-        public Shader fullscreenShader;
-        public ComputeShader resetShader;
         private CommandBuffer cmdPreRender;
         private CommandBuffer cmdRender;
 
@@ -16,7 +14,7 @@ namespace OrderIndependentTransparency
 
         private void Start()
         {
-            orderIndependentTransparency ??= new OitLinkedList(fullscreenShader, resetShader);
+            orderIndependentTransparency ??= new OitLinkedList("OitFullscreenRender");
         }
 
         private void OnDisable()

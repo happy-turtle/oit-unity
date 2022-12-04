@@ -6,21 +6,9 @@ using UnityEngine.Rendering.PostProcessing;
 namespace OrderIndependentTransparency.PostProcessingStackV2
 {
     [Serializable]
-    public sealed class ShaderParameter : ParameterOverride<Shader>
-    {
-    }
-    [Serializable]
-    public sealed class ComputeShaderParameter : ParameterOverride<ComputeShader>
-    {
-    }
-
-    [Serializable]
     [PostProcess(typeof(OitPostProcessRenderer), PostProcessEvent.BeforeTransparent, "OrderIndependentTransparency")]
     public sealed class OitPostProcess : PostProcessEffectSettings
     {
-        // can we provide a default value here?
-        public ShaderParameter fullscreenShader = new();
-        public ComputeShaderParameter resetShader = new();
     }
 
     public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostProcess>
@@ -31,8 +19,7 @@ namespace OrderIndependentTransparency.PostProcessingStackV2
         public override void Init()
         {
             base.Init();
-            orderIndependentTransparency ??= new OitLinkedList(settings.fullscreenShader.value,
-                settings.resetShader.value);
+            orderIndependentTransparency ??= new OitLinkedList("OitFullscreenRender");
 
             cmdPreRender ??= new CommandBuffer();
             Camera.onPreRender += PreRender;

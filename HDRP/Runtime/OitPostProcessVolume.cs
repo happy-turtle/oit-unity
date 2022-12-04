@@ -7,22 +7,9 @@ using UnityEngine.Rendering.HighDefinition;
 namespace OrderIndependentTransparency.HDRP
 {
     [Serializable]
-    public sealed class ShaderParameter : VolumeParameter<Shader>
-    {
-    }
-    [Serializable]
-    public sealed class ComputeShaderParameter : VolumeParameter<ComputeShader>
-    {
-    }
-
-    [Serializable]
     [VolumeComponentMenu("Order-Independent Transparency/OIT Post Process Volume")]
     public sealed class OitPostProcessVolume : CustomPostProcessVolumeComponent, IPostProcessComponent
     {
-
-        public ShaderParameter fullscreenShader = new();
-        public ComputeShaderParameter resetShader = new();
-
         private OitLinkedList orderIndependentTransparency;
 
         // Do not forget to add this post process in the Custom Post Process Orders list (Project Settings > Graphics > HDRP Settings).
@@ -37,7 +24,7 @@ namespace OrderIndependentTransparency.HDRP
         public override void Setup()
         {
             orderIndependentTransparency =
-                new OitLinkedList(fullscreenShader.value, resetShader.value);
+                new OitLinkedList("OitFullscreenRenderHDRP");
             RenderPipelineManager.beginContextRendering += PreRender;
         }
 

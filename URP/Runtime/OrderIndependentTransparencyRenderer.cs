@@ -8,14 +8,12 @@ namespace OrderIndependentTransparency.URP
     [Serializable]
     public class OrderIndependentTransparencyRenderer : ScriptableRendererFeature
     {
-        public Shader fullscreenShader;
-        public ComputeShader resetShader;
         private OitPass oitPass;
 
         public override void Create()
         {
             oitPass?.Cleanup();
-            oitPass = new OitPass(fullscreenShader, resetShader);
+            oitPass = new OitPass();
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)

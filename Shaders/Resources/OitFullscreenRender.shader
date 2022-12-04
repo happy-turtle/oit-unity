@@ -19,7 +19,7 @@ Shader "Hidden/OitFullscreenRender"
 			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"
-			#include "LinkedListRendering.cginc"
+			#include "../LinkedListRendering.cginc"
 
 			struct appdata {
 				float4 vertex : POSITION;

@@ -17,13 +17,13 @@ namespace OrderIndependentTransparency
         private readonly int clearStartOffsetBufferKernel;
         private int dispatchGroupSizeX, dispatchGroupSizeY;
 
-        public OitLinkedList(Shader renderShader, ComputeShader clearComputeShader)
+        public OitLinkedList(string fullscreenShader)
         {
-            linkedListMaterial = new Material(renderShader);
+            linkedListMaterial = new Material(Resources.Load<Shader>(fullscreenShader));
             fragmentLinkBufferId = Shader.PropertyToID("FLBuffer");
             startOffsetBufferId = Shader.PropertyToID("StartOffsetBuffer");
 
-            oitComputeUtils = clearComputeShader;
+            oitComputeUtils = Resources.Load<ComputeShader>("OitComputeUtils");
             clearStartOffsetBufferKernel = oitComputeUtils.FindKernel("ClearStartOffsetBuffer");
             SetupGraphicsBuffers();
         }
