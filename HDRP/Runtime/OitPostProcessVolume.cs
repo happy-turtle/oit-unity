@@ -7,7 +7,7 @@ using UnityEngine.Rendering.HighDefinition;
 namespace OrderIndependentTransparency.HDRP
 {
     [Serializable]
-    [VolumeComponentMenu("Order-Independent Transparency/OIT Post Process Volume")]
+    [VolumeComponentMenu("Order-Independent Transparency/OIT Post Process")]
     public sealed class OitPostProcessVolume : CustomPostProcessVolumeComponent, IPostProcessComponent
     {
         private OitLinkedList orderIndependentTransparency;

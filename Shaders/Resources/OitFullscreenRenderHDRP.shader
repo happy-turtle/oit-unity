@@ -38,7 +38,6 @@ Shader "Hidden/OitFullscreenRenderHDRP"
     }
 
     // List of properties to control your post process effect
-    float _Intensity;
     TEXTURE2D_X(_MainTex);
 
     float4 CustomPostProcess(Varyings input, uint uSampleIndex : SV_SampleIndex) : SV_Target
@@ -58,7 +57,7 @@ Shader "Hidden/OitFullscreenRenderHDRP"
         Tags{ "RenderPipeline" = "HDRenderPipeline" }
         Pass
         {
-            Name "HDRP Post Process Shader"
+            Name "HDRP Order-Independent Transparency Post Process"
 
             ZWrite Off
             ZTest Always
@@ -66,10 +65,8 @@ Shader "Hidden/OitFullscreenRenderHDRP"
             Cull Off
 
             HLSLPROGRAM
-            #ifdef UNITY_HDRP
                 #pragma fragment CustomPostProcess
                 #pragma vertex Vert
-            #endif
             ENDHLSL
         }
     }
