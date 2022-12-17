@@ -14,7 +14,7 @@ namespace OrderIndependentTransparency
 
         private void Start()
         {
-            orderIndependentTransparency ??= new OitLinkedList("OitFullscreenRender");
+            orderIndependentTransparency ??= new OitLinkedList();
         }
 
         private void OnDisable()
