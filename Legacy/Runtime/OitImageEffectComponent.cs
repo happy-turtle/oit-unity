@@ -41,19 +41,10 @@ namespace OrderIndependentTransparency
         {
             cmdRender ??= new CommandBuffer();
             cmdRender.Clear();
-            // I don't see a possibility here to not write to dest. Unity still warns me this wouldn't do so.
-            if (orderIndependentTransparency != null)
-            {
-                orderIndependentTransparency.Render(cmdRender, src,
-                    dest);
-            }
-            else
-            {
-                cmdRender.ClearRandomWriteTargets();
-                cmdRender.Blit(src, dest);
-            }
-
+            orderIndependentTransparency?.Render(cmdRender, src,
+                    src);
             Graphics.ExecuteCommandBuffer(cmdRender);
+            Graphics.Blit(src, dest);
         }
     }
 }
