@@ -20,14 +20,12 @@ namespace OrderIndependentTransparency.PostProcessingStackV2
         {
             base.Init();
             orderIndependentTransparency ??= new OitLinkedList();
-
-            cmdPreRender ??= new CommandBuffer();
             Camera.onPreRender += PreRender;
         }
 
         private void PreRender(Camera cam)
         {
-            if (cmdPreRender == null) return;
+            cmdPreRender ??= new CommandBuffer();
             cmdPreRender.Clear();
             orderIndependentTransparency?.PreRender(cmdPreRender);
             Graphics.ExecuteCommandBuffer(cmdPreRender);
