@@ -8,7 +8,7 @@ Shader "Hidden/OitFullscreenRender"
 			"com.unity.render-pipelines.core"
 			"com.unity.render-pipelines.high-definition"
 		}
-		Tags{ "RenderPipeline" = "HighDefinitionRenderPipeline" }
+		Tags { "RenderPipeline" = "HighDefinitionRenderPipeline" }
 		Pass {
             Name "HDRP Order-Independent Transparency Post Process"
             ZWrite Off

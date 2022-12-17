@@ -18,6 +18,10 @@ namespace OrderIndependentTransparency.URP
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
+            if (renderingData.cameraData.cameraType != CameraType.Game)
+                return;
+            //Calling ConfigureInput with the ScriptableRenderPassInput.Color argument ensures that the opaque texture is available to the Render Pass
+            oitPass.ConfigureInput(ScriptableRenderPassInput.Color);
             renderer.EnqueuePass(oitPass);
         }
 
