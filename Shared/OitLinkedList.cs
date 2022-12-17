@@ -6,9 +6,9 @@ namespace OrderIndependentTransparency
     public class OitLinkedList : IOrderIndependentTransparency
     {
         private int screenWidth, screenHeight;
-        private GraphicsBuffer fragmentLinkBuffer;
+        private ComputeBuffer fragmentLinkBuffer;
         private readonly int fragmentLinkBufferId;
-        private GraphicsBuffer startOffsetBuffer;
+        private ComputeBuffer startOffsetBuffer;
         private readonly int startOffsetBufferId;
         private readonly Material linkedListMaterial;
         private const int MAX_SORTED_PIXELS = 8;
@@ -69,12 +69,12 @@ namespace OrderIndependentTransparency
             int bufferStride = sizeof(uint) * 3;
             //the structured buffer contains all information about the transparent fragments
             //this is the per pixel linked list on the gpu
-            fragmentLinkBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Counter, bufferSize, bufferStride);
+            fragmentLinkBuffer = new ComputeBuffer(bufferSize, bufferStride, ComputeBufferType.Counter);
 
             int bufferSizeHead = screenWidth * screenHeight;
             int bufferStrideHead = sizeof(uint);
             //create buffer for addresses, this is the head of the linked list
-            startOffsetBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Raw, bufferSizeHead, bufferStrideHead);
+            startOffsetBuffer = new ComputeBuffer(bufferSizeHead, bufferStrideHead, ComputeBufferType.Raw);
 
             oitComputeUtils.SetBuffer(clearStartOffsetBufferKernel, startOffsetBufferId, startOffsetBuffer);
             oitComputeUtils.SetInt("screenWidth", screenWidth);
