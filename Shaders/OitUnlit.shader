@@ -14,7 +14,7 @@ Shader "OrderIndependentTransparency/Unlit"
 			ColorMask 0
 			Cull Off
 
-			CGPROGRAM
+			HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma target 5.0
@@ -22,7 +22,7 @@ Shader "OrderIndependentTransparency/Unlit"
 			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"
-    		#include "LinkedListCreation.cginc"
+    		#include "LinkedListCreation.hlsl"
 
 			sampler2D _MainTex;
             float4 _MainTex_ST;
@@ -57,7 +57,7 @@ Shader "OrderIndependentTransparency/Unlit"
 
 				return col;
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 

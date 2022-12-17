@@ -12,7 +12,7 @@ Shader "Hidden/OitFullscreenRenderHDRP"
 
     #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
     #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
-    #include "../LinkedListRendering.cginc"
+    #include "../LinkedListRendering.hlsl"
 
     struct Attributes
     {

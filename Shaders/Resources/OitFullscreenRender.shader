@@ -11,7 +11,7 @@ Shader "Hidden/OitFullscreenRender"
 			Cull Off
 			Blend Off
 			
-			CGPROGRAM
+			HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
 			#pragma target 5.0
@@ -19,7 +19,7 @@ Shader "Hidden/OitFullscreenRender"
 			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"
-			#include "../LinkedListRendering.cginc"
+			#include "../LinkedListRendering.hlsl"
 
 			struct appdata {
 				float4 vertex : POSITION;
@@ -47,9 +47,10 @@ Shader "Hidden/OitFullscreenRender"
 				// Retrieve current color from background texture
 				float4 col = tex2D(_MainTex, i.uv);
 
-				return renderLinkedList(col, i.vertex.xy, uSampleIndex);
+				// return renderLinkedList(col, i.vertex.xy, uSampleIndex);
+				return col.rgga;
 			}
-			ENDCG
+			ENDHLSL
 		}
 	}
 }

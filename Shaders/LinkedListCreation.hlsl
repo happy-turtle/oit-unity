@@ -2,7 +2,7 @@
 #define OIT_LINKED_LIST_INCLUDED
 
 #include "UnityCG.cginc"
-#include "OitUtils.cginc"
+#include "OitUtils.hlsl"
 
 struct FragmentAndLinkBuffer_STRUCT
 {
