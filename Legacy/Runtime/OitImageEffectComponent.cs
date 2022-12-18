@@ -5,7 +5,7 @@ namespace OrderIndependentTransparency
 {
     [ImageEffectAllowedInSceneView]
     [ExecuteAlways]
-    public class OitImageEffectComponent : MonoBehaviour
+    public sealed class OitImageEffectComponent : MonoBehaviour
     {
         private CommandBuffer cmdPreRender;
         private CommandBuffer cmdRender;

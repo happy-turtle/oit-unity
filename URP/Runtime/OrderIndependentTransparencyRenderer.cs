@@ -6,7 +6,7 @@ namespace OrderIndependentTransparency.URP
 {
     // Do not forget to add this Renderer Feature in the Universal Render Pipeline Settings.
     [Serializable]
-    public class OrderIndependentTransparencyRenderer : ScriptableRendererFeature
+    public sealed class OrderIndependentTransparencyRenderer : ScriptableRendererFeature
     {
         private OitPass oitPass;
 

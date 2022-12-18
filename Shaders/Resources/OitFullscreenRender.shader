@@ -5,7 +5,6 @@ Shader "Hidden/OitFullscreenRender"
 	}
 	SubShader {
 		PackageRequirements {
-			"com.unity.render-pipelines.core"
 			"com.unity.render-pipelines.high-definition"
 		}
 		Tags { "RenderPipeline" = "HighDefinitionRenderPipeline" }
@@ -13,54 +12,32 @@ Shader "Hidden/OitFullscreenRender"
             Name "HDRP Order-Independent Transparency Post Process"
             ZWrite Off
             ZTest Always
-            Blend Off
+            Blend SrcAlpha OneMinusSrcAlpha
             Cull Off
 
 			HLSLPROGRAM
-            #pragma fragment CustomPostProcess
-            #pragma vertex Vert
+            #pragma fragment frag
+			#pragma vertex Vert
 			#pragma target 5.0
 		    #pragma only_renderers d3d11 playstation xboxone xboxseries vulkan metal switch
+			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
 
-		    #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-		    #include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/RenderPass/CustomPass/CustomPassCommon.hlsl"
 		    #include "../LinkedListRendering.hlsl"
 
-		    struct Attributes
-		    {
-		        uint vertexID : SV_VertexID;
-		        UNITY_VERTEX_INPUT_INSTANCE_ID
-		    };
-
-		    struct Varyings
-		    {
-		        float4 positionCS : SV_POSITION;
-		        float2 texcoord   : TEXCOORD0;
-		        UNITY_VERTEX_OUTPUT_STEREO
-		    };
-
-		    Varyings Vert(Attributes input)
-		    {
-		        Varyings output;
-		        UNITY_SETUP_INSTANCE_ID(input);
-		        UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-		        output.positionCS = GetFullScreenTriangleVertexPosition(input.vertexID);
-		        output.texcoord = GetFullScreenTriangleTexCoord(input.vertexID);
-		        return output;
-		    }
-
-		    // List of properties to control your post process effect
-		    TEXTURE2D_X(_MainTex);
-
-		    float4 CustomPostProcess(Varyings input, uint uSampleIndex : SV_SampleIndex) : SV_Target
+		    float4 frag(Varyings input, uint uSampleIndex : SV_SampleIndex) : SV_Target
 		    {
 		        UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-		        // Note that if HDUtils.DrawFullScreen is used to render the post process, use ClampAndScaleUVForBilinearPostProcessTexture(input.texcoord.xy) to get the correct UVs
-		        float4 col = SAMPLE_TEXTURE2D_X(_MainTex, s_linear_clamp_sampler, input.texcoord);
+		    	float4 col = float4 (0, 1, 0, 1);
+				float depth = LoadCameraDepth(input.positionCS.xy);
+				PositionInputs posInput = GetPositionInput(input.positionCS.xy, _ScreenSize.zw, depth, UNITY_MATRIX_I_VP, UNITY_MATRIX_V);
+		        // Load the camera color buffer at the mip 0 if we're not at the before rendering injection point
+		        if (_CustomPassInjectionPoint != CUSTOMPASSINJECTIONPOINT_BEFORE_RENDERING)
+		            col = float4(CustomPassSampleCameraColor(posInput.positionNDC.xy, 0), 1);
 
-		        return renderLinkedList(col, input.positionCS.xy, uSampleIndex);
+		        return renderLinkedList(float4(col.r,col.g,col.b,1), input.positionCS.xy, uSampleIndex);
 		    }
 			ENDHLSL
 		}

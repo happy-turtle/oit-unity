@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace OrderIndependentTransparency.URP
 {
-    public class OitPass : ScriptableRenderPass
+    public sealed class OitPass : ScriptableRenderPass
     {
         private readonly IOrderIndependentTransparency orderIndependentTransparency;
 
