@@ -5,13 +5,13 @@ using UnityEngine.Rendering.Universal;
 
 namespace OrderIndependentTransparency.URP
 {
-    public sealed class OitPass : ScriptableRenderPass
+    internal class OitPass : ScriptableRenderPass
     {
         private readonly IOrderIndependentTransparency orderIndependentTransparency;
 
         public OitPass()
         {
-            renderPassEvent = RenderPassEvent.AfterRenderingTransparents;
+            renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
             orderIndependentTransparency = new OitLinkedList();
             RenderPipelineManager.beginContextRendering += PreRender;
         }

@@ -7,11 +7,11 @@ namespace OrderIndependentTransparency.PostProcessingStackV2
 {
     [Serializable]
     [PostProcess(typeof(OitPostProcessRenderer), PostProcessEvent.BeforeTransparent, "OrderIndependentTransparency")]
-    public sealed class OitPostProcess : PostProcessEffectSettings
+    internal class OitPostProcess : PostProcessEffectSettings
     {
     }
 
-    public sealed class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostProcess>
+    internal class OitPostProcessRenderer : PostProcessEffectRenderer<OitPostProcess>
     {
         private IOrderIndependentTransparency orderIndependentTransparency;
         private CommandBuffer cmdPreRender;

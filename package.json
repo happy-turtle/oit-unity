@@ -24,6 +24,11 @@
       "displayName": "HDRP Custom Pass Demo",
       "description": "Order-independent transparency in the High-Definition render pipeline",
       "path": "Samples~/HDRP Demo"
+    },
+    {
+      "displayName": "URP Renderer Feature Demo",
+      "description": "Order-independent transparency in the Universal render pipeline",
+      "path": "Samples~/URP Demo"
     }
   ]
 }
