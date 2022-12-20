@@ -20,52 +20,18 @@ at [Unity's guide](https://docs.unity3d.com/Manual/upm-ui-giturl.html) for detai
 
 ## Usage
 
-For every implementation a Demo Sample is included and available for import with the Unity Package Manager. 
+For every implementation a sample scene is included and available for import with the Unity Package Manager. 
 If in doubt try to import the sample you want to use and start from there.
 
-### High-Definition Render Pipeline
-
-1. Create a [Custom Pass volume](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@12.1/manual/Custom-Pass-Creating.html) and add `OitRenderPass` to it.
-2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a
-   material using a custom shader.  A sample shader that you can use is included in this
-   project: `OrderIndependentTransparency/Unlit`.
+1. Setup the rendering implementation for your chosen pipeline: 
+   - **High-Definition Render Pipeline:** Create a [Custom Pass volume](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@12.1/manual/Custom-Pass-Creating.html) and add `OitRenderPass` to it.
+   - **Universal Render Pipeline:** Add the renderer feature `Order Independent Transparency Renderer` to your Universal Renderer Asset. _Note: URP documentation only describes a [fullscreen Blit](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@15.0/manual/renderer-features/how-to-fullscreen-blit.html) which only works in Game view. If you know whether a fullscreen Blit in URP in Scene view as well as in Game view is possible, help would be very much appreciated._
+   - **Post-Processing Stack v2:** Add the post-processing override `Order Independent Transparency` to a post-processing volume in your scene.
+   - **ImageEffect Component:** Add the component `OitImageEffectComponent` to your scene e.g. to your main camera.
+   
+2. Change the material of every object that shall be rendered with order-independent transparency. They have to be rendered with a shader writing to the buffer used by the order-independent transparency implementation. Two sample shaders that you can use are included in this project: `OrderIndependentTransparency/Unlit` for all pipelines and additionally `OrderIndependentTransparency/Standard` for the built-in pipeline.
+   
 3. Run your scene.
-
-### Universal Render Pipeline
-
-Note: URP documentation only describes a [fullscreen Blit](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@15.0/manual/renderer-features/how-to-fullscreen-blit.html) which only works in Game view.
-If you know whether a fullscreen Blit in URP in Scene view as well as in Game view is possible, help would be very much appreciated.
-
-1. Add the renderer feature `Order Independent Transparency Renderer` to your Universal Renderer Asset.
-2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a
-   material using a custom shader. A sample shader that you can use is included in this
-   project: `OrderIndependentTransparency/Unlit`.
-3. Run your scene.
-
-### Post-Processing Stack v2
-
-1. Add the post-processing override `Order Independent Transparency` to a post-processing volume in your scene.
-2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a
-   material using a custom shader. Two sample shaders that you can use are included in this
-   project `OrderIndependentTransparency/Unlit` and `OrderIndependentTransparency/Standard`.
-3. Run your scene.
-
-### ImageEffect Component
-
-1. Add the component `OitImageEffectComponent` to your scene.
-2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a
-   material using a custom shader. Two sample shaders that you can use are included in this
-   project `OrderIndependentTransparency/Unlit` and `OrderIndependentTransparency/Standard`.
-3. Run your scene.
-
-## Contributions
-
-- I consider this an open project. If you are interested in this topic or want to improve something please discuss,
-  contribute and feel at home! :house:
-- Feel free to open a [discussion](https://github.com/happy-turtle/oit-unity/discussions) or an issue if you have ideas
-  and improvements in mind.
-- Pull requests are very welcome, see the [issues section](https://github.com/happy-turtle/oit-unity/issues) for open
-  tasks that would improve this project.
 
 ## Platforms tested (Unity 2021.3.9f1)
 
@@ -91,6 +57,15 @@ If you know whether a fullscreen Blit in URP in Scene view as well as in Game vi
 | WebGPU   |        -         |     :crystal_ball:      |
 | WebGL    |        -         |           :x:           |
 
+## Feedback and Contribution
+
+- I consider this an open project. If you are interested in this topic or want to improve something please discuss,
+  contribute and feel at home! :house:
+- Feel free to open a [discussion](https://github.com/happy-turtle/oit-unity/discussions) or an issue if you have ideas
+  and improvements in mind.
+- Pull requests are very welcome, see the [issues section](https://github.com/happy-turtle/oit-unity/issues) for open
+  tasks that would improve this project.
+  
 ## References
 
 - https://github.com/GameTechDev/AOIT-Update
