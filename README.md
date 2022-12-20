@@ -25,7 +25,22 @@ If in doubt try to import the sample you want to use and start from there.
 
 ### High-Definition Render Pipeline
 
+1. Create a [Custom Pass volume](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@12.1/manual/Custom-Pass-Creating.html) and add `OitRenderPass` to it.
+2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a
+   material using a custom shader.  A sample shader that you can use is included in this
+   project: `OrderIndependentTransparency/Unlit`.
+3. Run your scene.
+
 ### Universal Render Pipeline
+
+Note: URP documentation only describes a [fullscreen Blit](https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@15.0/manual/renderer-features/how-to-fullscreen-blit.html) which only works in Game view.
+If you know whether a fullscreen Blit in URP in Scene view as well as in Game view is possible, help would be very much appreciated.
+
+1. Add the renderer feature `Order Independent Transparency Renderer` to your Universal Renderer Asset.
+2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a
+   material using a custom shader. A sample shader that you can use is included in this
+   project: `OrderIndependentTransparency/Unlit`.
+3. Run your scene.
 
 ### Post-Processing Stack v2
 
