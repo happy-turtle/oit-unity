@@ -17,12 +17,15 @@ namespace OrderIndependentTransparency.HDRP
 
         protected override void Execute(CustomPassContext ctx)
         {
-            var cmd = CommandBufferPool.Get("Order Independent Transparency Pre Render");
-            cmd.Clear();
-            orderIndependentTransparency.PreRender(cmd);
-            ctx.renderContext.ExecuteCommandBuffer(cmd);
-            CommandBufferPool.Release(cmd);
+            // draw objects with UAV targets set
+            var preRenderCmd = CommandBufferPool.Get("Order Independent Transparency Pre Render");
+            preRenderCmd.Clear();
+            orderIndependentTransparency.PreRender(preRenderCmd);
+            ctx.renderContext.ExecuteCommandBuffer(preRenderCmd);
+            CommandBufferPool.Release(preRenderCmd);
             CustomPassUtils.DrawRenderers(ctx, objectLayerMask);
+
+            // fullscreen blend of transparent pixel buffer
             orderIndependentTransparency.Render(ctx.cmd, ctx.cameraColorBuffer, ctx.cameraColorBuffer);
         }
 
