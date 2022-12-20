@@ -1,8 +1,8 @@
 {
-  "name": "com.happy-turtle.oit-unity",
-  "version": "2.0.0",
+  "name": "org.happy-turtle.order-independent-transparency",
+  "version": "3.0.0",
   "displayName": "Order-independent Transparency",
-  "description": "This is an implementation of order-independent transparency in Unity's Built-In Pipeline. It uses Per-Pixel Linked Lists, implemented with RWStructuredBuffers. This is a feature requiring Shader Model 5.0 with ComputeBuffers, see the Unity Manual for supported platforms.",
+  "description": "This is an implementation of order-independent transparency for the Built-In Pipeline. It uses Per-Pixel Linked Lists, implemented with RWStructuredBuffers. This is a feature requiring Shader Model 5.0 with ComputeBuffers, see the Unity Manual for supported platforms.",
   "unity": "2020.3",
   "author": {
     "name": "Till Davin",
@@ -11,14 +11,24 @@
   "dependencies": {},
   "samples": [
     {
-      "displayName": "Camera Component Demo",
-      "description": "Order-independent transparency using a camera component",
-      "path": "Samples~/CameraComponentDemo"
-    },
-    {
       "displayName": "Post Process Demo",
       "description": "Order-independent transparency using a post processing effect",
-      "path": "Samples~/PostProcessDemo"
+      "path": "Samples~/Post Process Demo"
+    },
+    {
+      "displayName": "ImageEffect Component Demo",
+      "description": "Order-independent transparency using a legacy ImageEffect component",
+      "path": "Samples~/ImageEffect Component Demo"
+    },
+    {
+      "displayName": "HDRP Custom Pass Demo",
+      "description": "Order-independent transparency in the High-Definition render pipeline",
+      "path": "Samples~/HDRP Demo"
+    },
+    {
+      "displayName": "URP Renderer Feature Demo",
+      "description": "Order-independent transparency in the Universal render pipeline",
+      "path": "Samples~/URP Demo"
     }
   ]
 }
