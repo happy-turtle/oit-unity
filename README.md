@@ -4,7 +4,7 @@
 
 ## Description
 
-This is an implementation of order-independent transparency in Unity's **Built-In Pipeline**.
+This is an implementation of order-independent transparency in Unity's render pipelines.
 Order-independent transparency allows blending transparent objects correctly according to their actual depth in the
 scene.
 This is a huge improvement compared to traditional blending of transparent objects in the realtime graphics pipeline.
