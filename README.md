@@ -20,6 +20,9 @@ at [Unity's guide](https://docs.unity3d.com/Manual/upm-ui-giturl.html) for detai
 
 ## Usage
 
+For every implementation a Demo Sample is included and available for import with the Unity Package Manager. 
+If in doubt try to import the sample you want to use and start from there.
+
 ### High-Definition Render Pipeline
 
 ### Universal Render Pipeline
@@ -32,13 +35,9 @@ at [Unity's guide](https://docs.unity3d.com/Manual/upm-ui-giturl.html) for detai
    project `OrderIndependentTransparency/Unlit` and `OrderIndependentTransparency/Standard`.
 3. Run your scene.
 
-### (Legacy) ImageEffect Component
+### ImageEffect Component
 
-Note that the ImageEffect component does not support rendering transparent objects in scene view.
-You can add this by yourself, but it's not recommended as graphics resources might not get cleaned up and lead to editor
-crashes.
-
-1. Add the component `OitImageEffectComponent` to your scene preferably to the main camera.
+1. Add the component `OitImageEffectComponent` to your scene.
 2. Change the shaders of every object that shall be rendered with order-independent transparency. They have to have a
    material using a custom shader. Two sample shaders that you can use are included in this
    project `OrderIndependentTransparency/Unlit` and `OrderIndependentTransparency/Standard`.

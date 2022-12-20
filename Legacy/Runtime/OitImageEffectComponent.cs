@@ -41,9 +41,9 @@ namespace OrderIndependentTransparency
         {
             cmdRender ??= new CommandBuffer();
             cmdRender.Clear();
-            orderIndependentTransparency?.Render(cmdRender, src,
-                    src);
+            orderIndependentTransparency?.Render(cmdRender, src, src);
             Graphics.ExecuteCommandBuffer(cmdRender);
+            // Additional Blit to ensure we write to destination
             Graphics.Blit(src, dest);
         }
     }
