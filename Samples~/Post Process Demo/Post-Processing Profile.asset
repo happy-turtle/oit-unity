@@ -13,8 +13,24 @@ MonoBehaviour:
   m_Name: Post-Processing Profile
   m_EditorClassIdentifier: 
   settings:
-  - {fileID: 252152395403130852}
+  - {fileID: 5038923082859954633}
 --- !u!114 &252152395403130852
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebf044005028e7f4980bec7a38194f30, type: 3}
+  m_Name: OitPostProcess
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+--- !u!114 &5038923082859954633
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
