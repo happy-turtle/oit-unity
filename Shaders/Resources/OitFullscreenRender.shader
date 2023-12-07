@@ -44,6 +44,9 @@ Shader "Hidden/OitFullscreenRender"
 	}
 	SubShader
 	{
+		PackageRequirements {
+			"com.unity.render-pipelines.universal"
+		}
         Tags { "RenderPipeline" = "UniversalRenderPipeline" }
 		Pass {
 			ZTest Always
