@@ -26,7 +26,8 @@ namespace OrderIndependentTransparency.HDRP
             CustomPassUtils.DrawRenderers(ctx, objectLayerMask);
 
             // fullscreen blend of transparent pixel buffer
-            orderIndependentTransparency.Render(ctx.cmd, ctx.cameraColorBuffer, ctx.cameraColorBuffer);
+            var mat = orderIndependentTransparency.Render(ctx.cmd, ctx.cameraColorBuffer, ctx.cameraColorBuffer);
+            Blitter.BlitCameraTexture(ctx.cmd, ctx.cameraColorBuffer, ctx.cameraColorBuffer, mat, 0);
         }
 
         protected override void Cleanup()

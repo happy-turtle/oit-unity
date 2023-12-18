@@ -29,8 +29,10 @@ namespace OrderIndependentTransparency.URP
         {
             CommandBuffer cmd = CommandBufferPool.Get("Order Independent Transparency");
             cmd.Clear();
-            orderIndependentTransparency.Render(cmd, renderingData.cameraData.renderer.cameraColorTargetHandle,
+            var mat = orderIndependentTransparency.Render(cmd, renderingData.cameraData.renderer.cameraColorTargetHandle,
                 renderingData.cameraData.renderer.cameraColorTargetHandle);
+            Blitter.BlitCameraTexture(cmd, renderingData.cameraData.renderer.cameraColorTargetHandle,
+                renderingData.cameraData.renderer.cameraColorTargetHandle, mat, 0);
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
         }
