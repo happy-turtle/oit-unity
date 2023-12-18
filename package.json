@@ -15,11 +15,6 @@
       "path": "Samples~/Post Process Demo"
     },
     {
-      "displayName": "ImageEffect Component Demo",
-      "description": "Order-independent transparency using a legacy ImageEffect component",
-      "path": "Samples~/ImageEffect Component Demo"
-    },
-    {
       "displayName": "HDRP Custom Pass Demo",
       "description": "Order-independent transparency in the High-Definition render pipeline",
       "path": "Samples~/HDRP Demo"
