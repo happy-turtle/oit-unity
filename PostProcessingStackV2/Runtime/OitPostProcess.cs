@@ -19,7 +19,7 @@ namespace OrderIndependentTransparency.PostProcessingStackV2
         public override void Init()
         {
             base.Init();
-            orderIndependentTransparency ??= new OitLinkedList();
+            orderIndependentTransparency ??= new OitLinkedList("OitRenderPPv2");
             Camera.onPreRender += PreRender;
         }
 

@@ -1,5 +1,3 @@
-using System;
-using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 namespace OrderIndependentTransparency.URP
@@ -17,10 +15,10 @@ namespace OrderIndependentTransparency.URP
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
         {
-            // Unity does not provide an example how to perform a fullscreen Blit that works in scene view
-            // Hence only Blit in Game view for now
-            if (renderingData.cameraData.cameraType != CameraType.Game)
+            if (renderingData.cameraData.isPreviewCamera)
+            {
                 return;
+            }
             //Calling ConfigureInput with the ScriptableRenderPassInput.Color argument ensures that the opaque texture is available to the Render Pass
             oitPass.ConfigureInput(ScriptableRenderPassInput.Color);
             renderer.EnqueuePass(oitPass);
