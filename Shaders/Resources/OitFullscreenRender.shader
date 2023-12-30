@@ -9,7 +9,7 @@ Shader "Hidden/OitFullscreenRender"
 		}
 		Tags { "RenderPipeline" = "HighDefinitionRenderPipeline" }
 		Pass {
-            Name "HDRP Order-Independent Transparency Post Process"
+            Name "HDRP Order-Independent Transparency Pass"
             ZWrite Off
             ZTest Always
             Blend SrcAlpha OneMinusSrcAlpha
@@ -37,7 +37,7 @@ Shader "Hidden/OitFullscreenRender"
 		        if (_CustomPassInjectionPoint != CUSTOMPASSINJECTIONPOINT_BEFORE_RENDERING)
 		            col = float4(CustomPassSampleCameraColor(posInput.positionNDC.xy, 0), 1);
 
-		        return renderLinkedList(float4(col.r,col.g,col.b,1), input.positionCS.xy, uSampleIndex);
+		        return renderLinkedList(col, input.positionCS.xy, uSampleIndex);
 		    }
 			ENDHLSL
 		}
@@ -49,6 +49,7 @@ Shader "Hidden/OitFullscreenRender"
 		}
         Tags { "RenderPipeline" = "UniversalRenderPipeline" }
 		Pass {
+            Name "URP Order-Independent Transparency Pass"
 			ZTest Always
 			ZWrite Off
 			Cull Off
@@ -60,9 +61,8 @@ Shader "Hidden/OitFullscreenRender"
 			#pragma target 5.0
 			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
-
-			//#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-			#include "UnityCG.cginc"
+			
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 			#include "../LinkedListRendering.hlsl"
 
@@ -81,4 +81,53 @@ Shader "Hidden/OitFullscreenRender"
 			ENDHLSL
 		}
 	}
+	/*SubShader
+	{
+		Pass {
+			ZTest Always
+			ZWrite Off
+			Cull Off
+			Blend Off
+
+			HLSLPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma target 5.0
+			#pragma require randomwrite
+			// #pragma enable_d3d11_debug_symbols
+
+			#include "UnityCG.cginc"
+			#include "../LinkedListRendering.hlsl"
+
+			struct appdata {
+				float4 vertex : POSITION;
+				float2 texcoord : TEXCOORD0;
+			};
+			struct v2f {
+				float2 uv : TEXCOORD0;
+				float4 vertex : SV_POSITION;
+			};
+
+			sampler2D _MainTex;
+			float4 _MainTex_ST;
+
+			v2f vert(appdata v)
+			{
+				v2f o;
+				o.vertex = UnityObjectToClipPos(v.vertex);
+				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+				return o;
+			}
+
+			//Pixel function returns a solid color for each point.
+			fixed4 frag(v2f i, uint uSampleIndex : SV_SampleIndex) : SV_Target
+			{
+				// Retrieve current color from background texture
+				float4 col = tex2D(_MainTex, i.uv);
+
+				return renderLinkedList(col, i.vertex.xy, uSampleIndex);
+			}
+			ENDHLSL
+		}
+	}*/
 }
