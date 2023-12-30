@@ -12,26 +12,28 @@ namespace OrderIndependentTransparency.URP
         public OitPass()
         {
             renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
-            orderIndependentTransparency = new OitLinkedList();
+            orderIndependentTransparency = new OitLinkedList("OitRenderURP");
             RenderPipelineManager.beginContextRendering += PreRender;
         }
 
         private void PreRender(ScriptableRenderContext context, List<Camera> cameras)
         {
             CommandBuffer cmd = CommandBufferPool.Get("Order Independent Transparency Pre Render");
-            cmd.Clear();
             orderIndependentTransparency.PreRender(cmd);
             context.ExecuteCommandBuffer(cmd);
+            cmd.Clear();
             CommandBufferPool.Release(cmd);
         }
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             CommandBuffer cmd = CommandBufferPool.Get("Order Independent Transparency");
-            cmd.Clear();
-            orderIndependentTransparency.Render(cmd, renderingData.cameraData.renderer.cameraColorTarget,
-                renderingData.cameraData.renderer.cameraColorTarget);
+            var mat = orderIndependentTransparency.Render(cmd, renderingData.cameraData.renderer.cameraColorTargetHandle,
+                renderingData.cameraData.renderer.cameraColorTargetHandle);
+            Blitter.BlitCameraTexture(cmd, renderingData.cameraData.renderer.cameraColorTargetHandle,
+                renderingData.cameraData.renderer.cameraColorTargetHandle, mat, 0);
             context.ExecuteCommandBuffer(cmd);
+            cmd.Clear();
             CommandBufferPool.Release(cmd);
         }
 

@@ -17,9 +17,9 @@ namespace OrderIndependentTransparency
         private readonly int clearStartOffsetBufferKernel;
         private int dispatchGroupSizeX, dispatchGroupSizeY;
 
-        public OitLinkedList()
+        public OitLinkedList(string shaderName)
         {
-            linkedListMaterial = new Material(Resources.Load<Shader>("OitFullscreenRender"));
+            linkedListMaterial = new Material(Resources.Load<Shader>(shaderName));
             fragmentLinkBufferId = Shader.PropertyToID("FLBuffer");
             startOffsetBufferId = Shader.PropertyToID("StartOffsetBuffer");
 
@@ -44,13 +44,13 @@ namespace OrderIndependentTransparency
             command.SetRandomWriteTarget(2, startOffsetBuffer);
         }
 
-        public void Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest)
+        public Material Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest)
         {
             command.ClearRandomWriteTargets();
             // blend linked list
             linkedListMaterial.SetBuffer(fragmentLinkBufferId, fragmentLinkBuffer);
             linkedListMaterial.SetBuffer(startOffsetBufferId, startOffsetBuffer);
-            command.Blit(src, dest, linkedListMaterial);
+            return linkedListMaterial;
         }
 
         public void Release()

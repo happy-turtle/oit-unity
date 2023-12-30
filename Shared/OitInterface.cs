@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace OrderIndependentTransparency
@@ -5,7 +6,7 @@ namespace OrderIndependentTransparency
     public interface IOrderIndependentTransparency
     {
         void PreRender(CommandBuffer command);
-        void Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest);
+        Material Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest);
         void Release();
     }
 }
