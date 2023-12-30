@@ -1,5 +1,21 @@
 # Changelog
 
+## [4.0.0](https://github.com/happy-turtle/oit-unity/compare/v3.0.1...v4.0.0) (2023-12-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* :fire: remove deprecated image effect implementation ([#23](https://github.com/happy-turtle/oit-unity/issues/23))
+
+### Features
+
+* UniversalRP Scene View ([#22](https://github.com/happy-turtle/oit-unity/issues/22)) ([6fb79a9](https://github.com/happy-turtle/oit-unity/commit/6fb79a906a67ca9f5323488241df82cabc4cfdb0))
+
+
+### Code Refactoring
+
+* :fire: remove deprecated image effect implementation ([#23](https://github.com/happy-turtle/oit-unity/issues/23)) ([0d4459c](https://github.com/happy-turtle/oit-unity/commit/0d4459c94866c500f2bd6a64d600ce9738569635))
+
 ## [3.0.1](https://github.com/happy-turtle/oit-unity/compare/3.0.0...v3.0.1) (2023-09-28)
 
 

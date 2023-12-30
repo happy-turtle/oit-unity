@@ -1,6 +1,6 @@
 {
   "name": "org.happy-turtle.order-independent-transparency",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "unity": "2021.2",
   "displayName": "Order-independent Transparency",
   "description": "This is an implementation of order-independent transparency for the Built-In Pipeline. It uses Per-Pixel Linked Lists, implemented with RWStructuredBuffers. This is a feature requiring Shader Model 5.0 with ComputeBuffers, see the Unity Manual for supported platforms.",
