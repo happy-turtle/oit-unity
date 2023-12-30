@@ -8,7 +8,7 @@ Shader "Hidden/OitRenderHDRP"
 		PackageRequirements {
 			"com.unity.render-pipelines.high-definition"
 		}
-		Tags { "RenderPipeline" = "HighDefinitionRenderPipeline" }
+		Tags { "RenderPipeline" = "HDRenderPipeline" }
 		Pass {
             Name "HDRP Order-Independent Transparency Pass"
             ZTest Always

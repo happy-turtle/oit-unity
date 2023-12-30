@@ -1,7 +1,6 @@
 #ifndef OIT_LINKED_LIST_INCLUDED
 #define OIT_LINKED_LIST_INCLUDED
 
-//#include "UnityShaderVariables.cginc"
 #include "OitUtils.hlsl"
 
 struct FragmentAndLinkBuffer_STRUCT
