@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.0](https://github.com/happy-turtle/oit-unity/compare/v4.0.0...v5.0.0) (2024-01-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update LICENSE ([#25](https://github.com/happy-turtle/oit-unity/issues/25))
+
+### Documentation
+
+* Update LICENSE ([#25](https://github.com/happy-turtle/oit-unity/issues/25)) ([851f89b](https://github.com/happy-turtle/oit-unity/commit/851f89bc361c258b44c319731ee363ecf130cd15))
+
 ## [4.0.0](https://github.com/happy-turtle/oit-unity/compare/v3.0.1...v4.0.0) (2023-12-30)
 
 
