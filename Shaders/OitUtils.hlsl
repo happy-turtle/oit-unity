@@ -39,4 +39,10 @@ uint PackDepthSampleIdx(float depth, uint uSampleIdx) {
 	return d << 8UL | uSampleIdx;
 }
 
+// Z buffer to linear 0..1 depth
+inline float OitLinear01Depth( float z )
+{
+	return 1.0 / (_ZBufferParams.x * z + _ZBufferParams.y);
+}
+
 #endif // OIT_UTILS_INCLUDED

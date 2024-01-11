@@ -1,7 +1,6 @@
 #ifndef OIT_LINKED_LIST_INCLUDED
 #define OIT_LINKED_LIST_INCLUDED
 
-#include "UnityCG.cginc"
 #include "OitUtils.hlsl"
 
 struct FragmentAndLinkBuffer_STRUCT
@@ -26,7 +25,7 @@ void createFragmentEntry(float4 col, float3 pos, uint uSampleIdx) {
     //add new Fragment Entry in FragmentAndLinkBuffer
     FragmentAndLinkBuffer_STRUCT Element;
     Element.pixelColor = PackRGBA(col);
-    Element.uDepthSampleIdx = PackDepthSampleIdx(Linear01Depth(pos.z), uSampleIdx);
+    Element.uDepthSampleIdx = PackDepthSampleIdx(OitLinear01Depth(pos.z), uSampleIdx);
     Element.next = uOldStartOffset;
     FLBuffer[uPixelCount] = Element;
 }

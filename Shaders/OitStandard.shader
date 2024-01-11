@@ -53,7 +53,7 @@ Shader "OrderIndependentTransparency/Standard"
 
     SubShader
     {
-        Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
+        Tags { "RenderType"="Opaque" "PerformanceChecks"="False" "RenderPipeline"="" }
 
 
         // ------------------------------------------------------------------
