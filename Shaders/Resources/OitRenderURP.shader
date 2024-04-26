@@ -5,7 +5,7 @@ Shader "Hidden/OitRenderURP"
 		PackageRequirements {
 			"com.unity.render-pipelines.universal"
 		}
-        Tags { "RenderPipeline" = "UniversalRenderPipeline" }
+        Tags { "RenderPipeline" = "UniversalPipeline" }
 		Pass {
             Name "URP Order-Independent Transparency Pass"
 			ZTest Always
