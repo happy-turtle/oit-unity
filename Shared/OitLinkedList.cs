@@ -47,6 +47,10 @@ namespace OrderIndependentTransparency
         public Material Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest)
         {
             command.ClearRandomWriteTargets();
+            if (linkedListMaterial == null)
+            {
+                return null;
+            }
             // blend linked list
             linkedListMaterial.SetBuffer(fragmentLinkBufferId, fragmentLinkBuffer);
             linkedListMaterial.SetBuffer(startOffsetBufferId, startOffsetBuffer);
