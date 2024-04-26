@@ -32,7 +32,7 @@ If in doubt try to import the sample you want to use and start from there.
    
 3. Run your scene.
 
-## Platforms tested (Unity 2021.3.9f1)
+## Platforms tested (Unity 2022.3)
 
 | Platform | Graphics Backend |      Render output      |
 | :------- | :--------------: |:-----------------------:|
