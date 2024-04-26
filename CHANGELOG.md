@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.1](https://github.com/happy-turtle/oit-unity/compare/v5.0.0...v5.0.1) (2024-04-26)
+
+
+### Bug Fixes
+
+* **URP:** fix missing shader on URP build ([#30](https://github.com/happy-turtle/oit-unity/issues/30)) ([91cdcf8](https://github.com/happy-turtle/oit-unity/commit/91cdcf8610cfaf04e6b4c2c7e55d7abb054d4066))
+
 ## [5.0.0](https://github.com/happy-turtle/oit-unity/compare/v4.0.0...v5.0.0) (2024-01-10)
 
 
