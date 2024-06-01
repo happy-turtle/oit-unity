@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 
@@ -13,13 +12,13 @@ namespace OrderIndependentTransparency.URP
         {
             renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
             orderIndependentTransparency = new OitLinkedList("OitRenderURP");
-            RenderPipelineManager.beginContextRendering += PreRender;
+            RenderPipelineManager.beginCameraRendering += PreRender;
         }
 
-        private void PreRender(ScriptableRenderContext context, List<Camera> cameras)
+        private void PreRender(ScriptableRenderContext context, Camera camera)
         {
             CommandBuffer cmd = CommandBufferPool.Get("Order Independent Transparency Pre Render");
-            orderIndependentTransparency.PreRender(cmd);
+            orderIndependentTransparency.PreRender(cmd, camera);
             context.ExecuteCommandBuffer(cmd);
             cmd.Clear();
             CommandBufferPool.Release(cmd);
@@ -43,7 +42,7 @@ namespace OrderIndependentTransparency.URP
         public void Cleanup()
         {
             orderIndependentTransparency.Release();
-            RenderPipelineManager.beginContextRendering -= PreRender;
+            RenderPipelineManager.beginCameraRendering -= PreRender;
         }
     }
 }
