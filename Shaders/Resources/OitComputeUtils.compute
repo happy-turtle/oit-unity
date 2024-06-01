@@ -2,10 +2,10 @@
 // #pragma enable_d3d11_debug_symbols
 
 RWByteAddressBuffer StartOffsetBuffer;
-int screenWidth;
+int targetWidth;
 
 [numthreads(32, 32, 1)]
 void ClearStartOffsetBuffer (uint3 id: SV_DispatchThreadID)
 {
-    StartOffsetBuffer.Store(4 * (screenWidth * id.y + id.x), 0);
+    StartOffsetBuffer.Store(4 * (targetWidth * id.y + id.x), 0);
 }

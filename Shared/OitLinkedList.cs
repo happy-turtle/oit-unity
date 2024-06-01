@@ -5,7 +5,7 @@ namespace OrderIndependentTransparency
 {
     public class OitLinkedList : IOrderIndependentTransparency
     {
-        private int screenWidth, screenHeight;
+        private int targetWidth, targetHeight;
         private ComputeBuffer fragmentLinkBuffer;
         private readonly int fragmentLinkBufferId;
         private ComputeBuffer startOffsetBuffer;
@@ -25,15 +25,14 @@ namespace OrderIndependentTransparency
 
             oitComputeUtils = Resources.Load<ComputeShader>("OitComputeUtils");
             clearStartOffsetBufferKernel = oitComputeUtils.FindKernel("ClearStartOffsetBuffer");
-            SetupGraphicsBuffers();
         }
 
-        public void PreRender(CommandBuffer command)
+        public void PreRender(CommandBuffer command, Camera camera)
         {
             // validate the effect itself
-            if (Screen.width != screenWidth || Screen.height != screenHeight)
+            if (camera.scaledPixelWidth != targetWidth || camera.scaledPixelHeight != targetHeight)
             {
-                SetupGraphicsBuffers();
+                SetupGraphicsBuffers(camera.scaledPixelWidth, camera.scaledPixelHeight);
             }
 
             //reset StartOffsetBuffer to zeros
@@ -63,27 +62,27 @@ namespace OrderIndependentTransparency
             startOffsetBuffer?.Dispose();
         }
 
-        private void SetupGraphicsBuffers()
+        private void SetupGraphicsBuffers(int width, int height)
         {
             Release();
-            screenWidth = Screen.width;
-            screenHeight = Screen.height;
+            targetWidth = width;
+            targetHeight = height;
 
-            int bufferSize = screenWidth * screenHeight * MAX_SORTED_PIXELS;
+            int bufferSize = targetWidth * targetHeight * MAX_SORTED_PIXELS;
             int bufferStride = sizeof(uint) * 3;
             //the structured buffer contains all information about the transparent fragments
             //this is the per pixel linked list on the gpu
             fragmentLinkBuffer = new ComputeBuffer(bufferSize, bufferStride, ComputeBufferType.Counter);
 
-            int bufferSizeHead = screenWidth * screenHeight;
+            int bufferSizeHead = targetWidth * targetHeight;
             int bufferStrideHead = sizeof(uint);
             //create buffer for addresses, this is the head of the linked list
             startOffsetBuffer = new ComputeBuffer(bufferSizeHead, bufferStrideHead, ComputeBufferType.Raw);
 
             oitComputeUtils.SetBuffer(clearStartOffsetBufferKernel, startOffsetBufferId, startOffsetBuffer);
-            oitComputeUtils.SetInt("screenWidth", screenWidth);
-            dispatchGroupSizeX = Mathf.CeilToInt(screenWidth / 32.0f);
-            dispatchGroupSizeY = Mathf.CeilToInt(screenHeight / 32.0f);
+            oitComputeUtils.SetInt("targetWidth", targetWidth);
+            dispatchGroupSizeX = Mathf.CeilToInt(targetWidth / 32.0f);
+            dispatchGroupSizeY = Mathf.CeilToInt(targetHeight / 32.0f);
         }
     }
 }

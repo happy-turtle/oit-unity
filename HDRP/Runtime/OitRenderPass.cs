@@ -19,7 +19,7 @@ namespace OrderIndependentTransparency.HDRP
         {
             // draw objects with UAV targets set
             var preRenderCmd = CommandBufferPool.Get("Order Independent Transparency Pre Render");
-            orderIndependentTransparency.PreRender(preRenderCmd);
+            orderIndependentTransparency.PreRender(preRenderCmd, ctx.hdCamera.camera);
             ctx.renderContext.ExecuteCommandBuffer(preRenderCmd);
             preRenderCmd.Clear();
             CommandBufferPool.Release(preRenderCmd);
