@@ -28,7 +28,7 @@ If in doubt try to import the sample you want to use and start from there.
    - **Universal Render Pipeline:** Add the renderer feature `Order Independent Transparency Renderer` to your Universal Renderer Asset. 
    - **Post-Processing Stack v2:** Add the post-processing override `Order Independent Transparency` to a post-processing volume in your scene.
    
-2. Change the material of every object that shall be rendered with order-independent transparency. They have to be rendered with a shader writing to the buffer used by the order-independent transparency implementation. Two sample shaders that you can use are included in this project: `OrderIndependentTransparency/Unlit` for all pipelines and additionally `OrderIndependentTransparency/Standard` for the built-in pipeline.
+2. Change the material of every object that shall be rendered with order-independent transparency. They have to be rendered with a shader writing to the buffer used by the order-independent transparency implementation. Two sample shaders that you can use are included in this project: `OrderIndependentTransparency/Unlit` for all pipelines, `OrderIndependentTransparency/Standard` for the built-in pipeline and `OrderIndependentTransparency/URP/Lit` for the Universal Render Pipeline.
    
 3. Run your scene.
 
