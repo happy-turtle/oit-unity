@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.1.0](https://github.com/happy-turtle/oit-unity/compare/v5.0.1...v5.1.0) (2024-06-02)
+
+
+### Features
+
+* add URP Lit shader example ([#35](https://github.com/happy-turtle/oit-unity/issues/35)) ([7f77cd9](https://github.com/happy-turtle/oit-unity/commit/7f77cd938ebc6baef1540d9a4f9545fc471bbf65))
+
 ## [5.0.1](https://github.com/happy-turtle/oit-unity/compare/v5.0.0...v5.0.1) (2024-04-26)
 
 
