@@ -5,7 +5,7 @@
 #if defined(LOD_FADE_CROSSFADE)
     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
 #endif
-#include "LinkedListCreation.hlsl"
+#include "Packages/org.happy-turtle.order-independent-transparency/Shaders/LinkedListCreation.hlsl"
 
 // GLES2 has limited amount of interpolators
 #if defined(_PARALLAXMAP) && !defined(SHADER_API_GLES)
