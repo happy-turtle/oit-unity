@@ -263,5 +263,5 @@ void Frag(PackedVaryingsToPS packedInput
     outVTFeedback = PackVTFeedbackWithAlpha(builtinData.vtPackedFeedback, input.positionSS.xy, vtAlphaValue);
 #endif
 
-    createFragmentEntry(outColor, packedInput.vmesh.positionCS.xyz, uSampleIdx);
+    createFragmentEntry(float4(outColor.rgb, builtinData.opacity), packedInput.vmesh.positionCS.xyz, uSampleIdx);
 }

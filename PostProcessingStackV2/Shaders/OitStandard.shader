@@ -69,7 +69,7 @@ Shader "OrderIndependentTransparency/Standard"
 			Cull Off
 
             CGPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
 
             // -------------------------------------
 
@@ -91,7 +91,6 @@ Shader "OrderIndependentTransparency/Standard"
 
             #pragma vertex vertBase
             #pragma fragment fragBase
-			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
             #include "OitStandardCoreForward.cginc"
 
@@ -106,7 +105,7 @@ Shader "OrderIndependentTransparency/Standard"
             ZWrite On ZTest LEqual
 
             CGPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
 
             // -------------------------------------
 
@@ -137,7 +136,7 @@ Shader "OrderIndependentTransparency/Standard"
 			Cull Off
 
             CGPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
             #pragma exclude_renderers nomrt
 
 

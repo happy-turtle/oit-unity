@@ -98,8 +98,7 @@ Shader "OrderIndependentTransparency/URP/Lit"
 			Cull Off
 
             HLSLPROGRAM
-			#pragma target 5.0
-			#pragma require randomwrite
+			#pragma target 4.5
 
             // -------------------------------------
             // Shader Stages
@@ -177,7 +176,7 @@ Shader "OrderIndependentTransparency/URP/Lit"
             Cull[_Cull]
 
             HLSLPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
 
             // -------------------------------------
             // Shader Stages
@@ -306,7 +305,7 @@ Shader "OrderIndependentTransparency/URP/Lit"
             Cull[_Cull]
 
             HLSLPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
 
             // -------------------------------------
             // Shader Stages
@@ -355,7 +354,7 @@ Shader "OrderIndependentTransparency/URP/Lit"
             Cull Off
 
             HLSLPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
 
             // -------------------------------------
             // Shader Stages
@@ -397,7 +396,7 @@ Shader "OrderIndependentTransparency/URP/Lit"
 			Cull Off
 
             HLSLPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
 
             // -------------------------------------
             // Shader Stages

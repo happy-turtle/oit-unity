@@ -17,8 +17,7 @@ Shader "OrderIndependentTransparency/Unlit"
 			HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma target 5.0
-			#pragma require randomwrite
+			#pragma target 4.5
 			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"

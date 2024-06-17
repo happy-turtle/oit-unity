@@ -16,8 +16,7 @@ Shader "Hidden/OitRenderURP"
 			HLSLPROGRAM
 			#pragma vertex Vert
 			#pragma fragment frag
-			#pragma target 5.0
-			#pragma require randomwrite
+			#pragma target 4.5
 			// #pragma enable_d3d11_debug_symbols
 			
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"

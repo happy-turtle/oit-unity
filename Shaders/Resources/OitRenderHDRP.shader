@@ -19,9 +19,8 @@ Shader "Hidden/OitRenderHDRP"
 			HLSLPROGRAM
             #pragma fragment frag
 			#pragma vertex Vert
-			#pragma target 5.0
+			#pragma target 4.5
 		    #pragma only_renderers d3d11 playstation xboxone xboxseries vulkan metal switch
-			#pragma require randomwrite
 			// #pragma enable_d3d11_debug_symbols
 
 			#include "Packages/com.unity.render-pipelines.high-definition/Runtime/RenderPipeline/RenderPass/CustomPass/CustomPassCommon.hlsl"
