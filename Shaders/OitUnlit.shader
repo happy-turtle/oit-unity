@@ -21,7 +21,7 @@ Shader "OrderIndependentTransparency/Unlit"
 			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"
-    		#include "LinkedListCreation.hlsl"
+    		#include "Packages/org.happy-turtle.order-independent-transparency/Shaders/LinkedListCreation.hlsl"
 
 			sampler2D _MainTex;
             float4 _MainTex_ST;
