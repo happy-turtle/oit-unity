@@ -1,17 +1,35 @@
 #ifndef OIT_LINKED_LIST_INCLUDED
 #define OIT_LINKED_LIST_INCLUDED
 
-#include "OitUtils.hlsl"
-
-struct FragmentAndLinkBuffer_STRUCT
-{
-    uint pixelColor;
-    uint uDepthSampleIdx;
-    uint next;
-};
+#include "LinkedListStruct.hlsl"
 
 StructuredBuffer<FragmentAndLinkBuffer_STRUCT> FLBuffer : register(t0);
 ByteAddressBuffer StartOffsetBuffer : register(t1);
+
+// Unity's HLSL seems not to support dynamic array size, so we can only set this before compilation
+#define MAX_SORTED_PIXELS 8
+
+//https://github.com/GameTechDev/AOIT-Update/blob/master/OIT_DX11/AOIT%20Technique/AOIT.hlsl
+// UnpackRGBA takes a uint value and converts it to a float4
+float4 UnpackRGBA(uint packedInput)
+{
+	float4 unpackedOutput;
+	uint4 p = uint4((packedInput & 0xFFUL),
+		(packedInput >> 8UL) & 0xFFUL,
+		(packedInput >> 16UL) & 0xFFUL,
+		(packedInput >> 24UL));
+
+	unpackedOutput = ((float4)p) / 255;
+	return unpackedOutput;
+}
+
+float UnpackDepth(uint uDepthSampleIdx) {
+	return (float)(uDepthSampleIdx >> 8UL) / (pow(2, 24) - 1);
+}
+
+uint UnpackSampleIdx(uint uDepthSampleIdx) {
+	return uDepthSampleIdx & 0xFFUL;
+}
 
 float4 renderLinkedList(float4 col, float2 pos, uint uSampleIndex)
 {
