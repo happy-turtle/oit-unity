@@ -371,6 +371,11 @@ Shader "OrderIndependentTransparency/HDRP/Lit"
 
     SubShader
     {
+		PackageRequirements {
+			"org.happy-turtle.order-independent-transparency"
+			"com.unity.render-pipelines.high-definition"
+		}
+        
         // This tags allow to use the shader replacement features
         Tags{ "RenderPipeline"="HDRenderPipeline" "RenderType" = "HDLitShader" }
 
@@ -490,6 +495,6 @@ Shader "OrderIndependentTransparency/HDRP/Lit"
         }
     }
 
-    FallBack "Hidden/HDRP/FallbackError"
+    FallBack "OrderIndependentTransparency/Unlit"
     CustomEditor "Rendering.HighDefinition.LitGUI"
 }

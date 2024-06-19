@@ -6,6 +6,10 @@ Shader "OrderIndependentTransparency/Unlit"
 	}
 	SubShader
 	{
+        PackageRequirements {
+			"org.happy-turtle.order-independent-transparency"
+		}
+		
 		Tags{ "Queue" = "Geometry" }
 
 		Pass {

@@ -53,6 +53,10 @@ Shader "OrderIndependentTransparency/Standard"
 
     SubShader
     {
+        PackageRequirements {
+			"org.happy-turtle.order-independent-transparency"
+		}
+
         Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
 
 
@@ -189,5 +193,5 @@ Shader "OrderIndependentTransparency/Standard"
         }
     }
 
-    FallBack "Standard"
+    FallBack "OrderIndependentTransparency/Unlit"
 }
