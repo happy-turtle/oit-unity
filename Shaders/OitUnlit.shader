@@ -6,6 +6,10 @@ Shader "OrderIndependentTransparency/Unlit"
 	}
 	SubShader
 	{
+        PackageRequirements {
+			"org.happy-turtle.order-independent-transparency"
+		}
+		
 		Tags{ "Queue" = "Geometry" }
 
 		Pass {
@@ -17,12 +21,11 @@ Shader "OrderIndependentTransparency/Unlit"
 			HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma target 5.0
-			#pragma require randomwrite
+			#pragma target 4.5
 			// #pragma enable_d3d11_debug_symbols
 
 			#include "UnityCG.cginc"
-    		#include "LinkedListCreation.hlsl"
+    		#include "Packages/org.happy-turtle.order-independent-transparency/Shaders/LinkedListCreation.hlsl"
 
 			sampler2D _MainTex;
             float4 _MainTex_ST;

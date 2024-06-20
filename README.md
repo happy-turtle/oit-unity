@@ -20,15 +20,15 @@ at [Unity's guide](https://docs.unity3d.com/Manual/upm-ui-giturl.html) for detai
 
 ## Usage
 
-For every implementation a sample scene is included and available for import with the Unity Package Manager. 
-If in doubt try to import the sample you want to use and start from there.
+For every implementation, a sample scene is included and available for import with the Unity Package Manager. 
+If in doubt, try to import the sample you want to use and start from there.
 
 1. Setup the rendering implementation for your chosen pipeline: 
    - **High-Definition Render Pipeline:** Create a [Custom Pass volume](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@12.1/manual/Custom-Pass-Creating.html) and add `OitRenderPass` to it.
    - **Universal Render Pipeline:** Add the renderer feature `Order Independent Transparency Renderer` to your Universal Renderer Asset. 
    - **Post-Processing Stack v2:** Add the post-processing override `Order Independent Transparency` to a post-processing volume in your scene.
    
-2. Change the material of every object that shall be rendered with order-independent transparency. They have to be rendered with a shader writing to the buffer used by the order-independent transparency implementation. Two sample shaders that you can use are included in this project: `OrderIndependentTransparency/Unlit` for all pipelines and additionally `OrderIndependentTransparency/Standard` for the built-in pipeline.
+2. Change the material of every object that shall be rendered with order-independent transparency. They have to be rendered with a shader writing to the buffer used by the order-independent transparency implementation. Sample shaders that you can use are included in this project: `OrderIndependentTransparency/Unlit` for all pipelines, `OrderIndependentTransparency/Standard` for the built-in pipeline, `OrderIndependentTransparency/URP/Lit` for the Universal Render Pipeline and `OrderIndependentTransparency/HDRP/Lit` for the High-Definition Render Pipeline.
    
 3. Run your scene.
 
@@ -58,7 +58,7 @@ If in doubt try to import the sample you want to use and start from there.
 
 ## Feedback and Contribution
 
-- I consider this an open project. If you are interested in this topic or want to improve something please discuss,
+- This is an open project. If you are interested in this topic or want to improve something please discuss,
   contribute and feel at home! :house:
 - Feel free to open a [discussion](https://github.com/happy-turtle/oit-unity/discussions) or an issue if you have ideas
   and improvements in mind.

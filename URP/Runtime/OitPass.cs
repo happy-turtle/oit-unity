@@ -11,7 +11,7 @@ namespace OrderIndependentTransparency.URP
         public OitPass()
         {
             renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
-            orderIndependentTransparency = new OitLinkedList("OitRenderURP");
+            orderIndependentTransparency = new OitLinkedList("OitRender");
             RenderPipelineManager.beginCameraRendering += PreRender;
         }
 

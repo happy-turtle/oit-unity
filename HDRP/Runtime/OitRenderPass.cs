@@ -12,7 +12,7 @@ namespace OrderIndependentTransparency.HDRP
 
         protected override void Setup(ScriptableRenderContext renderContext, CommandBuffer cmd)
         {
-            orderIndependentTransparency ??= new OitLinkedList("OitRenderHDRP");
+            orderIndependentTransparency ??= new OitLinkedList("OitRender");
         }
 
         protected override void Execute(CustomPassContext ctx)
