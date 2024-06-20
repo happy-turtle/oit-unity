@@ -1,5 +1,19 @@
 # Changelog
 
+## [5.2.0](https://github.com/happy-turtle/oit-unity/compare/v5.1.0...v5.2.0) (2024-06-20)
+
+
+### Features
+
+* **hdrp:** add sample Lit shader ([#37](https://github.com/happy-turtle/oit-unity/issues/37)) ([975b5bb](https://github.com/happy-turtle/oit-unity/commit/975b5bbd324c98ef3a9cd9c0f4f1cad8dbc84099))
+* lower shader target level to 4.5 ([975b5bb](https://github.com/happy-turtle/oit-unity/commit/975b5bbd324c98ef3a9cd9c0f4f1cad8dbc84099))
+
+
+### Bug Fixes
+
+* prevent asset import errors by adding appropriate shader package requirements and fallbacks ([975b5bb](https://github.com/happy-turtle/oit-unity/commit/975b5bbd324c98ef3a9cd9c0f4f1cad8dbc84099))
+* **urp:** don't setup urp buffers if screen properties are not yet present ([975b5bb](https://github.com/happy-turtle/oit-unity/commit/975b5bbd324c98ef3a9cd9c0f4f1cad8dbc84099))
+
 ## [5.1.0](https://github.com/happy-turtle/oit-unity/compare/v5.0.1...v5.1.0) (2024-06-02)
 
 
