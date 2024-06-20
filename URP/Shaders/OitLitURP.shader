@@ -66,6 +66,11 @@ Shader "OrderIndependentTransparency/URP/Lit"
 
     SubShader
     {
+		PackageRequirements {
+			"org.happy-turtle.order-independent-transparency"
+			"com.unity.render-pipelines.universal"
+		}
+
         // Universal Pipeline tag is required. If Universal render pipeline is not set in the graphics settings
         // this Subshader will fail. One can add a subshader below or fallback to Standard built-in to make this
         // material work with both Universal Render Pipeline and Builtin Unity Pipeline
@@ -98,8 +103,7 @@ Shader "OrderIndependentTransparency/URP/Lit"
 			Cull Off
 
             HLSLPROGRAM
-			#pragma target 5.0
-			#pragma require randomwrite
+			#pragma target 4.5
 
             // -------------------------------------
             // Shader Stages
@@ -177,7 +181,7 @@ Shader "OrderIndependentTransparency/URP/Lit"
             Cull[_Cull]
 
             HLSLPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
 
             // -------------------------------------
             // Shader Stages
@@ -306,7 +310,7 @@ Shader "OrderIndependentTransparency/URP/Lit"
             Cull[_Cull]
 
             HLSLPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
 
             // -------------------------------------
             // Shader Stages
@@ -355,7 +359,7 @@ Shader "OrderIndependentTransparency/URP/Lit"
             Cull Off
 
             HLSLPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
 
             // -------------------------------------
             // Shader Stages
@@ -397,7 +401,7 @@ Shader "OrderIndependentTransparency/URP/Lit"
 			Cull Off
 
             HLSLPROGRAM
-            #pragma target 5.0
+            #pragma target 4.5
 
             // -------------------------------------
             // Shader Stages
@@ -419,6 +423,6 @@ Shader "OrderIndependentTransparency/URP/Lit"
         }
     }
 
-    FallBack "Hidden/Universal Render Pipeline/FallbackError"
+    FallBack "OrderIndependentTransparency/Unlit"
     CustomEditor "UnityEditor.Rendering.Universal.ShaderGUI.LitShader"
 }

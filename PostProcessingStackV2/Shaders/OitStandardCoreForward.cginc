@@ -11,7 +11,7 @@
 
 #if UNITY_STANDARD_SIMPLE
     #include "UnityStandardCoreForwardSimple.cginc"
-    #include "LinkedListCreation.hlsl"
+    #include "Packages/org.happy-turtle.order-independent-transparency/Shaders/LinkedListCreation.hlsl"
     VertexOutputBaseSimple vertBase (VertexInput v) { return vertForwardBaseSimple(v); }
     VertexOutputForwardAddSimple vertAdd (VertexInput v) { return vertForwardAddSimple(v); }
     [earlydepthstencil]
@@ -30,7 +30,7 @@
     }
 #else
     #include "UnityStandardCore.cginc"
-    #include "LinkedListCreation.hlsl"
+    #include "Packages/org.happy-turtle.order-independent-transparency/Shaders/LinkedListCreation.hlsl"
     VertexOutputForwardBase vertBase (VertexInput v) { return vertForwardBase(v); }
     VertexOutputForwardAdd vertAdd (VertexInput v) { return vertForwardAdd(v); }
     [earlydepthstencil]

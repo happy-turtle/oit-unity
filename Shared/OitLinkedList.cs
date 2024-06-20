@@ -25,7 +25,11 @@ namespace OrderIndependentTransparency
 
             oitComputeUtils = Resources.Load<ComputeShader>("OitComputeUtils");
             clearStartOffsetBufferKernel = oitComputeUtils.FindKernel("ClearStartOffsetBuffer");
-            SetupGraphicsBuffers();
+
+            if (screenWidth != 0 && screenHeight != 0)
+            {
+                SetupGraphicsBuffers();
+            }
         }
 
         public void PreRender(CommandBuffer command)
