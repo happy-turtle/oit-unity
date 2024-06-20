@@ -27,7 +27,7 @@ namespace OrderIndependentTransparency.PostProcessingStackV2
         {
             cmdPreRender ??= new CommandBuffer();
             cmdPreRender.Clear();
-            orderIndependentTransparency?.PreRender(cmdPreRender);
+            orderIndependentTransparency?.PreRender(cmdPreRender, Camera.current);
             Graphics.ExecuteCommandBuffer(cmdPreRender);
         }
 

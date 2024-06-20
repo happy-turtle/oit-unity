@@ -5,7 +5,7 @@ namespace OrderIndependentTransparency
 {
     public interface IOrderIndependentTransparency
     {
-        void PreRender(CommandBuffer command);
+        void PreRender(CommandBuffer command, Camera camera);
         Material Render(CommandBuffer command, RenderTargetIdentifier src, RenderTargetIdentifier dest);
         void Release();
     }
