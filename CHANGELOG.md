@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.2.1](https://github.com/happy-turtle/oit-unity/compare/v5.2.0...v5.2.1) (2025-04-17)
+
+
+### Bug Fixes
+
+* remove broken deferred pass ([#49](https://github.com/happy-turtle/oit-unity/issues/49)) ([6cefa29](https://github.com/happy-turtle/oit-unity/commit/6cefa2934245ca911ff7809424b485427774deb7))
+
 ## [5.2.0](https://github.com/happy-turtle/oit-unity/compare/v5.1.0...v5.2.0) (2024-06-20)
 
 
